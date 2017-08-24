@@ -1,0 +1,14 @@
+language: r
+
+cache: packages
+sudo: false
+
+matrix:
+  include:
+    - os: linux
+      r: bioc-release
+
+notifications:
+  email:
+      on_failure: always
+
