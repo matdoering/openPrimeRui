@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/matdoering/openPrimeRui.svg?branch=master)]
+[![Build Status](https://travis-ci.org/matdoering/openPrimeRui.svg?branch=master)](https://travis-ci.org/matdoering/openPrimeRui)
 
 # The openPrimeR Shiny Application
 
