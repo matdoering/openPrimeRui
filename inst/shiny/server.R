@@ -3,9 +3,12 @@
 ##########
 
 server <- function(input, output, session) {
-    source(file.path(system.file("shiny", package = "openPrimeR"), "shiny_server/extra_shiny_backend.R")) # load dependencies for the backend logic of the tool
+    ##############
+    # define static variables for the shiny app:
+    source(system.file("shiny", "shiny_server", "extra_shiny_backend.R",
+            package = "openPrimeRui"))
+    ####################
     shinyjs::hide(selector = "#light") # don't show traffic light for design difficulty when difficulty hasn't been evaluated yet.
-
     shinyjs::hide(id = "loadingContent", anim = TRUE, animType = "fade") # after dependencies have loaded, hide the loading message
     shinyjs::show("app-content") # show the true app content
     ############

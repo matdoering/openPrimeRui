@@ -7,7 +7,7 @@
 if (exists("SHINY.PATH")) {
     appDir <- SHINY.PATH
 } else {
-    appDir <- system.file("shiny", package = "openPrimeR")
+    appDir <- system.file("shiny", package = "openPrimeRui")
 }
 base.dir <- normalizePath(file.path(appDir, "..", "..", "..", ".."))
 #message("Base dir is: ", base.dir)
