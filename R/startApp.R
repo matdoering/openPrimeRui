@@ -20,7 +20,7 @@
 #' startApp()
 #' }
 startApp <- function() {
-    appDir <- system.file("shiny", package = "openPrimeR")
+    appDir <- system.file("shiny", package = "openPrimeRui")
     if (appDir == "") {
         stop(paste("Could not find the directory containing the shiny app: ",
         appDir, "\n", 
