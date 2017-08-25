@@ -12,7 +12,7 @@ tabPanel("Templates",
     # display template introductory text
     div(class = "one", 
         p("Please load a set of template sequences. You can either simply load one of the supplied template data sets or provide your own template data.", 
-           create.help.button("input_templates")
+           openPrimeRui:::create.help.button("input_templates")
         )
     ),
     ### template scenario selector (template source)
@@ -92,7 +92,7 @@ tabPanel("Templates",
             #), 
             selectInput("virus_type_comparison", 
                 "Virus", 
-                get.available.viruses(),
+                openPrimeRui:::get.available.viruses(),
                 selected = "HIV-1"),
             # locus to retrieve data for
             selectizeInput("virus_region_comparison", 
@@ -142,18 +142,18 @@ tabPanel("Templates",
             # species to retrieve data for
             selectInput("IMGT_DB_species", 
                 "Species", 
-                get.IMGT.settings()[["model.gene.id.species.txt"]], 
+                openPrimeRui:::get.IMGT.settings()[["model.gene.id.species.txt"]], 
                 selected = "Homo sapiens"),
             # locus to retrieve data for
             selectInput("IMGT_DB_locus", 
                 "Locus", 
-                get.IMGT.settings()[["model.locusLike.txt"]], 
+                openPrimeRui:::get.IMGT.settings()[["model.locusLike.txt"]], 
                 selected = "IGH"
             ),
             # IMGT function to retrieve data for
             selectInput("IMGT_DB_function", 
                 "Function", 
-                get.IMGT.settings()[["model.allele.fcode.txt"]], 
+                openPrimeRui:::get.IMGT.settings()[["model.allele.fcode.txt"]], 
                 selected = "functional"
             ),
             # remove partial seqs?
@@ -202,7 +202,7 @@ tabPanel("Templates",
             # species to retrieve data for
             selectInput("virus_type", 
                 "Virus", 
-                get.available.viruses(),
+                openPrimeRui:::get.available.viruses(),
                 selected = "HIV-1"),
             # locus to retrieve data for
             selectInput("virus_region", 
@@ -350,7 +350,7 @@ tabPanel("Templates",
                         # Template-specific binding regions
                         div(p("To restrict the allowed sites for primer binding for each template individually, 
                                please input a FASTA file specifying the allowed binding regions for each template.",
-                        create.help.button("input_templates_allowed")),
+                        openPrimeRui:::create.help.button("input_templates_allowed")),
                                class = "two"
                        ),
                        fileInput(inputId = "leader_file",  # input of fw allowed regions file
@@ -384,7 +384,7 @@ tabPanel("Templates",
                     conditionalPanel("input.selected_allowed_region_definition == 'Uniform'",
                         # Uniform binding regions
                         div(p("To restrict the allowed sites for primer binding, please enter the positional range in the templates where the primers should bind. ",
-                            create.help.button("input_templates_uniform")),
+                            openPrimeRui:::create.help.button("input_templates_uniform")),
                             class = "two"
                         ),
                         # allowed regions fw

@@ -1,13 +1,13 @@
 ###########
 # USER INTERFACE FOR SHINY
 ###############
-# load app dependencies here
+# load essential shiny dependencies here
 library(shiny) # essential
-library(shinyBS) # need to attach shinyBS in order to use some functionality..
+library(shinyBS) # need to attach shinyBS in order for it to function
+############################################
 # load extra functions
-source(file.path(system.file("shiny", package = "openPrimeR"), "shiny_server", "extra_IO_shiny.R"))
-source(file.path(system.file("shiny", package = "openPrimeR"), "shiny_server", "extra_set_paths.R"))
-source(file.path(system.file("shiny", package = "openPrimeR"), "shiny_server", "extra_helper_functions.R"))
+message("Setting paths ...")
+source(system.file("shiny", "shiny_server", "extra_set_paths.R", package = "openPrimeRui"))
 
 ui <- fluidPage(
     shinyjs::useShinyjs(),
@@ -81,7 +81,7 @@ ui <- fluidPage(
         HTML("<div style='text-align:center;font-size: 14pt'>"), # TODO: space between traffic light? reduce size of checkinput text TODO
         uiOutput("designText"),
         br(),
-        traffic_light(),
+        openPrimeRui:::traffic_light(),
         br(),
         uiOutput("designTextDiff"),
         HTML("</div>"),
@@ -315,7 +315,7 @@ ui <- fluidPage(
     #####
     # header panel: show tool name and image
 	#######
-    myHeaderPanel(
+    openPrimeRui:::myHeaderPanel(
                 tagList(
                         column(4, 
                             div(class="headerStyle", 

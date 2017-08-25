@@ -22,7 +22,7 @@ view.input.sequences <- function(template.df) {
     return(view.df)
 }
 
-view.lex.sequences <- function(template.df) {
+view.template.sequences <- function(template.df) {
     # shiny output after leaders have been assigned
     if (nrow(template.df) == 0 || length(template.df) == 0) {
         return(NULL)
@@ -73,7 +73,7 @@ view.cvg.sequences <- function(template.df, primer.df) {
     }
     if (!"primer_coverage" %in% colnames(template.df)) {
         # nothing to change here
-        return(view.lex.sequences(template.df))
+        return(view.template.sequences(template.df))
     }
     template.df <- asS3(template.df)
     excl.col <- c() # no columns to exclude
@@ -117,7 +117,7 @@ view.cvg.sequences <- function(template.df, primer.df) {
     if (length(excl) != 0) {
         view.df <- view.df[, -excl]
     }
-    view.df <- view.lex.sequences(view.df)
+    view.df <- view.template.sequences(view.df)
     return(view.df)
 }
 view.subset.primers <- function(primer.df, template.df, mode.directionality, view.cvg.individual = "inactive") {
@@ -156,8 +156,8 @@ view.subset.primers <- function(primer.df, template.df, mode.directionality, vie
     view.df <- openPrimeR:::view.input.primers(view.df, mode.directionality)
     return(view.df)
 }
-view.filtered.primers.all <- function(primer.df, template.df, mode.directionality, view.cvg.individual) {
-    # view evaluated primers (name is misleading)
+view.evaluated.primers <- function(primer.df, template.df, mode.directionality, view.cvg.individual) {
+    # view evaluated primers 
     if (length(primer.df) == 0) {
         return(NULL)
     } else if (nrow(primer.df) == 0) {
@@ -185,7 +185,7 @@ view.filtered.primers <- function(primer.df, template.df, mode.directionality, v
     eval.cols <- colnames(primer.df)[grep("EVAL_", colnames(primer.df))]
     excl.col <- c(excl.col, eval.cols)
     view.df <- openPrimeR:::exclude.cols(excl.col, primer.df)
-    view.df <- view.filtered.primers.all(view.df, template.df, mode.directionality, view.cvg.individual)
+    view.df <- view.evaluated.primers(view.df, template.df, mode.directionality, view.cvg.individual)
     return(view.df)
 }
 view.optimized.primers <- function(primer.df, template.df, mode.directionality, view.cvg.individual) {

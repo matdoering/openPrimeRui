@@ -17,7 +17,7 @@ get.IMGT.settings <- function() {
     # use a python script to retrieve possible IMGT input options for shiny frontend
     # options are stored in files and are read into R
     imgt.settings.location <- system.file("extdata", "IMGT_options",
-                                          package = "openPrimeR")
+                                          package = "openPrimeRui")
     if (!dir.exists(imgt.settings.location)) {
         # only retrieve options from IMGT when they aren't available yet
         dir.create(imgt.settings.location)

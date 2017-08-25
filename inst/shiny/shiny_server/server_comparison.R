@@ -108,13 +108,13 @@ output$comparison_plot_regions <- renderPlot({
         plot.comp.templates(), direction, group, relation)
 }, width = region_comparison_width, height = region_comparison_height, units = "px")
 
-comparison_primer_choices <- reactive({
+comparison.primer.choices <- reactive({
     # The primer sets that are available in the tool, depending on the chosen locus
     # of the user (input$template_comparison_locus)
     if (length(input$template_comparison_locus) == 0 || input$template_comparison_locus == "") {
         return(NULL)
     }
-    options <- comparison.primer.choices(input$template_comparison_locus)
+    options <- openPrimeRui:::comparison.primer.choices(input$template_comparison_locus)
     return(options)
 })
 output$comp_cvg_constraints <- renderPlot({
@@ -148,7 +148,7 @@ primers.Virus.view.comparison <- reactive({
 
 availableVirusComparisonPrimerUpdater <- observeEvent(input$virus_region_comparison, {
     # updates comparison primer sets for viral templates
-    reset.reactive.values(rv_comparison.data)
+    openPrimeRui:::reset.reactive.values(rv_comparison.data)
     primer.choices <- primers.Virus.view.comparison()
     #print("updating available viral primers")
     #print(primer.choices)
@@ -165,8 +165,8 @@ availablePrimerComparisonUpdater <- observeEvent(input$template_comparison_locus
     {
     # Updates available comparison primers for IMGT data
     # reset reactive values:
-    reset.reactive.values(rv_comparison.data)
-    choices <- comparison_primer_choices()
+    openPrimeRui:::reset.reactive.values(rv_comparison.data)
+    choices <- comparison.primer.choices()
     updateSelectInput(session, "selected_comparison_primers", choices = choices)
     # update analysis identifier
     updateTextInput(session, "sample_name", 
@@ -222,7 +222,7 @@ ComparisonPrimerSuppliedObserverComparison <- observeEvent(input$selected_compar
 read.compare.primers <- reactive({
     # loads the currently selected comparison primer sets
     if (length(rv_values$comparison_primer_path) != 0) {
-        data <- withWarnings(openPrimeR:::read_primers(rv_values$comparison_primer_path$datapath))
+        data <- openPrimeRui:::withWarnings(openPrimeR:::read_primers(rv_values$comparison_primer_path$datapath))
         for (i in seq_along(data$warnings)) {
             warning <- data$warnings[[i]]
             message(warning)
@@ -254,11 +254,11 @@ comparisonTemplateOtherObserver <- observeEvent(input$comparison_templates, {
 comparisonTemplateIMGTObserver <- observeEvent(input$template_comparison_locus, {
     # updates the path to the comparison templates when user selects a supplied
     # template set
-    rv_comparison.data$comparison_template_path <- get.supplied.comparison.template.path(input$template_comparison_locus)
+    rv_comparison.data$comparison_template_path <- openPrimeRui:::get.supplied.comparison.template.path(input$template_comparison_locus)
 })
 comparisonTemplateVirusObserver <- observeEvent(input$virus_region_comparison, {
     # update viral template set upon user selection of region
-    rv_comparison.data$comparison_template_path <- get.supplied.comparison.template.path.virus(input$virus_type_comparison, input$virus_region_comparison)
+    rv_comparison.data$comparison_template_path <- openPrimeRui:::get.supplied.comparison.template.path.virus(input$virus_type_comparison, input$virus_region_comparison)
 })
 
 read.comparison.templates <- reactive({
@@ -266,7 +266,7 @@ read.comparison.templates <- reactive({
     if (length(rv_comparison.data$comparison_template_path) == 0) {
         return(NULL)
     }
-    data <- withWarnings(openPrimeR:::read_templates(rv_comparison.data$comparison_template_path$datapath))
+    data <- openPrimeRui:::withWarnings(openPrimeR:::read_templates(rv_comparison.data$comparison_template_path$datapath))
     for (i in seq_along(data$warnings)) {
         warning <- data$warnings[[i]]
         message(warning)
@@ -394,7 +394,7 @@ primerComparisonObserver <- observeEvent(c(input$compare_primers), {
     primers <- openPrimeR:::set.run.names(current.comp.primers())
     seqs <- openPrimeR:::set.run.names(current.comp.seqs())
     # update comparison selection
-    isolate({switch.view.selection("all", input$main, session)})
+    isolate({openPrimeRui:::switch.view.selection("all", input$main, session)})
     updateTabsetPanel(session, "main", selected = "Comparison")
     updateTabsetPanel(session, "selected_comparison_plot", selected = "coverage_overview")
     # set in reactiveValues
@@ -451,7 +451,7 @@ comparison_plot_constraint_width <- reactive({
         return(NULL)
     }
     nbr.sets <- length(plot.comp.primers())
-    width <- openPrimeR:::get.plot.height(nbr.sets * comparison_plot_constraint_nfacets(), 50)
+    width <- openPrimeR:::get.plot.height(nbr.sets * comparison_plot_constraint_nfacets(), 200)
     return(width)
 })
 
@@ -459,9 +459,9 @@ comparison_plot_constraint_height <- reactive({
     if (length(plot.comp.primers()) == 0) {
         return(NULL)
     }
-    nbr.constraints <- length(constraints()$active_settings)
+    nbr.constraints <- length(input$selected_other_plot)
     facets <- comparison_plot_constraint_nfacets()
-    height <- openPrimeR:::get.plot.height(ceiling(nbr.constraints / facets), 150)
+    height <- openPrimeR:::get.plot.height(ceiling(nbr.constraints / facets), 300)
     return(height)
 })
 
@@ -527,7 +527,7 @@ observeEvent(input$load_all_comparison_sets, {
     rv_comparison.data$primers_filtered <- NULL
     rv_comparison.data$constraints <- NULL
     # load all primer set options
-    choices <- comparison_primer_choices()
+    choices <- comparison.primer.choices()
     choice.table <- data.frame(datapath = choices, name = names(choices), stringsAsFactors = FALSE)
     rv_values$comparison_primer_path <- choice.table
 })
@@ -588,7 +588,7 @@ plot.comp.templates <- reactive({
 })
 comparisonResetObserver <- observeEvent(input$reset_rv_comparison.data, {
     # reset the rv_comparison.data (loaded primers, templates, constraints)
-    reset.reactive.values(rv_comparison.data)
+    openPrimeRui:::reset.reactive.values(rv_comparison.data)
     session$sendCustomMessage(type = "resetFileInputHandler", "comparison_file")
     session$sendCustomMessage(type = "resetFileInputHandler", "comparison_templates")
     session$sendCustomMessage(type = "resetFileInputHandler", "comparison_constraint_files")

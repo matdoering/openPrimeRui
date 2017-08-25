@@ -7,6 +7,10 @@ server <- function(input, output, session) {
     # define static variables for the shiny app:
     source(system.file("shiny", "shiny_server", "extra_shiny_backend.R",
             package = "openPrimeRui"))
+    #print("Require namespace test:")
+    #print(requireNamespace("openPrimeRui"))
+    #openPrimeRui:::reset.reactive.values(values = NULL)
+    #stop("TEST")
     ####################
     shinyjs::hide(selector = "#light") # don't show traffic light for design difficulty when difficulty hasn't been evaluated yet.
     shinyjs::hide(id = "loadingContent", anim = TRUE, animType = "fade") # after dependencies have loaded, hide the loading message
@@ -36,7 +40,7 @@ server <- function(input, output, session) {
                                         "settings" = NULL) 
     # load all server source files:
     sources <- list.files(system.file("shiny", "shiny_server", 
-        package = "openPrimeR"),
+        package = "openPrimeRui"),
         pattern="server_.*.R",
         full.names = TRUE)
     for (s in sources) {

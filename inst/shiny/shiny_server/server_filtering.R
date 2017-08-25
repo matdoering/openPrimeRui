@@ -91,7 +91,7 @@ filtered.primers.quick <- observeEvent(input$quickFilterButton, {
     rv_values$last_filtering_constraints <- openPrimeR:::filters(current.settings())
     rv_primers$filtered <- filtered.data
     # update tabsets w/ filtering results
-    switch.view.selection("filtered", input$main, session)
+    openPrimeRui:::switch.view.selection("filtered", input$main, session)
 })
 
 output$filtering_stats_cvg <- renderPlot({

@@ -36,7 +36,7 @@ get.available.settings.view <- function(app.settings.folder, taq.PCR = NULL, ana
     return(bnames)
 } 
 
-create.constraint.table.row.custom <- function(radio.button, slider.setting, slider.limit, help.element = NULL) {
+create.constraint.table.row <- function(radio.button, slider.setting, slider.limit, help.element = NULL) {
     na.element <- "" # could do some other style (icon?)
     if (length(radio.button) == 0) {
         radio.button <- na.element 

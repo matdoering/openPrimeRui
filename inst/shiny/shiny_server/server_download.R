@@ -27,7 +27,7 @@ downloadDataSelector <- reactive({
         #"optimized" = rv_templates$cvg_optimized)
     # Download xml settings here ...
     # templates may not be annotated with cvg here (not differentiating the type of templates here)
-    # n.b.: removed myCatch() as expr() can't be evaluated with try if it's reactive ..
+    # n.b.: removed openPrimeRui:::myCatch() as expr() can't be evaluated with try if it's reactive ..
     # n.b.: need to have switch such that 'all' is not always loaded, but only if necessary ..
     # n.b.: `Report` is not part of `all` because it's no data object but directly stored to file.
     if (input$download_style == "raw") {
@@ -43,7 +43,7 @@ downloadDataSelector <- reactive({
          out <- switch(input$downloadDataSet,
          ############ ALL ############
                 "all" = list(
-                       "sequences" = update.sample.name(rv_templates$raw_seqs, input$sample_name),
+                       "sequences" = openPrimeRui:::update.sample.name(rv_templates$raw_seqs, input$sample_name),
                        "primers" = primers,
                        "settings" = current.settings()
                        ),
@@ -51,7 +51,7 @@ downloadDataSelector <- reactive({
                "eval_report" = "eval_report",
                "comparison_report" = "comparison_report",
                "coverage_spreadsheet" = "coverage_spreadsheet", 
-               "sequences" = update.sample.name(rv_templates$raw_seqs, input$sample_name),
+               "sequences" = openPrimeRui:::update.sample.name(rv_templates$raw_seqs, input$sample_name),
                "primers" = primers,
                "primers_subset" = try(primer_subset_out()),
                "settings" = current.settings(),
@@ -87,12 +87,12 @@ downloadDataSelector <- reactive({
             "eval_report" = "eval_report",
             "comparison_report" = "comparison_report",
             "coverage_spreadsheet" = "coverage_spreadsheet", 
-            "sequences" = update.sample.name(rv_templates$raw_seqs, input$sample_name),
+            "sequences" = openPrimeRui:::update.sample.name(rv_templates$raw_seqs, input$sample_name),
             "primers" = primers,
-            "primers_subset" = try(view.subset.primers(primer_subset_out(), current.seqs(), run.mode(), input$view_cvg_individual)),
+            "primers_subset" = try(openPrimeRui:::view.subset.primers(primer_subset_out(), current.seqs(), run.mode(), input$view_cvg_individual)),
             "settings" = current.settings(),
-            "mismatch_table_fw" = try(view.mismatch.table(mismatch.table.fw())),
-            "mismatch_table_rev" = try(view.mismatch.table(mismatch.table.rev())), 
+            "mismatch_table_fw" = try(openPrimeRui:::view.mismatch.table(mismatch.table.fw())),
+            "mismatch_table_rev" = try(openPrimeRui:::view.mismatch.table(mismatch.table.rev())), 
             "self_dimerization" = try(self.dimer.data()),
             "cross_dimerization" = try(cross.dimer.data()))
         }

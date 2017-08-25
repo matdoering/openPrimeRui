@@ -58,7 +58,7 @@ rv_dimer.data <- reactiveValues(selected_idx = NULL)
 output$dimer_text <- renderUI({
     # output an overview text for dimerization
     text <- HTML(paste("<h3>", 
-                dimer.text.info(cur.dimer.data(), primer.data(),
+                openPrimeRui:::dimer.text.info(cur.dimer.data(), primer.data(),
                                 cur.dimer.cutoff()), 
                 "</h3>", sep = ""))
     return(text)

@@ -50,5 +50,5 @@ evaluated.primers <- observeEvent(input$evaluateButton, {
         rv_templates$cvg_all <- openPrimeR:::update_template_cvg(current.seqs(), 
             eval.data, run.mode())  # update templates with cvg values 
     }
-    switch.view.selection("all", input$main, session)  # view evaluated primers
+    openPrimeRui:::switch.view.selection("all", input$main, session)  # view evaluated primers
 })

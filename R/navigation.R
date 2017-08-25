@@ -10,7 +10,6 @@ unset.subprocess.busy <- function(session) {
 set.subprocess.busy <- function(session) {
     # set busy status (compuations are running, block the app)
     shinyjs::addClass(id = "BusyInfo", class = "busy")
-    #session$sendCustomMessage(type='jsCode', list(value = "$('#BusyInfo').modal('toggle')")) # show busy modal.
     toggleModal(session, "BusyInfo", toggle = "toggle")
 }
 update.following.navigation <- function(session, cur.phase, action) {

@@ -73,10 +73,6 @@ view.compare.help <- function(session) {
     updateTabsetPanel(session, "help_evaluation_tab",   selected="help_comparison")
 }
 
-#view.compare.help.entry <- function(session, id) {
-#    view.compare.help(session)
-#    updateTabsetPanel(session, "help_compare_tab", selected = id)
-#}
 #################
 # optimization help
 ###

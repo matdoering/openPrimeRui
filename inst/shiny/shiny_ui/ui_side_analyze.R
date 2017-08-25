@@ -13,7 +13,7 @@ tabPanel("Analyze",
         # EVALUATION PANEL
         ######
         div(p("Evaluate the physicochemical properties of the input primers.",
-             create.help.button("eval_eval")),
+             openPrimeRui:::create.help.button("eval_eval")),
              class = "one"
         ),
         actionButton("evaluateButton", 
@@ -48,7 +48,7 @@ tabPanel("Analyze",
         # DESIGN PANEL
         ##########
         div(p("Design a new set of primers for the loaded template sequences using the currently selected constraints as a selection criterion.", 
-            create.help.button("opti_optimization_overview")),
+            openPrimeRui:::create.help.button("opti_optimization_overview")),
             class = "one"
         ),
         #bsCollapse(id = "design_options_algorithms_collapse", 
@@ -58,7 +58,7 @@ tabPanel("Analyze",
                  icon("menu-hamburger", lib = "glyphicon"), 
                  "Design options"),
                  value = "design_algo_panel",
-                div(p("The optimization algorithm for primer design influences two parameters: the size of the constructed primer set and the runtime. Integer linear programs (ILPs) gurantee minimal primer sets, but their worst-case runtime is exponential. Greedy algorithms, are faster (O n log n), but may yield slightly larger primer sets. ILPs are recommended when the size of the designed primer set should be as small as feasible or when primers are to be designed for few templates, or when the runtime is of no major concern.", create.help.button("opti_algo_ref")), class = "two"),
+                div(p("The optimization algorithm for primer design influences two parameters: the size of the constructed primer set and the runtime. Integer linear programs (ILPs) gurantee minimal primer sets, but their worst-case runtime is exponential. Greedy algorithms, are faster (O n log n), but may yield slightly larger primer sets. ILPs are recommended when the size of the designed primer set should be as small as feasible or when primers are to be designed for few templates, or when the runtime is of no major concern.", openPrimeRui:::create.help.button("opti_algo_ref")), class = "two"),
                  bsTooltip("help_opti_algo_ref", 
                         HTML("References:<br>Pearson et al. (1996)<br>Bashir et al. (2007)"),
                         "right", options = list(container = "body"), 
@@ -147,7 +147,7 @@ tabPanel("Analyze",
         # COMPARISON PANEL
         ############
         div(p("Compare the properties of several primer sets with each other.",
-            create.help.button("compare")),
+            openPrimeRui:::create.help.button("compare")),
             class = "one"
         ),
         # comparison button

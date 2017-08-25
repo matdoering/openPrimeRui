@@ -16,7 +16,7 @@ tabPanel("Primers",
                of published primer sets that can be loaded directly. 
                For other applications please input a FASTA or CSV file 
                containing the primers to be analyzed.", 
-            create.help.button("input_primers_overview"))
+            openPrimeRui:::create.help.button("input_primers_overview"))
         )),
         bsTooltip("help_input_primers", 
             "View help on the input of primers.",
@@ -178,7 +178,7 @@ tabPanel("Primers",
         ############
         div(p("Please specify the desired properties 
             of the primers that you would like to design.", 
-            create.help.button("opti_optimization")),
+            openPrimeRui:::create.help.button("opti_optimization")),
             class = "two"
         ),
         bsTooltip("help_init_initialization", 
@@ -242,7 +242,7 @@ tabPanel("Primers",
                of evaluated primer sets that can be loaded directly. 
                Otherwise, you can upload raw, evaluated csv files
                containing the primers to be analyzed.", 
-            create.help.button("input_primers_comparison"))
+            openPrimeRui:::create.help.button("input_primers_comparison"))
         )),
         ##########
         # Choice between supplied/custom comparison primers

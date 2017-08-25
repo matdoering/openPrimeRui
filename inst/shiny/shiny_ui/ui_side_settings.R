@@ -8,7 +8,7 @@ tabPanel("Settings", value = "constraint_panel",
      br(),
      br(),
      div(p("Specify the conditions for computing the physicochemical properties of the primers.", 
-        create.help.button("settings_overview")),
+        openPrimeRui:::create.help.button("settings_overview")),
         class = "one"
      ),
      ####
@@ -46,7 +46,7 @@ tabPanel("Settings", value = "constraint_panel",
                         icon = icon("wrench"),
                         "Available settings"
                     ),
-                    choices = get.available.settings.view(system.file(
+                    choices = openPrimeRui:::get.available.settings.view(system.file(
                         "extdata", "settings", 
                         package = "openPrimeR"), initial = TRUE)
                     #selected = NULL,
@@ -94,7 +94,7 @@ tabPanel("Settings", value = "constraint_panel",
             ),
             value = "binding_conditions_panel",
             div(p("Customize under which circumstances a primer is considered to cover a template sequence.",
-                    create.help.button("coverage_conditions")
+                    openPrimeRui:::create.help.button("coverage_conditions")
                 ),
                 class = "two"
             ),
@@ -181,7 +181,7 @@ tabPanel("Settings", value = "constraint_panel",
             ), 
             # no table header here to make it cleaner
             HTML("<table class=constraint-table>"),
-                create.constraint.table.row.custom(
+                openPrimeRui:::create.constraint.table.row(
                     radioButtons("allowed_binding_region_definition", 
                         tagList(
                             #icon("bookmark"), 
@@ -198,7 +198,7 @@ tabPanel("Settings", value = "constraint_panel",
                     ),
                     NULL
             ),
-            create.constraint.table.row.custom(
+            openPrimeRui:::create.constraint.table.row(
                 radioButtons("are_mismatches_allowed", 
                     tagList("Mismatch binding"),
                     c("Allowed" = "active", "Forbidden" = "inactive"),
@@ -228,10 +228,10 @@ tabPanel("Settings", value = "constraint_panel",
                 value = "ext_cvg_conditions_binding",
                 p("For typical applications, selecting a single binding condition is sufficient. For evaluating primers, we recommend either our coverage model (FPR 6%) or the free energy of annealing (cutoff -5 kcal/mol). For designing primers, we recommend either our model (FPR 0%) or DECIPHER's primer efficiency (cutoff 0.1%)."),
                 HTML("<table class=constraint-table>"),
-                    create.constraint.table.row.custom( 
+                    openPrimeRui:::create.constraint.table.row( 
                         radioButtons("constraint_annealing_DeltaG", 
                             tagList("Annealing energy", 
-                                create.help.button("annealing_DeltaG")
+                                openPrimeRui:::create.help.button("annealing_DeltaG")
                             ),
                             c("On" = "active", "Off" = "inactive"), 
                             selected = "inactive", inline = TRUE
@@ -245,10 +245,10 @@ tabPanel("Settings", value = "constraint_panel",
                         ),
                         NULL
                     ),
-                    create.constraint.table.row.custom( 
+                    openPrimeRui:::create.constraint.table.row( 
                         radioButtons("constraint_primer_efficiency", 
                         tagList("Amplification efficiency", 
-                            create.help.button("primer_efficiency")
+                            openPrimeRui:::create.help.button("primer_efficiency")
                         ),
                         c("On" = "active", "Off" = "inactive"), 
                         selected = "inactive", inline = TRUE
@@ -261,10 +261,10 @@ tabPanel("Settings", value = "constraint_panel",
                     ),
                     NULL
                 ),
-                create.constraint.table.row.custom( 
+                openPrimeRui:::create.constraint.table.row( 
                     radioButtons("constraint_coverage_model", 
                         tagList("Coverage model", 
-                            create.help.button("coverage_model")
+                            openPrimeRui:::create.help.button("coverage_model")
                         ),
                         c("On" = "active", "Off" = "inactive"), 
                         selected = "inactive", inline = TRUE
@@ -277,7 +277,7 @@ tabPanel("Settings", value = "constraint_panel",
                     ),
                     NULL
                 ),
-                create.constraint.table.row.custom(
+                openPrimeRui:::create.constraint.table.row(
                         radioButtons("allow_3prime_mismatch", 
                             tagList("3' Mismatches"),
                             c("Allowed" = "active", "Forbidden" = "inactive"),
@@ -296,10 +296,10 @@ tabPanel("Settings", value = "constraint_panel",
             bsCollapsePanel(tagList(icon("star"), "Codon design"),
                 value = "ext_cvg_conditions_mismatches",
                 p("Prevent the calling of coverage events for mismatch binding events that would have a functional impact on the amplicons.",
-                    create.help.button("codon_design")
+                    openPrimeRui:::create.help.button("codon_design")
                 ),
                 HTML("<table class=constraint-table>"),
-                    create.constraint.table.row.custom(
+                    openPrimeRui:::create.constraint.table.row(
                         radioButtons("allowed_stop_codons", 
                             tagList("Stop codons"),
                             c("Allowed" = "active", "Forbidden" = "inactive"), 
@@ -308,7 +308,7 @@ tabPanel("Settings", value = "constraint_panel",
                         HTML(""),
                         NULL
                     ),
-                    create.constraint.table.row.custom(
+                    openPrimeRui:::create.constraint.table.row(
                         radioButtons("allowed_substitutions", 
                             tagList("Substitutions"),
                             c("Allowed" = "active", "Forbidden" = "inactive"), 
@@ -345,7 +345,7 @@ tabPanel("Settings", value = "constraint_panel",
               " column defines the extend and speed at which ",
               " the constraints are relaxed if it is not possible ",
               " to obtain a primer set fulfilling the required properties.",
-            create.help.button("overview_filters")
+            openPrimeRui:::create.help.button("overview_filters")
             ),
             class = "two"
         ),
@@ -368,9 +368,9 @@ tabPanel("Settings", value = "constraint_panel",
         ##########
         # Coverage
         ###########
-        create.constraint.table.row.custom( 
+        openPrimeRui:::create.constraint.table.row( 
             radioButtons("constraint_primer_coverage", # active?
-                tagList("Coverage", create.help.button("primer_coverage")),
+                tagList("Coverage", openPrimeRui:::create.help.button("primer_coverage")),
                 c("On" = "active", "Off" = "inactive"), inline = TRUE
             ),
             sliderInput("allowed_primer_coverage", "",  # allowed range
@@ -382,10 +382,10 @@ tabPanel("Settings", value = "constraint_panel",
         #####
         # primer length
         #####
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_primer_length", 
                 tagList("Primer length", 
-                    create.help.button("primer_length")
+                    openPrimeRui:::create.help.button("primer_length")
                 ),
                 c("On" = "active", "Off" = "inactive"),
                 inline = TRUE
@@ -399,10 +399,10 @@ tabPanel("Settings", value = "constraint_panel",
         ##########
         # gc clamp
         ###########
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_gc_clamp", 
                 tagList("GC clamp",
-                    create.help.button("gc_clamp")
+                    openPrimeRui:::create.help.button("gc_clamp")
                 ),
                 c("On" = "active", "Off" = "inactive"), 
                 inline = TRUE
@@ -419,10 +419,10 @@ tabPanel("Settings", value = "constraint_panel",
         ####
         # gc ratio
         ######
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_gc_ratio", 
                 tagList("GC ratio", 
-                    create.help.button("gc_ratio")
+                    openPrimeRui:::create.help.button("gc_ratio")
                 ),
                 c("On" = "active", "Off" = "inactive"), 
                 inline = TRUE
@@ -439,10 +439,10 @@ tabPanel("Settings", value = "constraint_panel",
         #######
         # run length
         #######
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_no_runs", 
                 tagList("Run length", 
-                    create.help.button("run_length")
+                    openPrimeRui:::create.help.button("run_length")
                 ),
                 c("On" = "active", "Off" = "inactive"),
                 inline = TRUE
@@ -459,10 +459,10 @@ tabPanel("Settings", value = "constraint_panel",
         #######
         # number of repeats
         ########
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_no_repeats",
                 tagList("Repeat length", 
-                    create.help.button("repeat_length")
+                    openPrimeRui:::create.help.button("repeat_length")
                 ), 
                 c("On" = "active", "Off" = "inactive"),
                 inline = TRUE
@@ -479,10 +479,10 @@ tabPanel("Settings", value = "constraint_panel",
         ######
         # melting temperature filter
         #######
-        create.constraint.table.row.custom( 
+        openPrimeRui:::create.constraint.table.row( 
             radioButtons("constraint_melting_temp_range",
                 tagList(HTML(openPrimeR:::constraints_to_unit("melting_temp_range", format.type = "HTML")[[1]]), 
-                    create.help.button("melting_temperature")
+                    openPrimeRui:::create.help.button("melting_temperature")
                 ), 
                 c("On" = "active", "Off" = "inactive"), 
                 selected = "active", inline = TRUE
@@ -499,10 +499,10 @@ tabPanel("Settings", value = "constraint_panel",
             )
         ),
         # melting temperature difference
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_melting_temp_diff", 
                 tagList(HTML(openPrimeR:::constraints_to_unit("melting_temp_diff", format.type = "HTML")[[1]]),
-                    create.help.button("opti_melting_temp")
+                    openPrimeRui:::create.help.button("opti_melting_temp")
                 ),
                 c("On" = "active", "Off" = "inactive"),
                 selected = "active", 
@@ -522,10 +522,10 @@ tabPanel("Settings", value = "constraint_panel",
         ######
         # secondary structure: filtering constraint
         ########
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_secondary_structure", 
                 tagList(HTML("Secondary structure &Delta;G"), 
-                    create.help.button("secondary_structure")
+                    openPrimeRui:::create.help.button("secondary_structure")
                 ),
                 c("On" = "active", "Off" = "inactive"), 
                 selected = "inactive", inline = TRUE
@@ -544,10 +544,10 @@ tabPanel("Settings", value = "constraint_panel",
         ####
         # primer specificity
         #######
-        create.constraint.table.row.custom( 
+        openPrimeRui:::create.constraint.table.row( 
             radioButtons("constraint_primer_specificity", 
                 tagList("Specificity", 
-                    create.help.button("primer_specificity")
+                    openPrimeRui:::create.help.button("primer_specificity")
                 ), 
                 c("On" = "active", "Off" = "inactive"), 
                 selected = "active", inline = TRUE
@@ -564,10 +564,10 @@ tabPanel("Settings", value = "constraint_panel",
         ####
         # self dimerization
         ######
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_self_dimerization", 
                 tagList(HTML("Self-dimerization &Delta;G"), 
-                    create.help.button("self_complementarity")
+                    openPrimeRui:::create.help.button("self_complementarity")
                 ), 
                 c("On" = "active", "Off" = "inactive"), 
                 selected = "active", inline = TRUE
@@ -587,10 +587,10 @@ tabPanel("Settings", value = "constraint_panel",
         ######
         # cross-dimerization for filtering
         #####
-        create.constraint.table.row.custom(
+        openPrimeRui:::create.constraint.table.row(
             radioButtons("constraint_cross_dimerization", 
                 tagList(HTML("Cross-dimerization &Delta;G"), 
-                create.help.button("cross_complementarity")), c("On" = "active", "Off" = "inactive"), 
+                openPrimeRui:::create.help.button("cross_complementarity")), c("On" = "active", "Off" = "inactive"), 
                 selected = "inactive", inline = TRUE),
             sliderInput("allowed_cross_dimerization", "", 
                 min = -15, max = 0, 
@@ -651,7 +651,7 @@ tabPanel("Settings", value = "constraint_panel",
             style = "default",
             div(p("The PCR parameters impact the computation of some constraints. 
                   For example, melting temperature computations are influenced by the ion concentration.", 
-                create.help.button("pcr_settings")),
+                openPrimeRui:::create.help.button("pcr_settings")),
                   class = "two"
             ),
             # annealing temp not relevant for designing primers:

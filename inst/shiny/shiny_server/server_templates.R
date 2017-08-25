@@ -75,7 +75,7 @@ seq.data.input <- reactive({
     #print("Using the following header structure:")
     #print(hdr.structure)
     #print(id.col)
-    out <- withWarnings(openPrimeR:::read_templates(seqFile$datapath, 
+    out <- openPrimeRui:::withWarnings(openPrimeR:::read_templates(seqFile$datapath, 
             hdr.structure = hdr.structure$header, 
             delim = hdr.structure$delim, id.column = id.col, 
             rm.keywords = rm.keywords, remove.duplicates = rm.duplicated,
@@ -116,7 +116,7 @@ seq.data.input <- reactive({
     }
     # switch to template tab and set "all" selector
     updateTabsetPanel(session, "main", selected = "template_view_panel")
-    isolate({switch.view.selection("all", input$main, session)})
+    isolate({openPrimeRui:::switch.view.selection("all", input$main, session)})
     return(out)
 })
 seq.data <- reactive({
@@ -161,7 +161,7 @@ leader.data.fw <- reactive({
         }
     }
     gap.char <- isolate(input$gap_char)
-    leaders.fw <- withWarnings(openPrimeR:::read.leaders(leaderFile.fw$datapath, "fw", rm.keywords, gap.char))
+    leaders.fw <- openPrimeRui:::withWarnings(openPrimeR:::read.leaders(leaderFile.fw$datapath, "fw", rm.keywords, gap.char))
     for (i in seq_along(leaders.fw$errors)) {
         error <- leaders.fw$errors[[i]]
         print(error)
@@ -197,7 +197,7 @@ leader.data.rev <- reactive({
         }
     }
     gap.char <- isolate(input$gap_char)
-    leaders.rev <- withWarnings(openPrimeR:::read.leaders(
+    leaders.rev <- openPrimeRui:::withWarnings(openPrimeR:::read.leaders(
         leaderFile.rev$datapath, "rev", rm.keywords, gap.char))
     for (i in seq_along(leaders.rev$errors)) {
         error <- leaders.rev$errors[[i]]
@@ -262,7 +262,7 @@ leader.data.input <- reactive({
         return(NULL)
     }
     leaders <- NULL
-    leaders <- withWarnings(openPrimeR:::unify.leaders(leader.data.fw(), leader.data.rev(), seq.data(), isolate(gap_char())))
+    leaders <- openPrimeRui:::withWarnings(openPrimeR:::unify.leaders(leader.data.fw(), leader.data.rev(), seq.data(), isolate(gap_char())))
     for (i in seq_along(leaders$errors)) {
         error <- leaders$errors[[i]]
         print(error)
@@ -320,7 +320,7 @@ leader.data.uniform <- reactive({
         fw.region <- isolate(input$uniform_allowed_regions_fw)
         rev.region <- isolate(input$uniform_allowed_regions_rev)
     }
-    leaders <- withWarnings(openPrimeR:::create.uniform.leaders(fw.region, rev.region, seq.data(), isolate(gap_char())))
+    leaders <- openPrimeRui:::withWarnings(openPrimeR:::create.uniform.leaders(fw.region, rev.region, seq.data(), isolate(gap_char())))
     for (i in seq_along(leaders$errors)) {
         error <- leaders$errors[[i]]
         print(error)
@@ -386,7 +386,7 @@ IMGT_TemplateDataObserver <- observeEvent(input$IMGT_template_button, {
     rv_cur.input.data$templates_exon <- NULL
     rv_cur.input.data$templates_leader <- NULL
     rv_cur.input.data$templates_leader_rev <- NULL
-    fnames <- retrieve.IMGT.templates(input$IMGT_DB_species, input$IMGT_DB_locus, input$IMGT_DB_function, input$update_IMGT_DB_data, input$remove_partial_seqs)
+    fnames <- openPrimeRui:::retrieve.IMGT.templates(input$IMGT_DB_species, input$IMGT_DB_locus, input$IMGT_DB_function, input$update_IMGT_DB_data, input$remove_partial_seqs)
     if (length(fnames) != 0) {
         rv_templates$load_IMGT_templates <- TRUE # if TRUE -> overwite header structure
         # return fasta filename of exon and leader file in vector
@@ -413,28 +413,28 @@ SeqTabObserver <- observe({
     # all data:
     ##############
     if (length(seq.data()) != 0) {
-        rv_templates$SeqTab <- view.input.sequences(seq.data())
+        rv_templates$SeqTab <- openPrimeRui:::view.input.sequences(seq.data())
         rv_templates$raw_seqs <- seq.data()
     }
     if (length(current.seqs()) != 0) { 
-        rv_templates$SeqTab <- view.lex.sequences(current.seqs())
+        rv_templates$SeqTab <- openPrimeRui:::view.template.sequences(current.seqs())
         rv_templates$raw_seqs  <- current.seqs()
     }
     if (length(rv_templates$cvg_all) != 0 && length(primer.data()) !=0) {
-        rv_templates$SeqTab <- view.cvg.sequences(rv_templates$cvg_all, primer.data())
+        rv_templates$SeqTab <- openPrimeRui:::view.cvg.sequences(rv_templates$cvg_all, primer.data())
         rv_templates$raw_seqs <- rv_templates$cvg_all
     }
     #################
     # filtered data:
     ##################
     if (length(rv_templates$cvg_filtered) != 0 && length(current.filtered.primers()) !=0) {
-        rv_templates$SeqTabFiltered <- view.cvg.sequences(rv_templates$cvg_filtered, current.filtered.primers())
+        rv_templates$SeqTabFiltered <- openPrimeRui:::view.cvg.sequences(rv_templates$cvg_filtered, current.filtered.primers())
     }
     ###################
     # optimized data:
     ####################
     if (length(rv_templates$cvg_optimized) != 0 && length(optimal.primers()) != 0) {
-        rv_templates$SeqTabOptimized <- view.cvg.sequences(rv_templates$cvg_optimized, optimal.primers())
+        rv_templates$SeqTabOptimized <- openPrimeRui:::view.cvg.sequences(rv_templates$cvg_optimized, optimal.primers())
     }
 })
 get.exon.data <- reactive({

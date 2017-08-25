@@ -40,7 +40,7 @@ input.primers <- reactive({
             progress$set(value = value, detail = detail)
         }
     }
-    primers <- isolate({withWarnings(openPrimeR:::read_primers(
+    primers <- isolate({openPrimeRui:::withWarnings(openPrimeR:::read_primers(
                 primerFile$datapath, input$fw_primer_id, 
                 input$rev_primer_id, input$use_ambig, 
                 input$max_degeneracy, 
@@ -85,7 +85,7 @@ input.primers <- reactive({
         # on current tab to quickly gauge different sets
         updateTabsetPanel(session, "main", selected = "Primers")
     }
-    isolate({switch.view.selection("all", input$main, session)})
+    isolate({openPrimeRui:::switch.view.selection("all", input$main, session)})
     return(primers)
 })
 
@@ -180,7 +180,7 @@ primers.IMGT.view <- reactive({
     if (length(files) == 0) {
         return(NULL)
     }
-    primer.paths <- primer.set.choices(files)
+    primer.paths <- openPrimeRui:::primer.set.choices(files)
     return(primer.paths)
 })
 selected.IMGT.primers <- reactive({
@@ -271,7 +271,7 @@ primer_subset <- eventReactive(c(input$selected_subset_size, primer_subsets()), 
 output$primer_subset_table <- DT::renderDataTable({ 
     # Returns a table for the primer subset of the selected size 
     validate(need(primer_subset(), "No subset computed yet."))
-    df <- view.subset.primers(primer_subset(), current.seqs(), run.mode(), input$view_cvg_individual)
+    df <- openPrimeRui:::view.subset.primers(primer_subset(), current.seqs(), run.mode(), input$view_cvg_individual)
     DT::datatable(df, caption = "Primers of the optimal subset.", escape=FALSE, options = list(processing = FALSE))
 })
 
@@ -333,20 +333,20 @@ PrimerTabObserver <- observe({
         rv_primers$all <- NULL
     }
     if (length(rv_primers$evaluated_primers) != 0 && length(current.seqs()) != 0 && length(run.mode()) != 0) { # evaluated primers
-        rv_primers$PrimerTab <- view.filtered.primers.all(rv_primers$evaluated_primers, current.seqs(), run.mode(), input$view_cvg_individual)
+        rv_primers$PrimerTab <- openPrimeRui:::view.evaluated.primers(rv_primers$evaluated_primers, current.seqs(), run.mode(), input$view_cvg_individual)
     } 
     #####
     # FILTERED DATA TAB
     ######
     if (length(current.filtered.primers()) != 0 && length(current.seqs()) != 0 && length(run.mode()) != 0) {
-        rv_primers$PrimerTabFiltered <- view.filtered.primers(current.filtered.primers(), current.seqs(), run.mode(), input$view_cvg_individual)
+        rv_primers$PrimerTabFiltered <- openPrimeRui:::view.filtered.primers(current.filtered.primers(), current.seqs(), run.mode(), input$view_cvg_individual)
     }
     #####
     # OPTIMIZED DATA TAB
     #####
     if (length(optimal.primers()) != 0 && length(current.seqs()) != 0 && length(run.mode()) != 0) {
         opti <- optimal.primers()
-        rv_primers$PrimerTabOptimized <- view.optimized.primers(opti, current.seqs(), run.mode(), input$view_cvg_individual)
+        rv_primers$PrimerTabOptimized <- openPrimeRui:::view.optimized.primers(opti, current.seqs(), run.mode(), input$view_cvg_individual)
     }
 }, priority = 5) # set high priority for updates ..
 
@@ -415,7 +415,7 @@ output$designText <- renderUI({
     opti.algo <- input$optimization_algorithm
     template.df <- current.seqs()    
     required.cvg <- input$required_opti_cvg
-    text <- paste0(create.design.string(allowed.mismatches, run.mode, init.mode, opti.algo, template.df, required.cvg))
+    text <- paste0(openPrimeRui:::create.design.string(allowed.mismatches, run.mode, init.mode, opti.algo, template.df, required.cvg))
     # add a warning about the runtime
     text <- paste0(text, paste0(" Dependent on your data set, the computations may take a considerable amount of time (e.g. multiple hours).",
                     " The computations can only be interrupted by forcefully stopping the tool. Before designing a primer set, you may want to estimate whether it is possible to find a reasonable set of primers for the provided templates by evaluating the problem's difficulty."))
@@ -481,7 +481,7 @@ problem.difficulty <- eventReactive(input$evaluate_difficulty, {
     if (input$evaluate_difficulty == 0) {
         return(NULL)
     }
-    design.diff <- withWarnings(openPrimeR::classify_design_problem(current.seqs(), 
+    design.diff <- openPrimeRui:::withWarnings(openPrimeR::classify_design_problem(current.seqs(), 
                         input$design_direction, 
                         min(input$allowed_primer_length),
                         input$evaluate_difficulty_primers,
@@ -567,7 +567,7 @@ optimal.primer.data <- observeEvent(input$optimizeButton, {
     }
     cur.results.loc <- NULL # change to directory for debugging of results
     settings <- current.settings()
-    primer.data <- withWarnings(openPrimeR:::design_primers(current.seqs(), 
+    primer.data <- openPrimeRui:::withWarnings(openPrimeR:::design_primers(current.seqs(), 
                     input$design_direction, settings, 
                     input$init_algo, input$optimization_algorithm, 
                     required.cvg = input$required_opti_cvg, 
@@ -614,7 +614,7 @@ optimal.primer.data <- observeEvent(input$optimizeButton, {
         rv_values$relax_info <- NULL
     }
     rv_templates$cvg_optimized <- openPrimeR:::update_template_cvg(current.seqs(), primer.data$opti, run.mode()) # update templates with cvg info
-    switch.view.selection("optimized", input$main, session) # switch to optimized primer view
+    openPrimeRui:::switch.view.selection("optimized", input$main, session) # switch to optimized primer view
 })
 
 output$PrimerTab <- DT::renderDataTable({ 

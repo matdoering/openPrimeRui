@@ -534,7 +534,7 @@ ConstraintFileObserver <- observeEvent(input$load_constraints, {
 })
 SettingsChoiceObserver <- observeEvent(input$primer_analysis_type, {  
     # change available settings when modifying the analysis mode
-    setting.options <- get.available.settings.view(
+    setting.options <- openPrimeRui:::get.available.settings.view(
                         system.file("extdata", "settings", 
                                     package = "openPrimeR"), 
                         #input$use_taq_polymerase == "active"
@@ -556,8 +556,7 @@ ConstraintAvailableObserver <- observeEvent(input$load_settings_button, {
     }
     app.settings.folder <- system.file("extdata", "settings", 
                         package = "openPrimeR") 
-    available.settings <- get.available.settings(app.settings.folder, 
-                                                #input$use_taq_polymerase == "active"
+    available.settings <- openPrimeRui:::get.available.settings(app.settings.folder, 
                                                 taq.PCR = NULL, analysis.mode = input$primer_analysis_type)
     path <- available.settings[grep(selection, available.settings)]
     out <- list("datapath" = path, "name" = selection)
@@ -603,7 +602,7 @@ loaded.constraint.settings <- reactive({
     }
     # read settings with `frontend = TRUE` such that we keep the original xml input data (PCR units are not changed). for the backend calls we use always current.settings() where we have the appropriate units from the current slider settings. 
     withProgress(message = 'Loading settings XML file ...', value = 0, {
-        con.data <- withWarnings(openPrimeR:::read_settings(rv_cur.input.data$settings$datapath, frontend = TRUE))
+        con.data <- openPrimeRui:::withWarnings(openPrimeR:::read_settings(rv_cur.input.data$settings$datapath, frontend = TRUE))
     })
     # error handling
     for (i in seq_along(con.data$errors)) {

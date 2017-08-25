@@ -68,7 +68,7 @@ cur.event.sequence <- reactive({
     # reset navigation process when we start a new primer analysis type:
     rv_navigation.data$stages <- rep(FALSE, length(sequence))  # reset navigation progress
     rv_navigation.data$page <- 1 # jump to the template page
-    update.following.navigation(session, "templates", "disable") # disable all navigation tabs following 'templates'
+    openPrimeRui:::update.following.navigation(session, "templates", "disable") # disable all navigation tabs following 'templates'
     return(sequence)
 })
 pageObserver <- observeEvent(input$settingsPanel, {
@@ -136,12 +136,12 @@ NavigationStateObserver <- observe({
         }
         rv_navigation.data$state[rv_navigation.data$page] <- pass  # next button should activate/disable now
         action <- ifelse(pass, "enable", "disable")
-        update.following.navigation(session, cur.phase, action)
+        openPrimeRui:::update.following.navigation(session, cur.phase, action)
         # message('passed the template phase!')
         # deactivate look-ahead (template choice can invalidate primers)
         if ((input$primer_analysis_type == "compare" && length(rv_comparison.data$primer_fnames) == 0) ||
             (input$primer_analysis_type != "compare" && length(primer.data()) == 0)) {
-                update.following.navigation(session, "primers", "disable")
+                openPrimeRui:::update.following.navigation(session, "primers", "disable")
         }
     } else if (cur.phase == "primers") {
         # user should enter primers now check whether primers are available for design:
@@ -158,13 +158,13 @@ NavigationStateObserver <- observe({
         }
         rv_navigation.data$state[rv_navigation.data$page] <- pass
         action <- ifelse(pass, "enable", "disable")
-        update.following.navigation(session, cur.phase, action)
+        openPrimeRui:::update.following.navigation(session, cur.phase, action)
     } else if (cur.phase == "settings") {
         # update settings selector with checkmark
         pass <- length(loaded.constraint.settings()) != 0
         action <- ifelse(pass, "enable", "disable")
         rv_navigation.data$state[rv_navigation.data$page] <- pass  # next button should activate now
-        update.following.navigation(session, cur.phase, action)
+        openPrimeRui:::update.following.navigation(session, cur.phase, action)
     } else {
         message(paste("Unknown current phase: ", cur.phase, sep = ""))
     }
@@ -397,9 +397,9 @@ session$onSessionEnded(function() {
 
 primerInvalidationObserver <- observeEvent(input.primers(), {
     # Invalidate previously computed rv_values when primers have changed
-    reset.reactive.values(rv_values)
-    reset.reactive.values(rv_templates, keep = c("SeqTab", "raw_seqs"))  # templates not valid anymore
-    reset.reactive.values(rv_primers, keep = c("PrimerTab", "all"))  # retain reactive values that were just loaded on input, clean all others
+    openPrimeRui:::reset.reactive.values(rv_values)
+    openPrimeRui:::reset.reactive.values(rv_templates, keep = c("SeqTab", "raw_seqs"))  # templates not valid anymore
+    openPrimeRui:::reset.reactive.values(rv_primers, keep = c("PrimerTab", "all"))  # retain reactive values that were just loaded on input, clean all others
     if ("primer_coverage" %in% colnames(input.primers())) {
         # special case for csv: don't reset evaluated constraints
         # update cvg in templates:
@@ -425,9 +425,9 @@ primerInvalidationObserver <- observeEvent(input.primers(), {
 })
 templateInvalidationObserver <- observeEvent(c(seq.data.input()), {
     # Invalidate previously computed rv_values when templates or binding regions
-    reset.reactive.values(rv_values)
-    reset.reactive.values(rv_templates, keep = c("SeqTab", "raw_seqs"))  # templates not valid anymore
-    reset.reactive.values(rv_primers) # invalidate loaded primer data when templates change
+    openPrimeRui:::reset.reactive.values(rv_values)
+    openPrimeRui:::reset.reactive.values(rv_templates, keep = c("SeqTab", "raw_seqs"))  # templates not valid anymore
+    openPrimeRui:::reset.reactive.values(rv_primers) # invalidate loaded primer data when templates change
     rv_cur.input.data$primers <- NULL # don't load old primer data in primer.data() function
 
 })

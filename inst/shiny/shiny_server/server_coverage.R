@@ -220,7 +220,7 @@ output$CoverageTotal <- renderUI({
 output$ConstraintsTotal <- renderUI({
     Tm.info <- cur.Tm.info()
     if (length(Tm.info) != 0) {
-        Tm.text <- paste("<li>", create.Tm.text(Tm.info$Tm_range, Tm.info$Tm_diff), "</li>", sep = "")
+        Tm.text <- paste("<li>", openPrimeRui:::create.Tm.text(Tm.info$Tm_range, Tm.info$Tm_diff), "</li>", sep = "")
     } else {
         Tm.text <- ""
     }
@@ -789,7 +789,7 @@ display.mismatch.table <- reactive({
                 table <- mismatch.table.rev()
             }
         })
-        return(view.mismatch.table(table))
+        return(openPrimeRui:::view.mismatch.table(table))
     })
 output$mismatch_table <- DT::renderDataTable(
     # shows the currently selected mismatch table 
