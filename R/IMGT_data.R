@@ -1,6 +1,7 @@
 call.IMGT.settings.script <- function(imgt.settings.location) {
     # calls the IMGT settings script to generate output files for 'get.IMGT.settings'
-    script.location <- file.path(server.src.folder, "extra_IMGT_template_options.py")
+    script.location <- system.file("shiny", "shiny_server", 
+                        "extra_IMGT_template_options.py", package = "openPrimeRui")
     # args: phantomjs, out-folder
     phantomjs.loc <- Sys.which("phantomjs")
     if (phantomjs.loc == "") {
@@ -15,7 +16,8 @@ call.IMGT.settings.script <- function(imgt.settings.location) {
 get.IMGT.settings <- function() {
     # use a python script to retrieve possible IMGT input options for shiny frontend
     # options are stored in files and are read into R
-    imgt.settings.location <- file.path(app.data.folder, "IMGT_options")
+    imgt.settings.location <- system.file("extdata", "IMGT_options",
+                                          package = "openPrimeR")
     if (!dir.exists(imgt.settings.location)) {
         # only retrieve options from IMGT when they aren't available yet
         dir.create(imgt.settings.location)
@@ -59,7 +61,9 @@ retrieve.IMGT.templates <- function(species, locus, func, refresh, rm.partials =
         # don't recompute if results are already available.
         return(ret)
     }
-    imgt.script <- file.path(server.src.folder, "extra_IMGT_template_set_extractor.py")
+    imgt.script <- system.file("shiny", "shiny_server", 
+                    "extra_IMGT_template_set_extractor.py", 
+                    package = "openPrimeRui")
     if (Sys.which("phantomjs") == "") {
         warning("PhantomJS is not in your path. Please install it.")
         return(NULL)

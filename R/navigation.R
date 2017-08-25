@@ -1,17 +1,6 @@
 #######################
 # Functions for navigating through the app
 #####################
-switch.primer.view <- function(current.tab) {
-    # switches to the Primers tab if 'current.tab' is not in 'PRIMER.TABS'
-    print("DEPRECATED")
-    #   current.tab: currently selected main tab in UI
-    if (current.tab %in% PRIMER.TABS) {
-        return(current.tab)
-    } else {
-        return("Primers")
-    }
-}
-
 unset.subprocess.busy <- function(session) {
     # unset busy status (computations are done)
     # remove the busy class (modal can be closed by user, blue background (style.css) disappears.

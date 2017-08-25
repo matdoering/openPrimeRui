@@ -26,18 +26,5 @@ startApp <- function() {
         appDir, "\n", 
         "Try re-installing the 'openPrimeR' package.", call. = FALSE))
     }
-    # We need to check for all shiny dependencies here, since they are on the "Suggests" pkg list.
-    shiny.dependencies <- c("shiny", "shinyBS",
-                            "shinyjs", "DT")
-    available.deps <- sapply(shiny.dependencies, function(x)
-                        requireNamespace(x))
-    if (all(available.deps)) { 
-        shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
-    } else {
-        msg <- paste("Cannot start the shiny App. The following ",
-                    "R extensions are missing: ", 
-                    paste(shiny.dependencies[!available.deps], collapse = ","),
-                    ". Please install them first.", sep = "")
-        stop(msg)
-    }
+    shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
 } 
