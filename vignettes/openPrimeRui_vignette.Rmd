@@ -1,0 +1,32 @@
+---
+title: "The openPrimeR Shiny user interface"
+author: "Matthias Döring"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{openPrimeRui}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r vignette_options, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(openPrimeRui)
+```
+
+openPrimeRui provides a Shiny application that provides functionalities for designing and analyzing multiplex polymerase chain reaction (PCR) primers. In the following, we give an overview of how the user-interface can be used for the main application scenarios of the tool: evaluating a primer set, comparing primer sets, and designing novel primer sets.
+
+# Preliminaries
+
+`openPrimeRui` provides a user-interface to the funcionalities that are provided by the `openPrimeR` package. Therefore, `openPrimeR` is automatically installed when installing `openPrimeRui`. Note that `openPrimeR` requires external tools for some of its functionalities; please take a look at the dependencies of the package, which are described in the openPrimeR vignette. In case that external tools are missing, the Shiny application will automatically create a pop-up informing you about the missing dependencies.
+
+# Starting the Shiny app
+
+`openPrimeRui` exports only a single function, `startApp()`, which is used to start the openPrimeR shiny application:
+
+```{r check_dependencies, message = FALSE, warning = FALSE, eval = FALSE}
+library(openPrimeR)
+startApp()
+```
+
+Calling `startApp()` should open the Shiny application as a new tab in your default browser. If this is not the case, please consider the console output and manually open the displayed URL in your preferred web browser.
