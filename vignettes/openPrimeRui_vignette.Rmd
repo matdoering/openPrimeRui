@@ -91,6 +91,136 @@ In contrast to the action panel, the view panel can be navigated freely without 
 * **Settings:** Overview of loaded analysis settings.
 * **Help:** Internal help pages of the tool.
 
-With this, we have covered the core elements of the user interface, which do not change dynamically. In the following will give an overview of the tool with regard to individual analysis modes. Note that we will not cover all available elements of the user interface here due to the complexity of the tool.
+With this, we have covered the core elements of the user interface, which do not change dynamically. In the following will give an overview of the tool with regard to the required steps for each analysis mode. Note that we will not cover all available elements of the user interface here due to the complexity of the tool.
 
-# Evaluating a set of primers
+# Templates
+All analyses start with the upload of a set of templates. You can either simply load one of the supplied sets of templates or you can supply your own template sequences. You can select your choices via the the template source selector:
+
+![The template source selector](screenshots/template_source_evaluate.png)
+
+## Loading supplied template sequences
+If you are loading a supplied set of templates, you can simply specify the type of template sequences to load. For example, to load immunological template sequences, you can select `Immunology` in the template type selector and then select the species, locus, and function of the immunoglobulin sequences you would like to retrieve with the `Retrieve templates` button. 
+
+![Input of supplied immunological templates](screenshots/IMGT_template_input.png)
+
+## Loading personal template sequences
+
+Loading personal templates is possible in two ways: by supplying a FASTA file containing the template sequences or by loading a CSV file containing a set of templates that was loaded into openPrimeR. For FASTA input, it may be beneficial to load the metadata encoded in the headers of the template FASTA file. In particular, if you want to interpret the analysis results with respect to groupings of the templates, you should make sure that you specify the `GROUP` field correctly.
+
+For a better understanding, let's consider the following FASTA header:
+
+> \>K03455_SubtypeB_HIV-1
+
+This sample has a header structure consisting of `ACCESSION`, `GROUP`, and `SPECIES`, where each field is delimited by an underscore (`_`). Hence, we would define the following header structure in the tool:
+
+![Defining the structure of the FASTA header](screenshots/template_input_basic.png)
+
+Having defined the header structure correctly, you can upload the templates via the template file selector:
+
+![The template file selector](screenshots/template_file_selector.png)
+
+## Defining the target binding regions
+
+Next, you should define the target binding regions of the primers in the templates, which is done through the `Allowed regions` panel. Here, you can either provide template-specific binding regions or uniform binding ranges. To define individual template binding regions, you can supply FASTA files providing the binding regions for forward and reverse primers.
+
+![Specifying individual binding regions](screenshots/template_allowed_regions.png)
+
+Uniform binding ranges are specified in the form of intervals relative to the 5' end for forward primers and relative to the 3' end for reverse primers. For example, a forward binding interval of [1,30] indicates the the forward primers should bind to the first 30 bases of the templates, while a reverse binding interval of [1,40] indicates the the reverse primers should bind in the last 40 bases of the templates. Adjustments come into effect when the `Update binding regions` button is pressed.
+
+![Specifying uniform binding ranges](screenshots/template_allowed_regions_uniform.png)
+
+## Loading templates for comparison
+
+For comparing primer sets, the input of templates is slightly different to the othe other modes. Again, you can choose to either load supplied or personal templates. This time, however, the template sequences have to be provided as CSV files representing sets of templates that have been previously loaded by openPrimeR. You can obtain a CSV file for the template sequences using the download tab by selecting the following settings:
+
+![Downloading template sequences](screenshots/download_templates.png)
+
+If all the primer sets that you would like to compare relate to the same template sequences it is sufficient to load a single template set. If, however, the primer sets relate to different template sets, it is necessary to provide one set of templates for every input primer set.
+
+## The templates tab
+
+Once you have loaded template sequences in the evaluation/design modes, the loaded data are shown in the templates tab. Apart from the basic information on the templates such as their identifiers and sequences, you can find the defined binding regions in the templates table. For example, the columns `Allowed Binding Range (fw)` and `Allowed Binding Range (rev)` provide the defined binding ranges of forward and reverse primers, respectively. You can view additional information on the templates by clicking on the green `+` icon. Note that the templates table is annotated with the coverage information, once an analysis has been performed.
+
+![Excerpt of the templates table](screenshots/template_table.png)
+
+You can use the templates tab to verify that the correct sequences were loaded and correctly annotated.
+
+# Primers
+
+The content of the primers tab is quite different depending on the analysis mode. In the following, we cover the contents of this tab for every analysis mode individually.
+
+## Primers: evaluation
+When choosing to load supplied sets of primers, you can either load them in their evaluated form (i.e. annotated with computation results) or in their raw form. The same goes for your own sets of primers, which can be uploaded either in FASTA format or in CSV format if a primer set has already been evaluated previously. When uploading a CSV file that was downloaded from the openPrimeR app, no additional configuration is necessary. 
+
+For FASTA input, on the other hand, you still need to provide identifiers for the directionalities of the primers. In the following screenshot, the annotation means that all forward primers contain the keyword `_fw` in their FASTA headers, while all reverse primers contain the keyword `_rev`. Pairs of primers can be identified by providing two oligomers with matching FASTA headers except for their directionality keywords.
+
+![Upload of personal primers](screenshots/primers_personal.png)
+
+After uploading a set of primers either as a CSV or FASTA file, information on the primers is shown in the primers tab.
+
+## The primers tab
+
+The primers tab shows all information pertaining the loaded primers. The directionalities of the primers are color-coded such that forward primers, reverse primers, and pairs of primers can be distinguished easily. 
+
+The `Coverage mode` status indicator shows how the coverage of the templates is computed. If primers of both directionalities (forward and reverse) are provided, the coverage mode is `both`. In this case, a template is considered covered if there is at least one forward and at least one reverse primer covering the template. Otherwise, if only primers of a single directionality (either forward or reverse) are provided, a single primer covering a template is sufficient.
+
+After the coverage has been evaluated, you can switch to viewing individual coverage events via the `Show individual primer coverage` selector. Again, more information can be obtained by clicking on the green `+` in front of each row in the table.
+
+![The primers tab](screenshots/primer_tab.png)
+
+## Primers: design
+
+When designing primers, the primers panel is used to specify the desired properties of the primers. The two most important considerations are the following:
+
+* **Template sequence relationship:** Specify whether the template sequences are related or rather divergent. For related template sequences, degenerate oligomers are constructed in an effort to improve the coverage of individual primers. For divergent templates, on the other hand, primers are initialized as substrings from the input templates.
+* **Target strands for design:** This selector determines whether primers are designed for both DNA strands such that forward and reverse primers are designed or whether only primers for a single strand (either forward or reverse) shall be constructed.
+
+![Specifying the primer properties for primer design](screenshots/primers_design.png)
+
+## Primers: comparison
+
+Primer sets for comparison can be supplied only in their evaluated form. Hence, when you load a set of supplied primers, these primers are already evaluated. Similarly, you should provide your own primer sets as CSV files, which were stored using openPrimeR. You can load several sets of primers by either successively loading individual CSV files or selecting multiple CSV files at once. Once you have uploaded a set of primers, the comparison tab provides an overview of all loaded template and primer sets by providing the coverage of each set. 
+
+![Overview of loaded primers and templates for comparison](screenshots/comparison_overview.png)
+
+# Settings
+
+Having supplied both templates and primers, the next step is the definition of the analysis settings. The analysis settings define the properties of the primers that are considered, how the coverage is computed, and allows you to provide the conditions under which you perform PCR. The first choice you have to make is whether you want to load one of the provided default settings or load your personal settings. 
+
+![Loading the analysis settings](screenshots/settings_choice.png)
+
+Personal settings can be provided as XMLs files, which can be retrieved using the app's download panel. Having loaded a settings file, an overview of the currently active settings is shown in the settings tab.
+
+## Coverage conditions
+
+The coverage conditions define under which circumstantes a template sequence is considered to be covered by a primer. We differentiate betweeen basic and extended coverage conditions. 
+
+### Basic coverage conditions
+
+The basic coverage conditions define where the primers should bind as well as the minimal required complementarity between primers and templates. By default, the coverage of primers is evaluated indepedent of their binding region, that is, the full template sequence is considered to yield desired coverage events. To consider only coverage events in the target regions as intended coverage events, you can set the ratio of allowed off-target binding events to 0%. Independent of this selection, the specificity of the primers is evaluated with respect to the number of primers binding the target region vs those binding off-target. 
+
+Another very important parameter is the maximal number of allowed mismatches between primers and templates. This setting limits the potential number of coverage events that can be detected. For example, if you set the number of allowed mismatches to 0, it is only possible to identify all binding modes where templates and primers are 100% complementary. To capture also mismatch binding events, a larger number of allowed mismatches is required. For example, if the maximal number of allowed mismatches is set to 7, according to the basic coverage conditions, all binding events with less or equal to 7 mismatches would yield valid coverage events. Obviously, this definition would be problematic because it is well known that the efficiency of amplification decreases with the number of mismatches between primers and templates. This is where the extended coverage conditions come into play. When allowing for multiple mismatches, their job is to select only those coverage events that are likely to be actual amplification events.
+
+![The basic coverage conditions](screenshots/coverage_basic.png)
+
+### Extended coverage conditions
+
+When allowing for multiple mismatches between primers and templates it is crucial that suitable extended coverage conditions are selected in order to yield only confident calls of coverage events. The extended coverage conditions can be divided into two groups: conditions relating to the success of amplification (*binding conditions*) and those relating to additional requirements (*codon design*). The following binding conditions are available:
+
+![Primer binding conditions](screenshots/binding_conditions.png)
+
+Each active binding condition is used to limit the number of identified coverage events. For example, you can select a cutoff on the minimal free energy of annealing between primers and templates, which indicates how likely primers and templates form a duplex. Since the success of amplification also depends on the binding of the polymerase, it is important to consider terminal mismatches as well. For instance, you could add a filter on mismatches occurring in terminal hexamers or you could choose a coverage model that takes into account both, likelihood of binding and elongation. `Amplification efficiency` provides the thermodynamic model of [DECIPHER](https://bioconductor.org/packages/release/bioc/html/DECIPHER.html), while `Coverage model` is based on a novel logistic regression model that estimates the rate of falsely called coverage events.
+
+The codon design options specify which mismatch binding events are allowed and which are forbidden. For example, you may want to exclude mismatch binding events that would introduce stop codons or other mutations into the amino acid sequence corresponding to the amplicons.
+
+## Constraints
+
+Using the constraints panel, you can customize the properties of the primers that are computed and define constraints on these properties. The *Setting* column defines the desired values for every property such that a primer is considered to pass a constraint if its property values are within the desired range; otherwise the primer is considered to fail the constraint. The *Limit* column is important for the primer design procedure, where the defined constraint ranges may be adjusted in order to reach the target coverage. Let us consider the setting for the GC clamp in the following screenshot:
+
+![Excerpt of the available constraints](screenshots/settings_constraints.png)
+
+Since the target range is [1,3] and the limit is set to [0,4], the design procedure would change the target range from [1,3] to [0,4] in the first relaxation, from [0,4] to [0,5] in the second relaxation, and so on. Hence, the difference between the target range and the limit range defines the step size during individual relaxations. If the constraint limit is identical to the specified target range, no relaxation is performed. Properties for which no limits can be specified are never relaxed.
+
+## PCR conditions
+
+![Specifying the PCR conditions](screenshots/PCR_conditions.png)

@@ -17,7 +17,8 @@ tabPanel("Templates",
     ),
     ### template scenario selector (template source)
     radioButtons("template_scenario", 
-                tagList(icon("flask"), "Template source"), 
+                tagList(icon("floppy-disk", lib = "glyphicon"),
+                "Template source"), 
                 choices = c("Available" = "supplied",
                             "Personal" = "personal"), 
                 selected = "supplied", inline=TRUE
