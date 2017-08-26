@@ -154,7 +154,10 @@ When choosing to load supplied sets of primers, you can either load them in thei
 
 For FASTA input, on the other hand, you still need to provide identifiers for the directionalities of the primers. In the following screenshot, the annotation means that all forward primers contain the keyword `_fw` in their FASTA headers, while all reverse primers contain the keyword `_rev`. Pairs of primers can be identified by providing two oligomers with matching FASTA headers except for their directionality keywords.
 
+When providing a FASTA file as the input, you can also specify how IUPAC how ambiguities in the primers are to be treated. By default, ambiguous IUPAC bases are loaded as they are, but you can also choose to merge primers using ambiguous bases if possible or disambiguate the input oligomers. 
+
 ![Upload of personal primers](screenshots/primers_personal.png)
+
 
 After uploading a set of primers either as a CSV or FASTA file, information on the primers is shown in the primers tab.
 
