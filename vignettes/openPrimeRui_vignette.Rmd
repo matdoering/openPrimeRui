@@ -158,7 +158,6 @@ When providing a FASTA file as the input, you can also specify how IUPAC how amb
 
 ![Upload of personal primers](screenshots/primers_personal.png)
 
-
 After uploading a set of primers either as a CSV or FASTA file, information on the primers is shown in the primers tab.
 
 ## The primers tab
@@ -226,4 +225,73 @@ Since the target range is [1,3] and the limit is set to [0,4], the design proced
 
 ## PCR conditions
 
+The PCR conditions should match the conditions under which the PCR is to be performed in the laboratory. This is important because thermodynamic computations rely on the specified temperature as well as the concentrations of the ions that are used for PCR.
+
 ![Specifying the PCR conditions](screenshots/PCR_conditions.png)
+
+# Evaluation of a set of primers
+
+When evaluating a set of primers, the two most important functions are computing the primer properties and filtering a set of primers.
+
+Computing the properties of a primer set means that the primer set is evaluated according to all active constraints and it is annotated whether a primer fulfilled or failed a certain constraint. In contrast, filtering retains only those primers fulfilling all constraints and primers breaking any of the active constraints are discarded. You can switch between the results from computing the properties of the primers and filtering by selecting *All data* or *Filtered data* in the set selector, respectively.
+
+A tabular overview of all computed properties can be obtained from the primers tab:
+
+![An annotated set of primers](screenshots/primers_tab_evaluation.png)
+
+In this case, we see the following information:
+
+* **Coverage:** The percentage of template sequences that are covered by the primer
+* **Mismatches:** The number of mismatches with which the primer covers the templates
+* **Relative Binding Range:** The positions relative to the target binding range where the primer covers the templates
+* **$T_m$**: The melting temperature of the primer
+* **$\Delta T_m$**: The maximal melting temperature between the selected primer and another primer
+* **Self Dimer $\Delta G$**: The free energy of self dimerization
+* **Cross Dimer $\Delta G$**: The maximal free energy of a cross-dimerizing conformation
+
+## The coverage tab
+
+Information on the coverage of the primers can be found in the coverage tab. For example, one can find information about the number of covered templates per group, the coverage of individual primers, or the binding regions of the primers. The first page of the coverage tab gives an overview of the number of sequences that are covered per group of templates under different coverage conditions. The *expected coverage* provides the number of templates that is expected to be covered under the current coverage constraints. The *identity coverage* on the other hand, only considers coverage events from primers that bind without any mismatches. In the provided coverage visualization, three types of bars are shown: light blue bars show the stringent identity coverage, dark blue bars show the expected coverage, and grey bars indicate the number of available template sequences.
+
+![The first page of the coverage tab](screenshots/coverage_tab.png)
+
+In the illustrated plot, we can see that the loaded primer set has nearly 60% coverage. However, the coverage of template groups of IGHV1, IGHV3, and IGHV7 is particularly lacking. Furthermore, we find that only IGHV4 and IGHV5 have high identitiy coverages, which could indicate lower PCR efficiencies for the other groups of templates.
+
+## The constraints tab
+
+Using the constraints tab, you can gain insights into the properties of the primers and whether they fulfill the currently selected constraints. The first page of the constraints tab provides the melting temperature range of the primers and uses a matrix-style visualization to show which constraints a primer fulfills (blue) and which constraints are broken by a primer (red). The plot features a p-value that indicates how likely it is to find a primer set whose rate of constraint fulfillment is higher than the fulfillment rate of a collection of reference primer sets from the literature by chance. Hence, primer sets with significant p-values indicate primer sets that fulfill the defined constraints extaordinarily well. 
+
+![The first page of the constraints tab](screenshots/constraints_tab.png)
+
+Using the exemplary constraint fulfillment plot, we can see that the primer set breaks several constraints. Most markedly, the allowed maximal difference in melting temperatures is broken by every primer in the set.
+
+
+# Comparing primer sets
+
+For the comparison of multiple primer sets with each other, a single click on the *Compare primer sets* button suffices. After this, several visualizations for side-by-side comparison are available. For example, we can visualize the binding positions of the primers relative to the target binding region. At the bottom of each plot, a blue rectangle and a red rectangle is shown. The blue rectangle indicates the target binding region and the red rectangle indicates the region following the target binding region. The number of coverage events are then plotted as bars, where every bar color correspdonds to an individual primer. The extent of the bars indicate the binding positions of the primers. In the following exemplary plot, we have compared the binding regions of primers that we designed for IGHV and of primers that were developed by Scheid et al. for the same sequences. In this case, we defined the leader as the binding region and we can clearly see that both sets of primers target the same region. One difference, however, is that the primers we designed bind only to the start of the leader, while the primers designed by Scheid et al. span the full range of the leader. We can also see that the set from Scheid et al. has a larger number of coverage events (higher bars) than our set.
+
+![Binding region comparison](screenshots/comparison_binding.png)
+
+Another interesting aspect to compare is the rate and degree with which the primers in each set deviate from the constraints. For this purpose, the constraint deviation plot can be used. This plot shows the absolute deviation of each primer from every computed property as a box plot, where thick the lower part of the box indicates the first quartile, the horizontal line indicates the median, and the upper part of the box indicates the third quartile. The deviations for each constraint are shown in a specific color.
+
+![Constraint deviation plot](screenshots/comparison_constraints.png)
+
+In this case, the plot reveals that the set from Scheid has greater deviations from the selected constraints than our primer set. The two constraints that deviate most from the desired values are the GC clamp and the maximal melting temperature difference between the primers. Particularly the large difference in melting temperatures may lead to problems during PCR.
+
+# Designing primer sets
+
+When designing primers, you can choose between two different algorithms for optimizing primer sets. You can either select a greedy algorithm or an integer linear program for solving the set cover problem. The greedy algorithm guarantees a faster runtime but may yield larger primer sets than the integer linear program, which, however may require more runtime. Having selected an optimization algorithm, you should think about whether you would like to relax the defined constraints in order to reach a certain coverage. If you would like to relax the constraints to reach 100% coverage, then you do not have to do anything. If you require only a smaller coverage of templates, you may change the target coverage, which defines the coverage rate at which the relaxation procedure is triggered. If you do not want to relax the constraints at all, you can just disable the constraint relaxation completely. Note, however, that in this case there are no guarantees on the coverage of the designed primer set.
+
+![Setup for primer design](screenshots/design_setup.png)
+
+Having defined the primer design settings, you can click on *Design primers* to create a new set of primers. When clicking on this button, a pop-up will open such that the design parameters can be verified. In this pop-up you're also provided the opportunity to estimate the difficulty of the primer design problem. Here, *difficulty* refers to the expected number of primers that are required to cover the templates. For example, a set of templates that can be covered by four primers poses an easy primer design problem, while a set of templates requiring 50 primers poses a hard primer design problem. To check the difficulty of your primer design problem, you can click on *Evaluate problem difficulty*. Once the computations are complete, a traffic light will be displayed such that easy problems correspond to a green, intermediate problems to a yellow, and hard problems to a red light.
+
+![Verification of primer design settings](screenshots/design_verification.png)
+
+In this case, we see a green light, which means that we can go ahead with designing primers. In case of a red light one should consider modifying the posed primer design problem, for instance by selecting a subset of templates or changing the binding regions, in order to obtain a reasonable set of primers. The primer design procedure is started by clicking on the *Go!* button. After the computations are finished, the properties of the designed primer set can be determined using the same tabs as when evaluating a set of primers.
+
+# Creating reports
+
+Using the download panel, it is possible to store many of the generated results. We would like to highlight the availability of a reporting feature, which generates PDF reports for primer evaluation (*Evaluation Report*) and comparison (*Comparison Report*). The next image shows an excerpt from the first page of the comparison report, which summarizes the results of comparing multiple primer sets with each other.
+
+![First page of the comparison report](screenshots/report_comparison.png)

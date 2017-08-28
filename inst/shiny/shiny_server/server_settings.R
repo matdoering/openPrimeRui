@@ -3,6 +3,8 @@
 ############
 CoreObserver <- observeEvent(input$no_of_cores, {
     # the used number of cores by the tool.
+    print("CoreObserver: no of cores")
+    print(input$no_of_cores)
     doParallel.available <- requireNamespace("doParallel", quietly = TRUE)
 	is.win <- grepl("windows", .Platform$OS.type)
     if (doParallel.available && !is.win) { # no parallel support for m$

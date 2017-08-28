@@ -795,7 +795,7 @@ tabPanel("Settings", value = "constraint_panel",
                     tagList(icon = icon("tachometer"),
                         "Number of used computer processors"), 
                         min = 1, max = parallel::detectCores(), 
-                        value = parallel::detectCores(), step = 1
+                        value = min(parallel::detectCores(), 2), step = 1
                 ),
                 bsTooltip("no_of_cores", 
                     "The number of CPU cores to be used for parallel computations.",
