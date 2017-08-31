@@ -3,8 +3,6 @@
 ############
 CoreObserver <- observeEvent(input$no_of_cores, {
     # the used number of cores by the tool.
-    print("CoreObserver: no of cores")
-    print(input$no_of_cores)
     doParallel.available <- requireNamespace("doParallel", quietly = TRUE)
 	is.win <- grepl("windows", .Platform$OS.type)
     if (doParallel.available && !is.win) { # no parallel support for m$
@@ -107,8 +105,8 @@ annealing.temperature <- reactive({
                                 template.data, Na.concentration(), Mg.concentration(), K.concentration(), 
                                 Tris.concentration(), primer.concentration()), silent = TRUE)
         #print("ANNEALING TEMPERATURE COMPUTED")
-        if (class(annealing.temp) == "try-error") { # T_a can't be computed because coverage isnt' available yet
-            Ta <- NULL # Ta will be computed by the backend when it's possible & necessary
+        if (class(annealing.temp) == "try-error") { # Ta culdn't be computed
+            Ta <- NULL
         } else {
             Ta <- annealing.temp
         }

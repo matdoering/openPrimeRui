@@ -117,7 +117,21 @@ tabPanel("Analyze",
                  div(p("The selected primer binding regions in the template sequences may not be well-suited for designing primers in case that they are subject to the formation of secondary structures of if they are not highly conserved. In these cases, you can obtain better results if you narrow down the possible primer binding range by considering these two factors."),
             class = "two"
                 ),
-        # optimization of binding region: template secondary structure 
+            ###########
+            # TODO: maybe dynamically update this based on current binding region
+            sliderInput("minimal_region_length_opti", 
+                label = tagList(icon("arrow-right", lib = "glyphicon"),
+                    "Minimal binding region extent"), 
+                min = 1, 
+                max = 500, 
+                value = 25
+            ),
+             bsTooltip("minimal_region_length_opti", 
+                       "The minimal length of the adjusted binding regions.",
+                        options = list(container = "body")
+            ),
+            ###########
+            # optimization of binding region: template secondary structure 
             actionButton("modify_binding_regions_secondary_structures", "Avoid secondary structures", icon = icon("eraser"), class = "actionStyleRun btn-primary"), 
             bsTooltip("modify_binding_regions_secondary_structures", 
                  "Adjust the primer binding regions such that regions exhibiting secondary structures  are avoided.",

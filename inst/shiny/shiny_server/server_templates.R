@@ -251,7 +251,6 @@ selected.individual.allowed.regions <- eventReactive(input$individual_region_con
     }
     result <- list("fw" = fw,
                "rev" = rev)
-
     return(result)
 }, ignoreNULL = FALSE) # trigger initially to return NULL value when confirm button was not pressed.
 
@@ -556,8 +555,12 @@ optimized.regions.structure <- eventReactive(input$modify_binding_regions_second
     if (input$modify_binding_regions_secondary_structures == 0 || length(get.exon.data()) == 0) { # no target region annotation available ...
         return(NULL)
     }
-    isolate(annealing.temp <- annealing.temperature()) # don't trigger
-    result <- openPrimeR:::optimize.template.binding.regions.dir(get.exon.data(), annealing.temp, input$allowed_primer_length, input$design_direction)
+    annealing.temp <- isolate(annealing.temperature()) # don't trigger
+    if (length(annealing.temp) != 0) {
+        # can only compute with a single Ta
+        annealing.temp <- min(annealing.temp)
+    }
+    result <- openPrimeR:::optimize.template.binding.regions.dir(get.exon.data(), annealing.temp, input$minimal_region_length_opti, input$design_direction) # TODO: specify minimal region length
     # result: consists of 'Intervals' (new binding regions) and 'Foldings' (data frame with DeltaG information)
     if (length(result) == 0) { # nothing could be changed (no regions defined)
         return()
@@ -587,7 +590,7 @@ optimized.regions.conservation <- eventReactive(input$modify_binding_regions_con
     }
     result <- openPrimeR:::select_regions_by_conservation(get.exon.data(), 
                                     gap.char = isolate(gap_char()),
-                                    win.len = 40, by.group = TRUE,
+                                    win.len = input$minimal_region_length_opti, by.group = TRUE,
                                     direction = input$design_drection)
     if (length(result) == 0) { # nothing could be changed (no regions defined)
         return()
