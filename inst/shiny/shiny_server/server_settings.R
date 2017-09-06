@@ -5,15 +5,19 @@ CoreObserver <- observeEvent(input$no_of_cores, {
     # the used number of cores by the tool.
     doParallel.available <- requireNamespace("doParallel", quietly = TRUE)
 	is.win <- grepl("windows", .Platform$OS.type)
-    if (doParallel.available && !is.win) { # no parallel support for m$
+    # TODO: primer cvg computation: unserialize error under windows only for the frontend!
+    if (doParallel.available && !is.win) {
         doParallel::registerDoParallel(cores = min(input$no_of_cores, parallel::detectCores()))
     } else {
         # doParallel isn't available
         # disable slider and don't register the parallel backend
 		if (is.win) {
-			warning("parallel backend not available for windows.")
+            if (doParallel.available) {
+                doParallel::registerDoParallel(cores = 1)
+            }
+			warning("Parallelization disabled for Shiny app under windows.")
 		} else {
-			warning("doParallel not available: using 1 core only.")
+	        warning("doParallel not available: no parallelization possible.")
 		}
         shinyjs::disable("no_of_cores")
     }
