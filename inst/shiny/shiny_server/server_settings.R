@@ -11,7 +11,7 @@ CoreObserver <- observeEvent(input$no_of_cores, {
         # doParallel isn't available or windows is used ->
         # disable slider and don't register the parallel backend
     } else if (is.win && doParallel.available) {
-        doParallel::registerDoSEQ() # ensure that foreach runs sequentially
+        foreach::registerDoSEQ() # ensure that foreach runs sequentially
         warning("Parallelization disabled for Shiny app under windows.")
         shinyjs::disable("no_of_cores")
     } else if (!doParallel.available) {
