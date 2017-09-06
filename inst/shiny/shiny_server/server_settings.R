@@ -4,16 +4,12 @@
 CoreObserver <- observeEvent(input$no_of_cores, {
     # the used number of cores by the tool.
     doParallel.available <- requireNamespace("doParallel", quietly = TRUE)
-	is.win <- grepl("windows", .Platform$OS.type)
-    # TODO: primer cvg computation: unserialize error under windows only for the frontend!
-    if (doParallel.available && !is.win) {
+    # primer cvg computation: unserialize error under windows was due to 'updateProgress' -> don't use in foreach loops ...
+    if (doParallel.available) {
+		#cores <- 2
+		#cl <- parallel::makeCluster(cores, outfile = "PARALLEL_LOG_CHECK.txt")
+		#doParallel::registerDoParallel(cl)
         doParallel::registerDoParallel(cores = min(input$no_of_cores, parallel::detectCores()))
-        # doParallel isn't available or windows is used ->
-        # disable slider and don't register the parallel backend
-    } else if (is.win && doParallel.available) {
-        foreach::registerDoSEQ() # ensure that foreach runs sequentially
-        warning("Parallelization disabled for Shiny app under windows.")
-        shinyjs::disable("no_of_cores")
     } else if (!doParallel.available) {
 	    warning("doParallel not available: no parallelization possible.")
         shinyjs::disable("no_of_cores")
