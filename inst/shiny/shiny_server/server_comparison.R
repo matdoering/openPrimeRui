@@ -231,7 +231,7 @@ read.compare.primers <- reactive({
             error <- data$errors[[i]]
             print(error)
             if (inherits(error, "TemplateFormatIncorrect")) {
-                toggleModal(session, "TemplateFormatIncorrect")
+                shinyBS::toggleModal(session, "TemplateFormatIncorrect")
             }
         }
         if (length(rv_values$comparison_primer_path$datapath) == 1) {
@@ -275,7 +275,7 @@ read.comparison.templates <- reactive({
         error <- data$errors[[i]]
         print(error)
         if (inherits(error, "TemplateFormatIncorrect")) {
-            toggleModal(session, "TemplateFormatIncorrect")
+            shinyBS::toggleModal(session, "TemplateFormatIncorrect")
         }
     }
     if (length(rv_comparison.data$comparison_template_path$datapath) == 1) {

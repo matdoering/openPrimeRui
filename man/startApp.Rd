@@ -27,4 +27,8 @@ all suggested dependencies.
 \dontrun{
 startApp()
 }
+# Only run this example in interactive R sessions:
+if (interactive()) {
+ startApp()
+}
 }

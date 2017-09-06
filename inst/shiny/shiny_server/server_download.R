@@ -9,7 +9,7 @@ observeEvent(input$downloadDataSet, {
 		deps <- openPrimeR:::check_report_deps()
 		if (any(!deps)) {
 			# any depdency is missing
-			toggleModal(session, "MissingReportDeps")
+			shinyBS::toggleModal(session, "MissingReportDeps")
 		}
 	}
 })

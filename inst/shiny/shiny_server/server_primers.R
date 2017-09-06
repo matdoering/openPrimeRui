@@ -50,21 +50,21 @@ input.primers <- reactive({
         error <- primers$errors[[i]]
         print(error)
         if (inherits(error, "NotifyPrimersNoDirection")) {
-            toggleModal(session, "NotifyPrimersNoDirection")
+            shinyBS::toggleModal(session, "NotifyPrimersNoDirection")
         } else if (inherits(error, "FastaAlphabetError")) {
-            toggleModal(session, "FastaAlphabetError")   
+            shinyBS::toggleModal(session, "FastaAlphabetError")   
         } else if (inherits(error, "TemplateFormatIncorrect")) {
-            toggleModal(session, "TemplateFormatIncorrect")
+            shinyBS::toggleModal(session, "TemplateFormatIncorrect")
         } else {
-            toggleModal(session, "TemplateFormatIncorrect")
+            shinyBS::toggleModal(session, "TemplateFormatIncorrect")
         }
     }
     for (i in seq_along(primers$warnings)) {
         warning <- primers$warnings[[i]]
         if (inherits(warning, "NotifyPrimersMissingKeyword")) {
-            toggleModal(session, "NotifyPrimersMissingKeyword")
+            shinyBS::toggleModal(session, "NotifyPrimersMissingKeyword")
         } else if (inherits(warning, "NotifyPrimersDuplicateDirections")) {
-            toggleModal(session, "NotifyPRimersDuplicateDirections")
+            shinyBS::toggleModal(session, "NotifyPRimersDuplicateDirections")
         }
     }
     if (length(primers$errors) != 0) {
@@ -97,9 +97,9 @@ AdapterModalObserver <- observeEvent(input$check_adapters, {
     if (length(sites) != 0 && nrow(sites) != 0) {
         ## trigger modal for adapter display
             # modal for adapter check:
-        toggleModal(session, "AdapterModal")  # show modal when selection changes
+        shinyBS::toggleModal(session, "AdapterModal")  # show modal when selection changes
     } else {
-        toggleModal(session, "NoAdapterModal")
+        shinyBS::toggleModal(session, "NoAdapterModal")
     }
 })
 primer.restriction.sites <- reactive({
@@ -397,7 +397,7 @@ cur_primer_detail <- reactive({ # think of a table layout? TODO or do something 
         #sel.ID <- input$PrimerTab_row_last_clicked  # last clicked row: since ID is the first column, we need to match to ID
         ## store in reactive rv_values to access by reactive function
         #rv_primers$selected_idx <- as.numeric(sel.ID)  # only works if rownames are reset to 1:N
-        #toggleModal(session, "PrimerDetail")  # show modal when selection changes
+        #shinyBS::toggleModal(session, "PrimerDetail")  # show modal when selection changes
     #}
 #})
 ###################
@@ -492,7 +492,7 @@ problem.difficulty <- eventReactive(input$evaluate_difficulty, {
     for (i in seq_along(design.diff$warnings)) {
         warning <- design.diff$warnings[[i]]
         if (inherits(warning, "ProblemEstimationProblem")) {
-            toggleModal(session, "ProblemEstimationProblem")
+            shinyBS::toggleModal(session, "ProblemEstimationProblem")
         }
         warning(warning)
     }
@@ -536,7 +536,7 @@ optimal.primer.data <- observeEvent(input$optimizeButton, {
         return(NULL)
     }
     # close design verification pop-up when "go" button is pressed
-    toggleModal(session, "DesignVerification")
+    shinyBS::toggleModal(session, "DesignVerification")
     # create a modal if no data is available
     if (length(current.seqs()) == 0) {
         session$sendCustomMessage(type='jsCode', list(value = "$('#NotifyNoDataAvailable').modal('show')"))
@@ -581,7 +581,7 @@ optimal.primer.data <- observeEvent(input$optimizeButton, {
     for (i in seq_along(primer.data$warnings)) {
         warning <- primer.data$warnings[[i]]
         if (inherits(warning, "AllowedRegionTooShort")) {
-            toggleModal(session, "AllowedRegionTooShort")
+            shinyBS::toggleModal(session, "AllowedRegionTooShort")
         }
         warning(warning)
     }
@@ -589,7 +589,7 @@ optimal.primer.data <- observeEvent(input$optimizeButton, {
     for (i in seq_along(primer.data$errors)) {
         error <- primer.data$errors[[i]]
         if (inherits(error, "PrimersDuplicateDirections")) {
-            toggleModal(session, "NotifyPrimersDuplicateDirections")
+            shinyBS::toggleModal(session, "NotifyPrimersDuplicateDirections")
         }
         print(error)
     }

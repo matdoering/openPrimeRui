@@ -609,10 +609,10 @@ loaded.constraint.settings <- reactive({
         error <- con.data$errors[[i]]
         print(error)
         if (inherits(error, "XML_Parsing_Error")) {
-            toggleModal(session, "XML_Parsing_Error")
+            shinyBS::toggleModal(session, "XML_Parsing_Error")
         } else {
             # unknown parsing error
-            toggleModal(session, "XML_Parsing_Error")
+            shinyBS::toggleModal(session, "XML_Parsing_Error")
         }
     }
     if (length(con.data$errors) != 0) {
@@ -988,7 +988,9 @@ deactivateConstraintsObserver <- observeEvent(input$deactivate_all_filters, {
 })
 
 ToolInfoObserver <- observeEvent(input$third_party_tools, {
-    toggleModal(session, "MissingTools") 
+    #print("toggling MissingTools modal!") 
+    # TODO: toggleModal and bsButton don't work without loading shinyBs via 'library' ...
+    shinyBS::toggleModal(session, "MissingTools", toggle = "open") 
 })
 
 output$ToolOverview <- DT::renderDataTable({
@@ -1007,7 +1009,7 @@ StartObserver <- observe ({
     }
     if (!all(AVAILABLE.TOOLS()) ) {
         # inform user about missing tools only
-        toggleModal(session, "MissingTools") 
+        shinyBS::toggleModal(session, "MissingTools") 
         updateActionButton(session, "third_party_tools", icon = icon("exclamation-triangle"))
 
    }

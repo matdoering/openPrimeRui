@@ -206,7 +206,7 @@ DesignPrimersActionsObserver <- observeEvent(input$design_options_algorithms_col
         if (length(input$design_options_algorithms_collapse) != 0) {
             styles[input$design_options_algorithms_collapse] <- "primary"  # set open tab to primary
         }
-        updateCollapse(session, "design_options_algorithms_collapse", style = styles)
+        shinyBS::updateCollapse(session, "design_options_algorithms_collapse", style = styles)
 })
 DesignStyleObserver <- observeEvent(input$design_options_algorithms_collapse, {
     # Update the style of primer upload panel according to active panel
@@ -218,7 +218,7 @@ DesignStyleObserver <- observeEvent(input$design_options_algorithms_collapse, {
         active.tab <- tail(input$design_options_algorithms_collapse, n = 1)
         styles[active.tab] <- "primary"  # set open tab to primary
     }
-    updateCollapse(session, "design_options_algorithms_collapse", style = styles)
+    shinyBS::updateCollapse(session, "design_options_algorithms_collapse", style = styles)
 })
 
 PrimerUploadStyleObserver <- observeEvent(input$primer_upload_collapse, {
@@ -231,7 +231,7 @@ PrimerUploadStyleObserver <- observeEvent(input$primer_upload_collapse, {
         active.tab <- tail(input$primer_upload_collapse, n = 1)
         styles[active.tab] <- "primary"  # set open tab to primary
     }
-    updateCollapse(session, "primer_upload_collapse", style = styles)
+    shinyBS::updateCollapse(session, "primer_upload_collapse", style = styles)
 })
 CoverageConditionsStyleObserver <- observeEvent(input$coverage_conditions_collapse, {
     # Update the style of the coverage conditions 
@@ -243,7 +243,7 @@ CoverageConditionsStyleObserver <- observeEvent(input$coverage_conditions_collap
         active.tab <- tail(input$coverage_conditions_collapse, n = 1)
         styles[active.tab] <- "primary"  # set open tab to primary
     }
-    updateCollapse(session, "coverage_conditions_collapse", style = styles)
+    shinyBS::updateCollapse(session, "coverage_conditions_collapse", style = styles)
 })
 CoverageConditionsExtendedStyleObserver <- observeEvent(input$extended_cvg_collapse, {
     # Update the style of the extended coverage conditions 
@@ -255,7 +255,7 @@ CoverageConditionsExtendedStyleObserver <- observeEvent(input$extended_cvg_colla
         active.tab <- tail(input$extended_cvg_collapse, n = 1)
         styles[active.tab] <- "primary"  # set open tab to primary
     }
-    updateCollapse(session, "extended_cvg_collapse", style = styles)
+    shinyBS::updateCollapse(session, "extended_cvg_collapse", style = styles)
 })
 
 
@@ -268,7 +268,7 @@ SettingsCollapseStyleObserver <- observeEvent(input$input_settings_collapse, {
     if (length(input$input_settings_collapse) != 0) {
         active.tab <- tail(input$input_settings_collapse, n = 1)
         styles[active.tab] <- "primary"  # set open tab to primary
-        updateCollapse(session, "input_settings_collapse", style = styles)
+        shinyBS::updateCollapse(session, "input_settings_collapse", style = styles)
     }
 })
 TemplateCollapseStyleObserver <- observeEvent(input$template_collapse_analysis, 
@@ -283,10 +283,10 @@ TemplateCollapseStyleObserver <- observeEvent(input$template_collapse_analysis,
             # input elements change (the last active one counts)
             active.tab <- tail(input$template_collapse_analysis, n = 1)
             styles[active.tab] <- "primary"  # set open tab to primary
-            updateCollapse(session, "template_collapse_analysis", style = styles)
+            shinyBS::updateCollapse(session, "template_collapse_analysis", style = styles)
         } else {
             # non-selected -> all are set to default
-            updateCollapse(session, "template_collapse_analysis", style = styles)
+            shinyBS::updateCollapse(session, "template_collapse_analysis", style = styles)
         }
         #print("Template input observer:")
         #print(input$personal_template_options)
@@ -303,17 +303,17 @@ TemplatePersonalCollapseStyleObserver <- observeEvent(input$personal_template_op
         # input elements change (the last active one counts)
         active.tab <- tail(input$personal_template_options, n = 1)
         styles[active.tab] <- "primary"  # set open tab to primary
-        updateCollapse(session, "personal_template_options", style = styles)
+        shinyBS::updateCollapse(session, "personal_template_options", style = styles)
     } else {
         # non-selected -> all are set to default
-        updateCollapse(session, "personal_template_options", style = styles)
+        shinyBS::updateCollapse(session, "personal_template_options", style = styles)
     }
 })
 observeEvent(input$IMGT_template_confirm_button, {
     # on confirmation of IMGT templates, move to binding region customization
         # allowed panel isn't active yet
         # trigger opening, but then remove the duplicated entry?
-        updateCollapse(session, "template_collapse_analysis", close = c("template_input_panel"), 
+        shinyBS::updateCollapse(session, "template_collapse_analysis", close = c("template_input_panel"), 
             open = c("allowed_template_panel"))
 })
 
@@ -419,7 +419,7 @@ primerInvalidationObserver <- observeEvent(input.primers(), {
             primers <- openPrimeR:::update_primer_binding_regions(primers, template.df, old.template.df)
             rv_primers$evaluated_primers <- primers
         } else { # otherwise: ignore coverage of input primers & warn user
-            toggleModal(session, "TemplateCoverageUpdateFailed")
+            shinyBS::toggleModal(session, "TemplateCoverageUpdateFailed")
         }
     } 
 })
@@ -437,29 +437,29 @@ templateInvalidationObserver <- observeEvent(c(seq.data.input()), {
 ############# TEMPLATE NAVIGATION
 observeEvent(input$confirm_binding_conditions, {
     # close binding conditions panel and open constraint customization panel
-    updateCollapse(session, "input_settings_collapse", close = c("binding_conditions_panel"), 
+    shinyBS::updateCollapse(session, "input_settings_collapse", close = c("binding_conditions_panel"), 
         open = "customize_settings_panel")
 })
 
 observeEvent(input$confirm_uploaded_allowed_regions, {
     # navigates from uploading allowed regions to customizing allowed regions update
     # collapse selection after allowed regions have been confirmed
-    updateCollapse(session, "other_template_data_collapse", close = "allowed_template_panel")
+    shinyBS::updateCollapse(session, "other_template_data_collapse", close = "allowed_template_panel")
     # open the customization of allowed regions panel
-    updateCollapse(session, "customize_allowed_regions_collapse", open = "customize_allowed_regions_panel")
+    shinyBS::updateCollapse(session, "customize_allowed_regions_collapse", open = "customize_allowed_regions_panel")
 })
 
 observeEvent(input$confirm_uploaded_templates, {
     # close template input panel when settings have been confirmed by user and go to
     # allowed regions
-    updateCollapse(session, "template_collapse_analysis", close = c("template_input_panel"), 
+    shinyBS::updateCollapse(session, "template_collapse_analysis", close = c("template_input_panel"), 
         open = c("allowed_template_panel"))
 })
 ######### PRIMER NAVIGATION
 #observeEvent(input$confirm_primer_header_structure, {
     ## when primer header structure has been confirmed, move to the upload of the
     ## primer data
-    #updateCollapse(session, "primer_upload_collapse", close = c("primer_header_structure_panel"), 
+    #shinyBS::updateCollapse(session, "primer_upload_collapse", close = c("primer_header_structure_panel"), 
         #open = c("primer_upload_panel"))
 #})
 ############# SETTINGS NAVIGATION
@@ -478,29 +478,29 @@ observeEvent(input$load_settings_choice, {
         message(paste("Not implemented settings load choice: ", input$load_settings_choice, 
             sep = ""))
     }
-    updateCollapse(session, "load_settings_collapse", open = open, close = closed)
+    shinyBS::updateCollapse(session, "load_settings_collapse", open = open, close = closed)
 })
 
 observeEvent(input$confirm_settings_choice, {
     # close xml setting choice panel when settings have been confirmed by user
-    updateCollapse(session, "input_settings_collapse", close = c("load_settings_panel"), 
+    shinyBS::updateCollapse(session, "input_settings_collapse", close = c("load_settings_panel"), 
         open = "binding_conditions_panel")
 })
 observeEvent(input$confirm_PCR_settings, {
-    # open the Other settings bsCollapse
-    updateCollapse(session, "input_settings_collapse", close = c("customize_general_settings_panel"), 
+    # open the Other settings shinyBS::bsCollapse
+    shinyBS::updateCollapse(session, "input_settings_collapse", close = c("customize_general_settings_panel"), 
         open = "customize_other_settings_panel")
 })
 
 
 observeEvent(input$confirm_constraints, {
     # close constraint customization panel when user confirms
-    updateCollapse(session, "input_settings_collapse", close = c("customize_settings_panel"), 
+    shinyBS::updateCollapse(session, "input_settings_collapse", close = c("customize_settings_panel"), 
         open = "customize_general_settings_panel")
 })
 ###### DESIGN NAVIGATION
 algorithmChoiceObserver <- observeEvent(input$confirm_algorithm_choice, {
     # move from algo selection to algo options panel
-    updateCollapse(session, "design_options_algorithms_collapse",
+    shinyBS::updateCollapse(session, "design_options_algorithms_collapse",
         close = "design_algo_panel", open = "design_optimize_binding") 
 })

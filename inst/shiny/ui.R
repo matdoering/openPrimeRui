@@ -2,8 +2,7 @@
 # USER INTERFACE FOR SHINY
 ###############
 # load essential shiny dependencies here
-library(shiny) # essential
-library(shinyBS) # need to attach shinyBS in order for it to function
+library(shinyBS) # need to attach shinyBS as well
 ############################################
 # load extra functions
 message("Setting paths ...")
@@ -65,19 +64,19 @@ ui <- fluidPage(
     ##########
     # Tools
     ##########
-    bsModal("MissingTools", "Third-party tools", "",
+    shinyBS::bsModal("MissingTools", "Third-party tools", "",
         #htmlOutput("AvailableToolText"),
         DT::dataTableOutput("ToolOverview"),
         size = "large"
     ),
-	bsModal("MissingReportDeps", "Report Dependencies Missing", "",
+	shinyBS::bsModal("MissingReportDeps", "Report Dependencies Missing", "",
         p("There are missing dependencies (Pandoc/LateX) for creating PDF reports. Please make sure that all required dependencies are installed."),
         size = "small"
     ),
     # Navigation
     ###########
     # design data verification modal:
-    singleton(bsModal("DesignVerification", "Design parameter verification", "designButton",
+    singleton(shinyBS::bsModal("DesignVerification", "Design parameter verification", "designButton",
         HTML("<div style='text-align:center;font-size: 14pt'>"), # TODO: space between traffic light? reduce size of checkinput text TODO
         uiOutput("designText"),
         br(),
@@ -97,7 +96,7 @@ ui <- fluidPage(
         size = "large")
     ),
 
-    singleton(bsModal("ResetInfo", "Reset session", "",tags$div(icon("refresh", "fa-2x"), 
+    singleton(shinyBS::bsModal("ResetInfo", "Reset session", "",tags$div(icon("refresh", "fa-2x"), 
         p("Do you really want to reset the current session? 
            Click on Reset to reset the app or click on Close to keep the current session.", 
            style = "color:black"
@@ -105,7 +104,7 @@ ui <- fluidPage(
         actionButton("reset_button", "Reset", class = "btn-danger"), align = "center"),
         size = "small")
     ),
-    singleton(bsModal("ExitInfo", "Exit", "",tags$div(icon("power-off", "fa-2x"), 
+    singleton(shinyBS::bsModal("ExitInfo", "Exit", "",tags$div(icon("power-off", "fa-2x"), 
                 p("Do you really want to exit the app? Click on Exit to exit the app or on Close to remain in the app.", 
                     style = "color:black"
                 ), 
@@ -113,7 +112,7 @@ ui <- fluidPage(
                 size = "small"
              )
     ),
-    singleton(bsModal("ExitScreen", "Goodbye", "", size = "small", 
+    singleton(shinyBS::bsModal("ExitScreen", "Goodbye", "", size = "small", 
                       HTML("<img width = 276, height = 200, src='images/logo.png' alt='logo'/>"), 
                       tags$div(p("Thank you for using openPrimeR. See you again soon!", style = "color:black"), align = "center")
               )
@@ -122,35 +121,35 @@ ui <- fluidPage(
     # Data
     #######
     # modal for displaying adapter seqs in primers
-    bsModal(id = "AdapterModal", 
+    shinyBS::bsModal(id = "AdapterModal", 
               title = "Adapters found", 
               "", # no trigger,
               "The following possible restriction sites were found in the primer set:",
               br(),br(),
                DT::dataTableOutput("primer_restriction_sites"), 
                 size = "large"),
-    bsModal(id = "NoAdapterModal", 
+    shinyBS::bsModal(id = "NoAdapterModal", 
               title = "No adapters found", 
               "", # no trigger,
               "Your primer set does not seem to contain any restriction sites.",
                 size = "large"),
-    singleton(bsModal("ProblemEstimationProblem", "Problem difficulty could not be estimated", "",
+    singleton(shinyBS::bsModal("ProblemEstimationProblem", "Problem difficulty could not be estimated", "",
              tags$p("Could not estimate the problem's difficulty - probably the primer coverage distribution was too narrow.", 
              style = "color:black", align = "center"),
              size = "small")
     ),  # display when user wants to perf
-    singleton(bsModal("NotifyNoDataAvailable", "No data available", "",
+    singleton(shinyBS::bsModal("NotifyNoDataAvailable", "No data available", "",
              tags$p("Could not perform the required action, because no data was available. Please check your input data.", 
              style = "color:black", align = "center"),
              size = "small")
     ),  # display when user wants to perform an action but no data is available
-    singleton(bsModal("NotifyIMGT_ConnectionError", "IMGT Data Unavailable", "",
+    singleton(shinyBS::bsModal("NotifyIMGT_ConnectionError", "IMGT Data Unavailable", "",
                 tags$p("It was not possible to retrieve the selected data from IMGT. 
                         Possible reasons could be having no internet connection or missing dependencies (selenium for python).", 
                         style = "color:black", align = "center"
                 ), size = "small")
     ),
-    singleton(bsModal("NotifyCouldNotReadFASTA", "Input not readable", "",
+    singleton(shinyBS::bsModal("NotifyCouldNotReadFASTA", "Input not readable", "",
               tags$p("Could not read the input file. Please make sure that the file is really in FASTA format.", 
               style = "color:black", align = "center"),
               size = "small")
@@ -158,28 +157,28 @@ ui <- fluidPage(
     ##########
     # Errors
     ##########
-    singleton(bsModal("XML_Parsing_Error", "Could not read settings", "",
+    singleton(shinyBS::bsModal("XML_Parsing_Error", "Could not read settings", "",
               tags$p("Could not read the provided settings XML file. Please check your input!",
                      style = "color:black", align = "center"
               ),
               size = "small")
     ),
 
-    singleton(bsModal("UnexpectedError", "Unexpected Error", "",
+    singleton(shinyBS::bsModal("UnexpectedError", "Unexpected Error", "",
               tags$p("An unexpected error occurred. Please help us with fixing the issue by informing us of this 
                      problem by describing when and how the error occured and attaching the error output from the console.", 
                      style = "color:black", align = "center"
               ),
               size = "small")
     ),
-    singleton(bsModal("FastaAlphabetError", "Non-supported characters", "",
+    singleton(shinyBS::bsModal("FastaAlphabetError", "Non-supported characters", "",
               tags$p("Some of the input sequences contained non-supported characters. 
                     Please check the console output for more information.", 
                     style = "color:black", align = "center"
               ), 
               size = "small")
     ),
-    singleton(bsModal("IDColumnNotFound", "Header ID Column not Found", "",
+    singleton(shinyBS::bsModal("IDColumnNotFound", "Header ID Column not Found", "",
               tags$p("The specified header ID column could not be found in the header of the templates. Please specify an ID column that is part of the header structure.",
                     style = "color:black", align = "center"
               ), 
@@ -189,26 +188,26 @@ ui <- fluidPage(
     ########
     # Templates
     ##########
-    singleton(bsModal("TemplateFormatIncorrect", "Incorrect File Format", "",
+    singleton(shinyBS::bsModal("TemplateFormatIncorrect", "Incorrect File Format", "",
               tags$p("The structure of the input file did not fulfill the expectations: Please check your input!",
                 style = "color:black", align = "center"
               ), 
               size = "small")
     ),
-    singleton(bsModal("AllowedRegionTooShort", "Allowed region too short", "",
+    singleton(shinyBS::bsModal("AllowedRegionTooShort", "Allowed region too short", "",
               tags$p("Could not initialize primers for all template since the allowed binding region was shorter 
                      than the minimal primer length for some templates.", style = "color:black", align = "center"
               ), 
               size = "small")
     ),
-    singleton(bsModal("TemplateIDColNotFound", "ID column not found", "",
+    singleton(shinyBS::bsModal("TemplateIDColNotFound", "ID column not found", "",
                       tags$p("The specified ID column was not found in the header of the templates and the first header variable was used as an identifier.", 
                         style = "color:black", align = "center"
                       ),
                       size = "small"
              )
     ),
-    singleton(bsModal("TemplateHeaderStructure", "Templates could not be read", "",
+    singleton(shinyBS::bsModal("TemplateHeaderStructure", "Templates could not be read", "",
                      tags$p("The structure of the header in your template FASTA file did not correspond to the specified structure of the header. 
                             Please check the settings for the header structure specification.", 
                             style = "color:black", align = "center"
@@ -216,7 +215,7 @@ ui <- fluidPage(
                      size = "small"
               )
     ),
-    singleton(bsModal("TemplateCoverageUpdateFailed", "Template coverage could not be updated", "",
+    singleton(shinyBS::bsModal("TemplateCoverageUpdateFailed", "Template coverage could not be updated", "",
                      tags$p("The template coverage could not be updated.
                             Please check whether the input primers correspond to the current template sequences.",
                             style = "color:black", align = "center"
@@ -228,7 +227,7 @@ ui <- fluidPage(
     #####
     # Primers
     #####
-    singleton(bsModal("NotifyPrimersMissingKeyword", "Primer annotation", "",
+    singleton(shinyBS::bsModal("NotifyPrimersMissingKeyword", "Primer annotation", "",
                       tags$p("The directionalities of some primers were not explicitly provided. 
                              Some directionalities were inferred and primers could not be paired. Please verify the annotations of the imported primers.", 
                              style = "color:black", align = "center"
@@ -236,14 +235,14 @@ ui <- fluidPage(
                       size = "small"
              )
     ),
-    singleton(bsModal("NotifyPrimersNoDirection", "Primer annotation", "",
+    singleton(shinyBS::bsModal("NotifyPrimersNoDirection", "Primer annotation", "",
                      tags$p("Some primers could not be annotated with any directions, hence no primers were imported. 
                             Please check whether you have set the right directionality keywords for your input primers.", 
                             style = "color:black", align = "center"
                      ), 
                      size = "small")
     ),
-    singleton(bsModal("NotifyPrimersDuplicateDirections", "Primer annotation", "",
+    singleton(shinyBS::bsModal("NotifyPrimersDuplicateDirections", "Primer annotation", "",
                       tags$p("Some primers had multiple sequences for one direction and therefore no primers were imported. Please check your input files.", 
                         style = "color:black", align = "center"
                       ), 
@@ -252,33 +251,33 @@ ui <- fluidPage(
     #####
     # Binding region
     ####
-    singleton(bsModal("AmpliconStartUndefined", "Assignment of allowed regions", "",
+    singleton(shinyBS::bsModal("AmpliconStartUndefined", "Assignment of allowed regions", "",
                       tags$p("The current assignment of allowed binding regions for primers would not yield any reasonable PCR products for some templates.", 
                       style = "color:black", align = "center"), 
                       size = "small")
     ),
-    singleton(bsModal("NotifyAllowedNotFound", "Assignment of allowed regions", "",
+    singleton(shinyBS::bsModal("NotifyAllowedNotFound", "Assignment of allowed regions", "",
                       tags$p("Could not find the provided binding regions in some of the templates. 
                         Please check whether the binding regions agree with the templates.", 
                         style = "color:black", align = "center"
                       ),
                       size = "small")
     ),
-    singleton(bsModal("NotifyAllowedNoMatches", "Assignment of allowed regions", "",
+    singleton(shinyBS::bsModal("NotifyAllowedNoMatches", "Assignment of allowed regions", "",
                       tags$p("No allowed binding regions could be assigned. 
                              Please check whether the headers of the allowed regions correspond to the template headers.", 
                              style = "color:black", align = "center"
                       ), 
                       size = "small")
      ),
-     singleton(bsModal("NotifyAllowedMissing", "Assignment of allowed regions", "",
+     singleton(shinyBS::bsModal("NotifyAllowedMissing", "Assignment of allowed regions", "",
                         tags$p("Allowed binding regions were not specified for all of the templates
                                 and the binding regions of these templates were not adjusted.", 
                                 style = "color:black", align = "center"
                        ), 
                        size = "small")
      ),
-     singleton(bsModal("NotifyAllowedRedundant", "Assignment of allowed regions", "",
+     singleton(shinyBS::bsModal("NotifyAllowedRedundant", "Assignment of allowed regions", "",
                        tags$p("For some templates, multiple sites for primer binding were specified. 
                             Only the first specified binding region was used for these templates.", 
                             style = "color:black", 
@@ -286,13 +285,13 @@ ui <- fluidPage(
                         ),
                         size = "small")
     ),
-    singleton(bsModal("NotifyAllowedNotAllLeadersMatched", "Assignment of allowed regions", "",
+    singleton(shinyBS::bsModal("NotifyAllowedNotAllLeadersMatched", "Assignment of allowed regions", "",
                       tags$p("At least one of the allowed regions could not be assigned to any template sequence.", 
                         style = "color:black", align = "center"
                       ),
                       size = "small")
     ),
-    singleton(bsModal("NotifyNotAllowedBinding", "Binding ratio exceeded", "",
+    singleton(shinyBS::bsModal("NotifyNotAllowedBinding", "Binding ratio exceeded", "",
                       tags$p("Warning: The ratio of primers binding to other regions than the allowed binding regions exceeded the allowed ratio.", 
                         style = "color:black", align = "center"
                       ), 
@@ -301,7 +300,7 @@ ui <- fluidPage(
     ##########
     # Optimization
     ####
-    singleton(bsModal("RelaxInfoOpti", "Constraint Relaxation", "",
+    singleton(shinyBS::bsModal("RelaxInfoOpti", "Constraint Relaxation", "",
                       tags$p("Constraints were relaxed during the optimization , because target coverage could not be reached with the input constraints.
                           Click on the constraints tab to see the modified constraints.", 
                           style = "color:black", align = "center"

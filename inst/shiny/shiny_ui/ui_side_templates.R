@@ -23,7 +23,7 @@ tabPanel("Templates",
                             "Personal" = "personal"), 
                 selected = "supplied", inline=TRUE
     ),
-    bsTooltip("template_scenario", 
+    shinyBS::bsTooltip("template_scenario", 
         paste("Load templates provided by openPrimeR or load your own templates?"),
         "right", options = list(container = "body")
     ),
@@ -36,7 +36,7 @@ tabPanel("Templates",
                         selected = "immunological"
          )
     ),
-    bsTooltip("selected_supplied_templates", 
+    shinyBS::bsTooltip("selected_supplied_templates", 
         paste("Select one of the available data sets."),
         "right", options = list(container = "body"),
         trigger = "focus"
@@ -57,7 +57,7 @@ tabPanel("Templates",
                 ), 
                 multiple = TRUE, accept = "text/csv"
             ),
-            bsTooltip("comparison_templates", 
+            shinyBS::bsTooltip("comparison_templates", 
                       "Upload analyzed, downloaded (raw) template files 
                       in csv format corresponding to the input 
                       primer sets for comparison.", 
@@ -112,7 +112,7 @@ tabPanel("Templates",
         actionButton("reset_rv_comparison.data", "Reset", 
                     icon = icon("refresh", lib = "glyphicon"), 
                     class = "actionStyleSmall"),
-        bsTooltip("reset_rv_comparison.data", 
+        shinyBS::bsTooltip("reset_rv_comparison.data", 
             "Reset uploaded primer and template sets for comparison.", 
             "right", options = list(container = "body")
         )
@@ -121,9 +121,9 @@ tabPanel("Templates",
     # Analysis of primers
     ############
     conditionalPanel("input.primer_analysis_type != 'compare'",
-        bsCollapse(id = "template_collapse_analysis",
+        shinyBS::bsCollapse(id = "template_collapse_analysis",
             open = "template_input_panel",
-        bsCollapsePanel(tagList(icon("book", lib = "glyphicon"), 
+        shinyBS::bsCollapsePanel(tagList(icon("book", lib = "glyphicon"), 
                         "Template input"),
             value = "template_input_panel", 
             style = "primary",
@@ -162,7 +162,7 @@ tabPanel("Templates",
                 "Remove partial sequences", 
                 TRUE
             ), 
-            bsTooltip("remove_partial_seqs", 
+            shinyBS::bsTooltip("remove_partial_seqs", 
                 "Exclude sequences that are incomplete and augment IMGT data with new sequencing results (if available).",
                 "right", options = list(container = "body")
             ),
@@ -171,7 +171,7 @@ tabPanel("Templates",
                 "Update existing data", 
                 FALSE
             ),
-            bsTooltip("update_IMGT_DB_data",
+            shinyBS::bsTooltip("update_IMGT_DB_data",
                 "Reload data from IMGT?",
                 "right", options = list(container = "body")
             ),
@@ -181,13 +181,13 @@ tabPanel("Templates",
                 icon = icon("database"), 
                 class="actionStyle btn-primary"
             ),
-            bsTooltip("IMGT_template_button", 
+            shinyBS::bsTooltip("IMGT_template_button", 
                       "Retrieve selected templates from IMGT.",
                       "right", options = list(container = "body")
             ),
             # confirm templates  button
             div(class="rightAligned",
-                bsButton("IMGT_template_confirm_button",
+                shinyBS::bsButton("IMGT_template_confirm_button",
                     "Confirm templates", 
                     icon = icon("check"), 
                     class="actionStyleSmall", 
@@ -216,7 +216,7 @@ tabPanel("Templates",
                 icon = icon("database"), 
                 class="actionStyle btn-primary"
             ),
-            bsTooltip("Virus_template_button", 
+            shinyBS::bsTooltip("Virus_template_button", 
                       "Retrieve selected viral templates.",
                       "right", options = list(container = "body")
             )
@@ -234,12 +234,12 @@ tabPanel("Templates",
                     div(p("Please customize the following settings according to the data contained in your FASTA file headers and then upload the FASTA file you want to analyze."),
                         class = "two"
                     ),
-                    bsCollapse(id = "personal_template_options",
+                    shinyBS::bsCollapse(id = "personal_template_options",
                         open = NULL,
                     #####
                     # start of basic template options
                     ######
-                     bsCollapsePanel(
+                     shinyBS::bsCollapsePanel(
                         tagList(
                             icon("menu-hamburger", lib = "glyphicon"), 
                             "Basic options"),
@@ -252,13 +252,13 @@ tabPanel("Templates",
                           "Header field delimiter"), 
                           value = "|"
                     ),
-                    bsTooltip("header_structure", 
+                    shinyBS::bsTooltip("header_structure", 
                         "The metadata fields appearing in the headers of the template FASTA file.",
                               "right", 
                         options = list(container = "body"),
                         trigger = "focus"
                     ),
-                    bsTooltip("template_header_delim", 
+                    shinyBS::bsTooltip("template_header_delim", 
                         "The character separating individual fields in the template headers.",
                               "right", options = list(container = "body")
                     )
@@ -266,7 +266,7 @@ tabPanel("Templates",
                     ######
                     # END OF basic options
                     ###########
-                  bsCollapsePanel(
+                  shinyBS::bsCollapsePanel(
                         tagList(
                             icon("menu-hamburger", lib = "glyphicon"), 
                             "Expert options"),
@@ -277,7 +277,7 @@ tabPanel("Templates",
                         choices  = c("ACCESSION", "GROUP", "SPECIES", "FUNCTION"), 
                         selected = "ACCESSION"
                     ),
-                    bsTooltip("template_header_ID_column", "The field in the template header to be used as the identifier of the templates.",
+                    shinyBS::bsTooltip("template_header_ID_column", "The field in the template header to be used as the identifier of the templates.",
                               "right", options = list(container = "body",
                               trigger = "focus")
                     ),
@@ -286,7 +286,7 @@ tabPanel("Templates",
                         tagList(icon("scissors"), "Alignment gap character"),
                         value = "-"
                     ),
-                    bsTooltip("gap_char", "The character used to indicate gaps in case of aligned input.",
+                    shinyBS::bsTooltip("gap_char", "The character used to indicate gaps in case of aligned input.",
                               "right", options = list(container = "body")
                     ),
                      # remove duplicate seqs?
@@ -294,14 +294,14 @@ tabPanel("Templates",
                         "Remove duplicate sequences", 
                         FALSE
                     ), 
-                    bsTooltip("remove_duplicated_seqs", 
+                    shinyBS::bsTooltip("remove_duplicated_seqs", 
                         "Exclude sequences that are duplicated.",
                         "right", options = list(container = "body")
                     )
                     ) # end of expert options
                     ), # close options bscollapse/panel
                     br(),
-                    bsTooltip("help_input_templates_header", 
+                    shinyBS::bsTooltip("help_input_templates_header", 
                             "View help on defining the template input settings.",
                             "right", options = list(container = "body")
                     ),
@@ -315,12 +315,12 @@ tabPanel("Templates",
                             "Template FASTA/CSV file"
                         )
                     ),
-                    bsTooltip("sequence_file", "The PCR template sequences in FASTA or CSV format.", 
+                    shinyBS::bsTooltip("sequence_file", "The PCR template sequences in FASTA or CSV format.", 
                               "right", options = list(container = "body")
                     ),
                     # confirm templates button
                     div(class = "rightAligned", 
-                        bsButton("confirm_uploaded_templates", 
+                        shinyBS::bsButton("confirm_uploaded_templates", 
                             "Confirm templates", icon = icon("check"), 
                             class = "actionStyleSmall", disabled = TRUE, 
                             style = "primary"
@@ -329,7 +329,7 @@ tabPanel("Templates",
             ) # close conditional panel for personal input
           ), # close panel for template input
 ############ INSERT START
-           bsCollapsePanel(tagList(icon("bookmark"), "Allowed regions"),
+           shinyBS::bsCollapsePanel(tagList(icon("bookmark"), "Allowed regions"),
                     ########
                     # allowed regions panel
                     #######
@@ -341,7 +341,7 @@ tabPanel("Templates",
                         ), 
                         inline = TRUE 
                     ),
-                    bsTooltip("selected_allowed_region_definition", 
+                    shinyBS::bsTooltip("selected_allowed_region_definition", 
                         paste("Define the binding region either individually",
                         "for each template or provide uniform binding intervals"),
                         "right", options = list(container = "body")
@@ -359,7 +359,7 @@ tabPanel("Templates",
                             "Allowed regions for forward primers (FASTA)")
                         ),
                         # tooltips for fileinputs don't seem to work
-                        bsTooltip("leader_file", 
+                        shinyBS::bsTooltip("leader_file", 
                             paste("A FASTA file with the template binding regions",
                             "(5\\' to 3\\' for forward primers."),
                             "right", options = list(container = "body")
@@ -368,7 +368,7 @@ tabPanel("Templates",
                               label = tagList(icon("arrow-left", lib = "glyphicon"),
                               "Allowed regions for reverse primers (FASTA)")
                         ),
-                        bsTooltip("leader_file_rev", 
+                        shinyBS::bsTooltip("leader_file_rev", 
                             paste("A FASTA file with the template binding regions",
                             "(5\\' to 3\\' for reverse primers."),
                                 "right", options = list(container = "body")
@@ -376,7 +376,7 @@ tabPanel("Templates",
                         ##########
                         ### CONFIRM REGIONS BUTTON:
                         ###########
-                        bsTooltip("help_input_templates_allowed", 
+                        shinyBS::bsTooltip("help_input_templates_allowed", 
                                   "Help on setting the allowed regions for primer binding.",
                                   "right", options = list(container = "body")
                         )
@@ -396,7 +396,7 @@ tabPanel("Templates",
                             max = 1000, 
                             value = c(1,30)
                         ),
-                        bsTooltip("uniform_allowed_regions_fw", 
+                        shinyBS::bsTooltip("uniform_allowed_regions_fw", 
                             paste("The positional range from the 5\\'",
                                 "end of the templates where the forward",
                                 "primers should bind."),
@@ -409,7 +409,7 @@ tabPanel("Templates",
                             max = 1000, 
                             value = c(1,30)
                         ),
-                        bsTooltip("uniform_allowed_regions_rev", 
+                        shinyBS::bsTooltip("uniform_allowed_regions_rev", 
                         paste("The positional range from the 3\\'",
                                 "end of the templates where the reverse",
                                 "primers should bind."),
@@ -429,8 +429,8 @@ tabPanel("Templates",
     ########
     conditionalPanel("input.selected_allowed_region_definition == 'Template-specific'",
         # individualization of regions
-        #bsCollapse(id = "customize_allowed_regions_collapse", 
-            #bsCollapsePanel(tagList(icon("bookmark"), "Customize allowed regions"),
+        #shinyBS::bsCollapse(id = "customize_allowed_regions_collapse", 
+            #shinyBS::bsCollapsePanel(tagList(icon("bookmark"), "Customize allowed regions"),
                 #value = "customize_allowed_regions_panel",
                 div(p("Define the binding range of forward/reverse 
                        primers in relation to the target region."), 
@@ -446,7 +446,7 @@ tabPanel("Templates",
                         value = c(-0.99, -0.99), step = 1
                     )
                 ), 
-                bsTooltip("individual_allowed_regions_fw", 
+                shinyBS::bsTooltip("individual_allowed_regions_fw", 
                            paste("The upstream (5\\') binding region for forward primers.",
                            "<br>Negative positions correspond to positions",
                            "upstream of the target amplification site."),
@@ -461,7 +461,7 @@ tabPanel("Templates",
                         step = 1
                     )
                 ),
-                bsTooltip("individual_allowed_regions_rev", 
+                shinyBS::bsTooltip("individual_allowed_regions_rev", 
                     paste("The downstream (3\\') binding region for reverse primers.",
                            "<br>Negative positions correspond to positions",
                            "downstream of the target amplification site."),
@@ -479,7 +479,7 @@ tabPanel("Templates",
             # confirm allowed regions button
             #br()
             #div(class = "rightAligned",
-                #bsButton("confirm_uploaded_allowed_regions", 
+                #shinyBS::bsButton("confirm_uploaded_allowed_regions", 
                         #"Confirm allowed regions", 
                         #icon = icon("check"), 
                         #class = "actionStyleSmall", 

@@ -86,22 +86,22 @@ seq.data.input <- reactive({
         warning <- out$warnings[[i]]
         message(warning)
         if (inherits(warning, "TemplateIDColNotFound")) {
-            toggleModal(session, "TemplateIDColNotFound")
+            shinyBS::toggleModal(session, "TemplateIDColNotFound")
         }
     }
     for (i in seq_along(out$errors)) {
         error <- out$errors[[i]]
         print(error) # never do warning/message with errors ..
         if (inherits(error, "TemplateHeaderStructure")) {
-            toggleModal(session, "TemplateHeaderStructure")
+            shinyBS::toggleModal(session, "TemplateHeaderStructure")
         } else if (inherits(error, "FastaAlphabetError")) {
-            toggleModal(session, "FastaAlphabetError")
+            shinyBS::toggleModal(session, "FastaAlphabetError")
         } else if (inherits(error, "ID_Column_Not_Found")) {
-            toggleModal(session, "IDColumnNotFound")
+            shinyBS::toggleModal(session, "IDColumnNotFound")
         } else if (inherits(error, "TemplateFormatIncorrect")) {
-            toggleModal(session, "TemplateFormatIncorrect")
+            shinyBS::toggleModal(session, "TemplateFormatIncorrect")
         } else {
-            toggleModal(session, "TemplateFormatIncorrect")
+            shinyBS::toggleModal(session, "TemplateFormatIncorrect")
         }
     }
     if (length(out$errors) != 0) {
@@ -166,9 +166,9 @@ leader.data.fw <- reactive({
         error <- leaders.fw$errors[[i]]
         print(error)
         if (inherits(error, "FastaAlphabetError")) {
-            toggleModal(session, "FastaAlphabetError")
+            shinyBS::toggleModal(session, "FastaAlphabetError")
         } else {
-            toggleModal(session, "NotifyCouldNotReadFASTA")
+            shinyBS::toggleModal(session, "NotifyCouldNotReadFASTA")
         }
     }
     if (length(leaders.fw$errors) != 0) {
@@ -203,9 +203,9 @@ leader.data.rev <- reactive({
         error <- leaders.rev$errors[[i]]
         print(error)
         if (inherits(error, "FastaAlphabetError")) {
-            toggleModal(session, "FastaAlphabetError")
+            shinyBS::toggleModal(session, "FastaAlphabetError")
         } else {
-            toggleModal(session, "NotifyCouldNotReadFASTA")
+            shinyBS::toggleModal(session, "NotifyCouldNotReadFASTA")
         }
     }
     if (length(leaders.rev$errors) != 0) {
@@ -266,9 +266,9 @@ leader.data.input <- reactive({
         error <- leaders$errors[[i]]
         print(error)
         if (inherits(error, "Leaders_no_matches")) {
-            toggleModal(session, "NotifyAllowedNoMatches")
+            shinyBS::toggleModal(session, "NotifyAllowedNoMatches")
         } else if (!inherits(error, "validation")) {
-            toggleModal(session, "UnexpectedError")
+            shinyBS::toggleModal(session, "UnexpectedError")
         }
     }
     # handle custom warnings with nice pop-ups
@@ -278,15 +278,15 @@ leader.data.input <- reactive({
         # don't put up a toggle for not all leaders matched ...
         # this occurs normally when we remove duplicated templates
         #if (inherits(warnings[[i]], "Not_all_leaders_matched")) {
-        #    toggleModal(session, "NotifyAllowedNotAllLeadersMatched")
+        #    shinyBS::toggleModal(session, "NotifyAllowedNotAllLeadersMatched")
        if (inherits(warnings[[i]], "MissingLeaders")) {
-            toggleModal(session, "NotifyAllowedMissing")
+            shinyBS::toggleModal(session, "NotifyAllowedMissing")
        } else if (inherits(warnings[[i]], "RedundantLeaders")) {
-            toggleModal(session, "NotifyAllowedRedundant")
+            shinyBS::toggleModal(session, "NotifyAllowedRedundant")
         } else if (inherits(warnings[[i]], "LeadersNotFound")) {
-            toggleModal(session, "NotifyAllowedNotFound")
+            shinyBS::toggleModal(session, "NotifyAllowedNotFound")
         } else if (inherits(warnings[[i]], "AmpliconStartUndefined")) {
-            toggleModal(session, "AmpliconStartUndefined")
+            shinyBS::toggleModal(session, "AmpliconStartUndefined")
         }
     }
     if (length(leaders$errors) != 0) {
@@ -323,13 +323,13 @@ leader.data.uniform <- reactive({
     for (i in seq_along(leaders$errors)) {
         error <- leaders$errors[[i]]
         print(error)
-        toggleModal(session, "UnexpectedError")
+        shinyBS::toggleModal(session, "UnexpectedError")
     }
     for (i in seq_along(leaders$warnings)) {
         warning <- leaders$warnings[[i]]
         message(warning)
         if (inherits(warning, "AmpliconStartUndefined")) {
-            toggleModal(session, "AmpliconStartUndefined")
+            shinyBS::toggleModal(session, "AmpliconStartUndefined")
         }
     }
     if (length(leaders$errors) != 0) {

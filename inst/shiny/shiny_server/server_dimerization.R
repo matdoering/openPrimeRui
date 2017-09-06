@@ -9,7 +9,7 @@ rv_dimer.data <- reactiveValues(selected_idx = NULL)
     #sel.ID <- input$dimer_data_row_last_clicked  # last clicked row: since ID is the first column, we need to match to ID
     ## store in reactive rv_values to access by reactive function
     #rv_dimer.data$selected_idx <- as.numeric(sel.ID)  # only works if rownames are reset to 1:N
-    #toggleModal(session, "DimerDetail")  # show modal when selection changes
+    #shinyBS::toggleModal(session, "DimerDetail")  # show modal when selection changes
 #})
 #cur_dimer_detail <- reactive({
     ## show the current dimer details for selection

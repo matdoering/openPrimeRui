@@ -20,7 +20,7 @@ tabPanel("Analyze",
             "Compute primer properties", 
             icon = icon("bar-chart"), class="actionStyleRun btn-primary"
         ),
-        bsTooltip("evaluateButton", 
+        shinyBS::bsTooltip("evaluateButton", 
             "Compute the currently active primer properties but do not perform any filtering.",
             "right", options = list(container = "body")
         ),
@@ -29,7 +29,7 @@ tabPanel("Analyze",
             "Filter primers", 
             icon = icon("filter", lib = "glyphicon"), class="actionStyleRun btn-primary"
         ),
-        bsTooltip("quickFilterButton", 
+        shinyBS::bsTooltip("quickFilterButton", 
             "Determine the set of primers fulfilling the active primer selection criteria.",
             "right", options = list(container = "body")
         ),
@@ -39,7 +39,7 @@ tabPanel("Analyze",
                      "Check restriction sites",
                       icon = icon("scissors"), class="actionStyleRun btn-primary"
         ),
-        bsTooltip("check_adapters", 
+        shinyBS::bsTooltip("check_adapters", 
             "Identify whether the input primers might contain restriction sites.",
                 "right", options = list(container = "body"))
         ), 
@@ -51,21 +51,21 @@ tabPanel("Analyze",
             openPrimeRui:::create.help.button("opti_optimization_overview")),
             class = "one"
         ),
-        #bsCollapse(id = "design_options_algorithms_collapse", 
-        bsCollapse(id = "design_options_algorithms_collapse", 
+        #shinyBS::bsCollapse(id = "design_options_algorithms_collapse", 
+        shinyBS::bsCollapse(id = "design_options_algorithms_collapse", 
             open = "design_algo_panel",
-            bsCollapsePanel(tagList(
+            shinyBS::bsCollapsePanel(tagList(
                  icon("menu-hamburger", lib = "glyphicon"), 
                  "Design options"),
                  value = "design_algo_panel",
                 div(p("The optimization algorithm for primer design influences two parameters: the size of the constructed primer set and the runtime. Integer linear programs (ILPs) gurantee minimal primer sets, but their worst-case runtime is exponential. Greedy algorithms, are faster (O n log n), but may yield slightly larger primer sets. ILPs are recommended when the size of the designed primer set should be as small as feasible or when primers are to be designed for few templates, or when the runtime is of no major concern.", openPrimeRui:::create.help.button("opti_algo_ref")), class = "two"),
-                 bsTooltip("help_opti_algo_ref", 
+                 shinyBS::bsTooltip("help_opti_algo_ref", 
                         HTML("References:<br>Pearson et al. (1996)<br>Bashir et al. (2007)"),
                         "right", options = list(container = "body"), 
                         trigger = "click"
                 ),
                 selectInput("optimization_algorithm", tagList(tagList(icon("cogs"), "Optimization algorithm")), choices  = c("Greedy", "ILP"), selected = "Greedy"), # used optimization algorithm
-                bsTooltip("optimization_algorithm", 
+                shinyBS::bsTooltip("optimization_algorithm", 
                     "The algorithm for maximizing the coverage while minimizing the size of the primer set.",
                         "right", options = list(container = "body"), 
                         trigger = "click"
@@ -73,9 +73,9 @@ tabPanel("Analyze",
                 #############
                 # expert design options:
                 #############
-                bsCollapse(id = "design_expert_options",
+                shinyBS::bsCollapse(id = "design_expert_options",
                 open = NULL,
-                bsCollapsePanel(
+                shinyBS::bsCollapsePanel(
                     tagList(
                         icon("menu-hamburger", lib = "glyphicon"), 
                         "Expert options"
@@ -85,7 +85,7 @@ tabPanel("Analyze",
                     "Constraint relaxation",
                     TRUE
                 ),
-                bsTooltip("relaxation_active", 
+                shinyBS::bsTooltip("relaxation_active", 
                         HTML("If the target sequence coverage cannot be reached, <br>the constraints are adjusted until the target coverage can be reached."),
                         "right", options = list(container = "body")
                 ),
@@ -94,7 +94,7 @@ tabPanel("Analyze",
                         tagList("Target coverage"), 
                         min = 0, max = 1, value = c(min = 1)
                     ), 
-                    bsTooltip("required_opti_cvg", 
+                    shinyBS::bsTooltip("required_opti_cvg", 
                         HTML("The percentage of template sequences <br>that should be covered by the designed primers."),
                         "right", options = list(container = "body")
                     )
@@ -110,7 +110,7 @@ tabPanel("Analyze",
         #########
         # TEMPLATE REGION PANEL TODO
         #########
-        bsCollapsePanel(tagList(
+        shinyBS::bsCollapsePanel(tagList(
                  icon("book", lib = "glyphicon"), 
                  "Optimization of binding regions"),
                  value = "design_optimize_binding",
@@ -126,20 +126,20 @@ tabPanel("Analyze",
                 max = 500, 
                 value = 25
             ),
-             bsTooltip("minimal_region_length_opti", 
+             shinyBS::bsTooltip("minimal_region_length_opti", 
                        "The minimal length of the adjusted binding regions.",
                         options = list(container = "body")
             ),
             ###########
             # optimization of binding region: template secondary structure 
             actionButton("modify_binding_regions_secondary_structures", "Avoid secondary structures", icon = icon("eraser"), class = "actionStyleRun btn-primary"), 
-            bsTooltip("modify_binding_regions_secondary_structures", 
+            shinyBS::bsTooltip("modify_binding_regions_secondary_structures", 
                  "Adjust the primer binding regions such that regions exhibiting secondary structures  are avoided.",
                 "right", options = list(container = "body")
             ),
             br(),br(),
             actionButton("modify_binding_regions_conservation", "Select conserved binding regions", icon = icon("signal"), class = "actionStyleRun btn-primary"), 
-            bsTooltip("modify_binding_regions_conservation", 
+            shinyBS::bsTooltip("modify_binding_regions_conservation", 
                  "Adjust the primer binding regions such that the most conserved regions are selected.",
                 "right", options = list(container = "body")
             )
@@ -151,7 +151,7 @@ tabPanel("Analyze",
         actionButton("designButton", "Design primers", 
                 icon = icon("sort-amount-desc"),
                 class="actionStyleRun btn-primary"),
-        bsTooltip("designButton", 
+        shinyBS::bsTooltip("designButton", 
             "Find a minimal set of primers maximizing the coverage subject to the specified design constraints.",
             "right", options = list(container = "body")
         )
@@ -166,7 +166,7 @@ tabPanel("Analyze",
         ),
         # comparison button
         actionButton("compare_primers", "Compare primer sets", icon = icon("scale", lib = "glyphicon"), class = "actionStyleRun btn-primary"),
-        bsTooltip("compare_primers", 
+        shinyBS::bsTooltip("compare_primers", 
             "Compare the properties of the selected primer sets with each other.",
             "right", options = list(container = "body")
         ),
@@ -174,7 +174,7 @@ tabPanel("Analyze",
         br(),
         # filter button for comparison
         actionButton("quickFilterButton_compare", "Filter primer sets", icon = icon("filter", lib = "glyphicon"), class="actionStyleRun btn-primary"),br(),
-        bsTooltip("quickFilterButton_compare", 
+        shinyBS::bsTooltip("quickFilterButton_compare", 
             "Filter all selected primer sets according to the currently active constraints.",
             "right", options = list(container = "body")
         )

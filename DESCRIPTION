@@ -17,28 +17,25 @@ Description: A Shiny application providing methods for designing, evaluating,
     only primers fulfilling constraints on their physicochemical properties 
     are selected. 
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.4.0),
+    openPrimeR (>= 0.99.0)
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Remotes: matdoering/openPrimeR
 Imports:
-    openPrimeR (>= 0.99.0),
     shiny (>= 1.0.2),
     shinyjs (>= 0.9),
     shinyBS (>= 0.61),
     DT (>= 0.2),
-    knitr (>= 1.13),
-    rmarkdown (>= 1.0),
-    pander (>= 0.6.0)
+    rmarkdown (>= 1.0)
 Suggests:
-    devtools (>= 1.12.0),
-    testthat (>= 1.0.2),
-    doParallel (>= 1.0.10),
-SystemRequirements: MAFFT (>= 7.305),
+    knitr (>= 1.13)
+SystemRequirements: 
+    MAFFT (>= 7.305),
     OligoArrayAux (>= 3.8),
-    ViennaRNA (>= 2.2.4),
+    ViennaRNA (>= 2.4.1),
     MELTING (>= 5.1.1),
     Pandoc (>= 1.12.3)
 biocViews: Software, Technology

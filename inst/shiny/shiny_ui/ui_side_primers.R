@@ -18,7 +18,7 @@ tabPanel("Primers",
                containing the primers to be analyzed.", 
             openPrimeRui:::create.help.button("input_primers_overview"))
         )),
-        bsTooltip("help_input_primers", 
+        shinyBS::bsTooltip("help_input_primers", 
             "View help on the input of primers.",
             "right", options = list(container = "body")
         )
@@ -32,7 +32,7 @@ tabPanel("Primers",
             "Treatment of IUPAC ambiguity codes", 
             c("None" = "none", "Merge" = "merge", "Disambiguate" = "unmerge"), 
             selected = "none", inline = TRUE),
-        bsTooltip("use_ambig", 
+        shinyBS::bsTooltip("use_ambig", 
             paste("Whether similar primers in the input shall be left as they are",
             "(\\'None\\'), merged using ambiguity codes (\\'Merge\\'),",
             "or disambiguated (\\'Disambiguate\\')."),
@@ -48,7 +48,7 @@ tabPanel("Primers",
                         "Personal primers" = "personal_primers"), 
             selected = "available_primers", inline=TRUE
         ),
-        bsTooltip("primer_upload_choice", 
+        shinyBS::bsTooltip("primer_upload_choice", 
             "Whether you want to load supplied primers or your own primers.",
             "right", options = list(container = "body")
         ),
@@ -57,7 +57,7 @@ tabPanel("Primers",
         checkboxInput("load_eval_primers", 
                     "Load evaluated primers (CSV)", 
                     TRUE),
-        bsTooltip("load_eval_primers", 
+        shinyBS::bsTooltip("load_eval_primers", 
                     "Whether pre-evaluated primers (CSV) or raw primers (FASTA) shall be loaded.",
                     "right", options = list(container = "body")
         ),
@@ -98,13 +98,13 @@ tabPanel("Primers",
             ########
             # Load personal primers
             ######
-            bsCollapse(id = "primer_upload_collapse",
+            shinyBS::bsCollapse(id = "primer_upload_collapse",
                 # primer upload panel
                 open = "primer_header_structure_panel",
                     #######
                     # INPUT OPTIONS FOR PRIMERS
                     #############
-                    bsCollapsePanel(
+                    shinyBS::bsCollapsePanel(
                     # header structure panel: keywords for fw/rev primers
                     tagList(icon("menu-hamburger", lib = "glyphicon"), 
                     "Primer input options"),
@@ -124,7 +124,7 @@ tabPanel("Primers",
                         "Identifier for forward primers"), 
                         value = "_fw"
                     ),
-                    bsTooltip("fw_primer_id", 
+                    shinyBS::bsTooltip("fw_primer_id", 
                         paste("The identifier used to declare forward",
                         "primers (complementary to the antisense strand) in the headers of the input FASTA file."),
                         "right", options = list(container = "body")
@@ -135,7 +135,7 @@ tabPanel("Primers",
                         "Identifier for reverse primers"), 
                         value = "_rev"
                     ),
-                    bsTooltip("rev_primer_id", 
+                    shinyBS::bsTooltip("rev_primer_id", 
                         paste("The identifier used to declare reverse primers",
                         "(complementary to the sense strand) in the headers of the input FASTA file."),
                         "right", options = list(container = "body")
@@ -164,7 +164,7 @@ tabPanel("Primers",
                         label = tagList(icon("file"),
                         "Primer FASTA/CSV"), accept="text"
                 ),
-                bsTooltip("primer_file", 
+                shinyBS::bsTooltip("primer_file", 
                     "The set of primers to be evaluated in FASTA format.
                     If primers should be designed from scratch, 
                     no file needs to be uploaded here.",
@@ -181,13 +181,13 @@ tabPanel("Primers",
             openPrimeRui:::create.help.button("opti_optimization")),
             class = "two"
         ),
-        bsTooltip("help_init_initialization", 
+        shinyBS::bsTooltip("help_init_initialization", 
             "View help on initializing the primer set.",
             "right", options = list(container = "body")
         ),
         # tree/naive initialization?
         radioButtons("init_algo", "Template sequence relationship", c("Related" = "tree", "Divergent" = "naive"), inline = TRUE, selected = "tree"),
-        bsTooltip("init_algo",
+        shinyBS::bsTooltip("init_algo",
             "If the templates are related a tree-based primer initialization is used, otherwise a naive initialization is employed.",
             "right", options = list(container = "body")
         ),
@@ -197,7 +197,7 @@ tabPanel("Primers",
             c("Both strands" = "both", 
               "Antisense strand" = "fw",
               "Sense strand" = "rev")),
-        bsTooltip("design_direction",
+        shinyBS::bsTooltip("design_direction",
             "Design forward and reverse primers (\\`Both strands\\`), only forward primers (\\'Antisense\\'), or only reverse primers (\\'Sense\\').",
             "right", options = list(container = "body"),
             trigger = "focus"
@@ -205,7 +205,7 @@ tabPanel("Primers",
 
         # degeneracy of primers
         sliderInput("max_degeneracy", "Maximum primer degeneracy", min = 1, max = 64, value = 16),
-        bsTooltip("max_degeneracy",
+        shinyBS::bsTooltip("max_degeneracy",
             "Degeneracy is the number of individual oligomers that are represented by the ambiguous sequence of a degenerate primer.",
             "right", options = list(container = "body"),
             trigger = "focus"
@@ -222,7 +222,7 @@ tabPanel("Primers",
                 min = 0, max = 1, 
                 value = 1
             ),
-            bsTooltip("required_conservation", 
+            shinyBS::bsTooltip("required_conservation", 
                 "To improve the runtime, primers can be constructed only in 
                 highly-conserved regions. For example, selecting 10% will only
                 construct primers in the regions whose conservation is among 
@@ -264,7 +264,7 @@ tabPanel("Primers",
                     "Primer CSV"
                 ), multiple = TRUE, accept = "text/csv"
             ),
-            bsTooltip("comparison_file", 
+            shinyBS::bsTooltip("comparison_file", 
                 "Upload analyzed, downloaded (raw) primer files 
                  in csv format for comparison.", 
                 "right", options = list(container = "body")

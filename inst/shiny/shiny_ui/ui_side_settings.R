@@ -12,9 +12,9 @@ tabPanel("Settings", value = "constraint_panel",
         class = "one"
      ),
      ####
-     bsCollapse(id = "input_settings_collapse", 
+     shinyBS::bsCollapse(id = "input_settings_collapse", 
         open = "load_settings_panel",
-        bsCollapsePanel(
+        shinyBS::bsCollapsePanel(
             ###############
             # LOAD SETTINGS
             ###############
@@ -33,7 +33,7 @@ tabPanel("Settings", value = "constraint_panel",
                   "Personal" = "personal"),
                 inline = TRUE
             ),
-            bsTooltip("load_settings_choice", 
+            shinyBS::bsTooltip("load_settings_choice", 
                 "Load supplied or personal analysis settings?",
                     "right", options = list(container = "body")
             ),
@@ -65,7 +65,7 @@ tabPanel("Settings", value = "constraint_panel",
                       label = tagList(icon("file"), 
                       "Settings XML file"), accept = "text/xml"
             ),
-            bsTooltip("load_constraints", 
+            shinyBS::bsTooltip("load_constraints", 
                     "Load constraint settings by selecting an xml file
                      from a previous analysis run.",
                     "right", options = list(container = "body")
@@ -79,13 +79,13 @@ tabPanel("Settings", value = "constraint_panel",
             ),
             # confirm settings button
             div(class = "rightAligned", 
-                bsButton("confirm_settings_choice", 
+                shinyBS::bsButton("confirm_settings_choice", 
                 "Confirm loaded settings", icon = icon("check"),
                 class = "actionStyleSmall", disabled = TRUE,
                 style = "primary")
             )
         ),
-        bsCollapsePanel(
+        shinyBS::bsCollapsePanel(
             ################
             # BINDING CONDITIONS
             ##################
@@ -98,30 +98,30 @@ tabPanel("Settings", value = "constraint_panel",
                 ),
                 class = "two"
             ),
-            bsTooltip("allowed_binding_region_definition", 
+            shinyBS::bsTooltip("allowed_binding_region_definition", 
                 "Require binding within the target region or only an overlap?",
                 "right", options = list(container = "body")
             ),
             # allow mismatches?
-            bsTooltip("allowed_mismatches", 
+            shinyBS::bsTooltip("allowed_mismatches", 
                 paste0("Maximum number of mismatches between primers and templates.",
                 "To limit computer memory consumption and runtime, choose a smaller value.", sep = "<br>"),
                 "right", options = list(container = "body")
             ),
-            bsTooltip("allowed_other_binding_ratio", 
+            shinyBS::bsTooltip("allowed_other_binding_ratio", 
                 paste("The allowed off-target binding ratio of primers.",
                 "<br>If this setting exceeds 0% then off-target binding is allowed but a warning is outputted if the off-target binding rate exceeds the specified cutoff."),
                 "right", options = list(container = "body")
             ),
-            bsTooltip("constraint_annealing_DeltaG", 
+            shinyBS::bsTooltip("constraint_annealing_DeltaG", 
                 "Exclude coverage events with high free energies of annealing.",
                 "right", options = list(container = "body")
             ),
-            bsTooltip("allowed_annealing_DeltaG", 
+            shinyBS::bsTooltip("allowed_annealing_DeltaG", 
                 "The minimal required annealing free energy.",
                 "right", options = list(container = "body")
             ),
-            bsTooltip("constraint_primer_efficiency", 
+            shinyBS::bsTooltip("constraint_primer_efficiency", 
                 paste("Filter coverage events with low hybridization efficiencies.",
                     "<br>",
                     "Wright ES (2016).",
@@ -131,36 +131,36 @@ tabPanel("Settings", value = "constraint_panel",
                     "The R Journal, 8(1), pp. 352-359."),
                 "right", options = list(container = "body")
             ),
-            bsTooltip("allowed_primer_efficiency", 
+            shinyBS::bsTooltip("allowed_primer_efficiency", 
                   "The allowed range of primer hybridization efficiencies." ,
                     "right", options = list(container = "body")
             ),
-            bsTooltip("constraint_coverage_model", 
+            shinyBS::bsTooltip("constraint_coverage_model", 
                 "Filter coverage events that are expected to be falsely reported using openPrimeR's logistic regression model.",
                 "right", options = list(container = "body")
             ),
-            bsTooltip("allowed_coverage_model", 
+            shinyBS::bsTooltip("allowed_coverage_model", 
                   "The maximal allowed rate of falsely called coverage events.",
                     "right", options = list(container = "body")
             ),
-            bsTooltip("allowed_stop_codons", 
+            shinyBS::bsTooltip("allowed_stop_codons", 
                 "Consider coverage events that induce stop codons through mismatch binding?",
                 "right", options = list(container = "body")
             ),
-            bsTooltip("allowed_substitutions", 
+            shinyBS::bsTooltip("allowed_substitutions", 
                 "Consider coverage events that induce amino acid substitions through mismatch binding?",
                 "right", options = list(container = "body")
             ),
-            bsTooltip("are_mismatches_allowed", 
+            shinyBS::bsTooltip("are_mismatches_allowed", 
                 "Allow primers to cover templates that bind with mismatches?",
                 "right", options = list(container = "body")
             ),
             # disallow mismatches at 3' end?
-            bsTooltip("allow_3prime_mismatch", 
+            shinyBS::bsTooltip("allow_3prime_mismatch", 
                  "Allow primer-template mismatches in the last 3\\' bases?",
                 "right", options = list(container = "body")
             ),
-            bsTooltip("disallowed_mismatch_pos", 
+            shinyBS::bsTooltip("disallowed_mismatch_pos", 
                  "The number of positions from the 3\\' end where mismatches should be prevented.",
                 "right", options = list(container = "body")
             ),
@@ -171,9 +171,9 @@ tabPanel("Settings", value = "constraint_panel",
             #############
             # COVERAGE CONDITION COLLAPSE
             ####################
-             bsCollapse(id = "coverage_conditions_collapse", 
+             shinyBS::bsCollapse(id = "coverage_conditions_collapse", 
                 open = "basic_cvg_conditions",
-                bsCollapsePanel(tagList(icon("star-o"), "Basic conditions"),
+                shinyBS::bsCollapsePanel(tagList(icon("star-o"), "Basic conditions"),
                     value = "basic_cvg_conditions",
             #h4(class="inline", "Basic conditions"),
             div(p("The basic coverage conditions provide requirements for identifying possible amplification events: the maximal number of allowed mismatches and the allowed binding region determine which coverage events can be detected."), 
@@ -213,7 +213,7 @@ tabPanel("Settings", value = "constraint_panel",
             ),
             HTML("</table>")
             ),
-            bsCollapsePanel(tagList(icon("star"), "Extended conditions"),
+            shinyBS::bsCollapsePanel(tagList(icon("star"), "Extended conditions"),
                 value = "ext_cvg_conditions",
             #########
             # EXTENDED COVERAGE CONDITIONS
@@ -221,10 +221,10 @@ tabPanel("Settings", value = "constraint_panel",
             div(p("The extended coverage conditions define the way in which coverage events are called."), 
                 class = "two"
             ),
-            bsCollapse(id = "extended_cvg_collapse", 
+            shinyBS::bsCollapse(id = "extended_cvg_collapse", 
                 open = "ext_cvg_conditions_binding",
             # BINDING CONDITIONS
-            bsCollapsePanel(tagList(icon("star"), "Binding conditions"),
+            shinyBS::bsCollapsePanel(tagList(icon("star"), "Binding conditions"),
                 value = "ext_cvg_conditions_binding",
                 p("For typical applications, selecting a single binding condition is sufficient. For evaluating primers, we recommend either our coverage model (FPR 6%) or the free energy of annealing (cutoff -5 kcal/mol). For designing primers, we recommend either our model (FPR 0%) or DECIPHER's primer efficiency (cutoff 0.1%)."),
                 HTML("<table class=constraint-table>"),
@@ -293,7 +293,7 @@ tabPanel("Settings", value = "constraint_panel",
                 HTML("</table>")
             ),
             # CODON DESIGN
-            bsCollapsePanel(tagList(icon("star"), "Codon design"),
+            shinyBS::bsCollapsePanel(tagList(icon("star"), "Codon design"),
                 value = "ext_cvg_conditions_mismatches",
                 p("Prevent the calling of coverage events for mismatch binding events that would have a functional impact on the amplicons.",
                     openPrimeRui:::create.help.button("codon_design")
@@ -332,7 +332,7 @@ tabPanel("Settings", value = "constraint_panel",
                 )
             )
      ), # close binding conditions panel
-     bsCollapsePanel(tagList(icon("filter"), "Constraints"),
+     shinyBS::bsCollapsePanel(tagList(icon("filter"), "Constraints"),
         ###########
         # SETTINGS CUSTOMIZATION
         ###########
@@ -616,34 +616,34 @@ tabPanel("Settings", value = "constraint_panel",
         ########
         # filtering tooltips for table entries
         #######
-        bsTooltip("constraint_primer_coverage", "Filter primers covering less templates than specified.",
+        shinyBS::bsTooltip("constraint_primer_coverage", "Filter primers covering less templates than specified.",
                     "right", options = list(container = "body")),
-        bsTooltip("constraint_primer_length", "Specify the desired number of primer nucleotides.",
+        shinyBS::bsTooltip("constraint_primer_length", "Specify the desired number of primer nucleotides.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_gc_clamp", "Specify the desired number of GCs at the 3\\' end of primers.",
+        shinyBS::bsTooltip("constraint_gc_clamp", "Specify the desired number of GCs at the 3\\' end of primers.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_gc_ratio", "Specify the desired ratio of GCs among all primer nucleotides.",
+        shinyBS::bsTooltip("constraint_gc_ratio", "Specify the desired ratio of GCs among all primer nucleotides.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_no_runs", "Specify the longest allowed single-nucleotide run in a primer (e.g. AAAACG has a run of 4 adenosines).",
+        shinyBS::bsTooltip("constraint_no_runs", "Specify the longest allowed single-nucleotide run in a primer (e.g. AAAACG has a run of 4 adenosines).",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_no_repeats", "Specify the longest allowed number of dinucleotide repeats in a primer (e.g. ACACGT has 2 repeats of the AC dinucleotide).",
+        shinyBS::bsTooltip("constraint_no_repeats", "Specify the longest allowed number of dinucleotide repeats in a primer (e.g. ACACGT has 2 repeats of the AC dinucleotide).",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_melting_temp_range", "Specify the desired melting temperatures of primers (i.e. the temperature at which 50% of the primer is bound to the template).",
+        shinyBS::bsTooltip("constraint_melting_temp_range", "Specify the desired melting temperatures of primers (i.e. the temperature at which 50% of the primer is bound to the template).",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_secondary_structure", "Filter primers exhibiting secondary structures that are below the free energy cutoff.",
+        shinyBS::bsTooltip("constraint_secondary_structure", "Filter primers exhibiting secondary structures that are below the free energy cutoff.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_primer_specificity", "Filter primers whose binding specificity is smaller than the specified value.",
+        shinyBS::bsTooltip("constraint_primer_specificity", "Filter primers whose binding specificity is smaller than the specified value.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_self_dimerization", "Filter self-complementary primers whose free energies are below the specified cutoff.",
+        shinyBS::bsTooltip("constraint_self_dimerization", "Filter self-complementary primers whose free energies are below the specified cutoff.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_cross_dimerization", "Filter cross-complementary primers whose free energies are below the specified cutoff.",
+        shinyBS::bsTooltip("constraint_cross_dimerization", "Filter cross-complementary primers whose free energies are below the specified cutoff.",
                   "right", options = list(container = "body")),
-        bsTooltip("help_overview_filters", "View help on the filtering constraints.",
+        shinyBS::bsTooltip("help_overview_filters", "View help on the filtering constraints.",
                   "right", options = list(container = "body")),
-        bsTooltip("constraint_melting_temp_diff", "The maximum allowed difference in melting temperatures between primers in a set.",
+        shinyBS::bsTooltip("constraint_melting_temp_diff", "The maximum allowed difference in melting temperatures between primers in a set.",
                       "right", options = list(container = "body"))
     ), # close collapse panel of constraints
-    bsCollapsePanel(tagList(icon("flask"), "PCR conditions"),
+    shinyBS::bsCollapsePanel(tagList(icon("flask"), "PCR conditions"),
         #########
         # PCR SETTINGS
         ##########
@@ -657,7 +657,7 @@ tabPanel("Settings", value = "constraint_panel",
             # annealing temp not relevant for designing primers:
             conditionalPanel("input.primer_analysis_type != 'design'", 
                 # set annealing temperature
-                bsTooltip("automatic_annealing_temp", 
+                shinyBS::bsTooltip("automatic_annealing_temp", 
                     "Whether a suitable annealing temperature should be detected automatically.",
                     "right", options = list(container = "body")
                 ),
@@ -676,7 +676,7 @@ tabPanel("Settings", value = "constraint_panel",
                         min = 30, max = 80, 
                         post = "&#8451"
                     ),
-                    bsTooltip("annealing_temp", 
+                    shinyBS::bsTooltip("annealing_temp", 
                         "The PCR annealing temperature.",
                         "right", options = list(container = "body")
                     )
@@ -691,7 +691,7 @@ tabPanel("Settings", value = "constraint_panel",
                 c("Taq" = "active", "Non-Taq" = "inactive"),
                 inline = TRUE
             ), 
-            bsTooltip("use_taq_polymerase", 
+            shinyBS::bsTooltip("use_taq_polymerase", 
                 "Whether a Taq polymerase or another type of polymerase is used.",
                     "right", options = list(container = "body")
             ),
@@ -703,7 +703,7 @@ tabPanel("Settings", value = "constraint_panel",
                 min = 1, max = 100, 
                 step = 1
             ),
-            bsTooltip("cycles", 
+            shinyBS::bsTooltip("cycles", 
                 "The number of PCR cycles.",
                 "right", options = list(container = "body")
             ),
@@ -714,7 +714,7 @@ tabPanel("Settings", value = "constraint_panel",
                 min = 0, max = 100, 
                 post = "mM", step = 0.1
             ), # unit: mM
-            bsTooltip("Na_concentration", 
+            shinyBS::bsTooltip("Na_concentration", 
                 "The concentration of monovalent sodium ions for PCR.",
                 "right", options = list(container = "body")
             ),
@@ -726,7 +726,7 @@ tabPanel("Settings", value = "constraint_panel",
                 post = "mM",
                 step = 0.1
             ),
-            bsTooltip("Mg_concentration", "The concentration of divalent magnesium ions for PCR.",
+            shinyBS::bsTooltip("Mg_concentration", "The concentration of divalent magnesium ions for PCR.",
                     "right", options = list(container = "body")),
             # potassium ion concentration
             sliderInput("K_concentration", 
@@ -735,7 +735,7 @@ tabPanel("Settings", value = "constraint_panel",
                 min = 0, max = 100, 
                 post = "mM", step = 0.1
             ),
-            bsTooltip("K_concentration", "The concentration of monovalent potassium ions for PCR.",
+            shinyBS::bsTooltip("K_concentration", "The concentration of monovalent potassium ions for PCR.",
                       "right", options = list(container = "body")
             ),
             # tris buffer concentration
@@ -746,7 +746,7 @@ tabPanel("Settings", value = "constraint_panel",
                 post = "mM",
                 step = 0.1
             ),
-            bsTooltip("Tris_concentration", 
+            shinyBS::bsTooltip("Tris_concentration", 
                     "The concentration of the Tris buffer for PCR.",
                     "right", options = list(container = "body")
             ),
@@ -758,7 +758,7 @@ tabPanel("Settings", value = "constraint_panel",
                 min = 0, max = 1000, 
                 post = "nM"
             ),
-            bsTooltip("primer_concentration", 
+            shinyBS::bsTooltip("primer_concentration", 
                 "The PCR oligomer concentration.",
                 "right", options = list(container = "body")
             ),
@@ -768,19 +768,19 @@ tabPanel("Settings", value = "constraint_panel",
                 200, # nM
                 min = 0, max = 1000, post = "nM"
             ),
-            bsTooltip("template_concentration", 
+            shinyBS::bsTooltip("template_concentration", 
                     "The concentration of template molecules.",
                     "right", options = list(container = "body")
             ),
             # confirm settings button
             div(class = "rightAligned", 
-                bsButton("confirm_PCR_settings", 
+                shinyBS::bsButton("confirm_PCR_settings", 
                 "Confirm settings", icon = icon("check"),
                 class = "actionStyleSmall", disabled = TRUE,
                 style = "primary")
             )
         ), # close bscollapse for general settings
-        bsCollapsePanel(
+        shinyBS::bsCollapsePanel(
             tagList(icon("menu-hamburger", lib = "glyphicon"),
                 "Other settings"),
             #########
@@ -797,7 +797,7 @@ tabPanel("Settings", value = "constraint_panel",
                         min = 1, max = parallel::detectCores(), 
                         value = min(parallel::detectCores(), 2), step = 1
                 ),
-                bsTooltip("no_of_cores", 
+                shinyBS::bsTooltip("no_of_cores", 
                     "The number of CPU cores to be used for parallel computations.",
                     "right", options = list(container = "body")
                 )
@@ -808,7 +808,7 @@ tabPanel("Settings", value = "constraint_panel",
     # settings reset button:
     ##########
     actionButton("reset_constraints", "Reset settings", icon = icon("refresh", lib = "glyphicon"), class = "actionStyleSmall"),
-    bsTooltip("reset_constraints", 
+    shinyBS::bsTooltip("reset_constraints", 
         "Reset the current settings to the defaults specified in the loaded settings file.",
             "right", options = list(container = "body")
     )

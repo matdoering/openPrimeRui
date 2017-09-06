@@ -12,12 +12,17 @@
 #' so please ensure that you've installed openPrimeR including
 #' all suggested dependencies.
 #'
+#' @import shiny shinyBS
 #' @export
 #' @return Opens the Shiny app in a web browser.
 #' @examples
 #' # Start the shiny app
 #' \dontrun{
 #' startApp()
+#' }
+#' # Only run this example in interactive R sessions:
+#' if (interactive()) {
+#'  startApp()
 #' }
 startApp <- function() {
     appDir <- system.file("shiny", package = "openPrimeRui")

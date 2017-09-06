@@ -95,8 +95,6 @@ tabPanel("Constraints",
                 # dimerization details
                 condition = "input.selected_dimerization_result == 'details'", 
                     DT::dataTableOutput("dimer_data")
-                    #bsModal("DimerDetail", "All possible dimerizations", "", size = "large",
-                        #DT::dataTableOutput("dimer_detail"))
             )
         ),
     ########
