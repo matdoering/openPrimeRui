@@ -313,8 +313,11 @@ observeEvent(input$IMGT_template_confirm_button, {
     # on confirmation of IMGT templates, move to binding region customization
         # allowed panel isn't active yet
         # trigger opening, but then remove the duplicated entry?
-        shinyBS::updateCollapse(session, "template_collapse_analysis", close = c("template_input_panel"), 
+         shinyBS::updateCollapse(session, "template_collapse_analysis",
             open = c("allowed_template_panel"))
+#
+        #shinyBS::updateCollapse(session, "template_collapse_analysis", close = c("template_input_panel"), 
+            #open = c("allowed_template_panel"))
 })
 
 session$onSessionEnded(function() {

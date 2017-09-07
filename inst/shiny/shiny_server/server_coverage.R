@@ -525,7 +525,7 @@ cvg.template.mismatch.height <- reactive({
         idx <- which(template.df$Group %in% lex.sel)
         excluded.seqs <- setdiff(template.df$Identifier[seq_len(nrow(template.df))], template.df$Identifier[idx])
         template.df <- template.df[idx,]
-        primer.df <- evaluate.diff.primer.cvg(primer.df, excluded.seqs, template.df)
+        primer.df <- openPrimeR:::evaluate.diff.primer.cvg(primer.df, excluded.seqs, template.df)
     }
     # scale height of plot by max nbr of mismatches of any primer
     max.cvg <- openPrimeR:::get_cvg_ratio(primer.df, template.df)
@@ -605,7 +605,7 @@ Coverage_Primer_mismatches_width <- reactive({
         return(1200)
     }
     # base width on number of primers and number of facets used
-    width <- get.plot.height(nrow(primer.df) * Coverage_Primer_mismatches_nfacets(), 15, 800)
+    width <- openPrimeR:::get.plot.height(nrow(primer.df) * Coverage_Primer_mismatches_nfacets(), 15, 800)
     return(width)
 })
 Coverage_Primer_mismatches_height <- reactive({
@@ -628,7 +628,7 @@ Coverage_Primer_mismatches_height <- reactive({
         idx <- which(template.df$Group %in% lex.sel)
         excluded.seqs <- setdiff(template.df$Identifier[seq_len(nrow(template.df))], template.df$Identifier[idx])
         template.df <- template.df[idx,]
-        primer.df <- evaluate.diff.primer.cvg(primer.df, excluded.seqs, template.df)
+        primer.df <- openPrimeR:::evaluate.diff.primer.cvg(primer.df, excluded.seqs, template.df)
     }
     # scale height of plot by max nbr of mismatches of any primer
     max.cvg <- openPrimeR:::get_cvg_ratio(primer.df, template.df)
