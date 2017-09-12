@@ -30,9 +30,11 @@ In case that external tools are missing, the Shiny application automatically cre
 
 *openPrimeRui* exports only a single function, `startApp()`, which is used to open the shiny application:
 
-```{r check_dependencies, message = FALSE, warning = FALSE, eval = FALSE}
+```{r check_dependencies, message = FALSE, warning = FALSE, eval = TRUE}
 library(openPrimeR)
-startApp()
+if (interactive()) {
+    startApp()
+}
 ```
 
 After calling `startApp()`, the Shiny application should open as a new tab in your default browser. If this is not the case, please consider the console output and manually open the displayed URL (a certain port on *localhost*) in your preferred web browser. 
