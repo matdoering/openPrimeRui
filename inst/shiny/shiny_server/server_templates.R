@@ -79,7 +79,7 @@ seq.data.input <- reactive({
             hdr.structure = hdr.structure$header, 
             delim = hdr.structure$delim, id.column = id.col, 
             rm.keywords = rm.keywords, remove.duplicates = rm.duplicated,
-            gap.character = isolate(gap_char())))
+            gap.char = isolate(gap_char())))
     updateTabsetPanel(session, "main", selected = "Sequences")
     updateTextInput(session, "sample_name", value = seqFile$name) # update analysis identifier
     for (i in seq_along(out$warnings)) {
