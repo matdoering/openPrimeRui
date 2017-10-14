@@ -295,7 +295,7 @@ tabPanel("Primers",
                         )
                 ),
                 # load comparison primer button
-                # TODO: this button only works for IMGT at the moment ..
+                # NB: this button only works for IMGT at the moment ..
                 actionButton("load_all_comparison_sets", 
                     "Load all available primer sets",
                     class = "actionStyleSmall"

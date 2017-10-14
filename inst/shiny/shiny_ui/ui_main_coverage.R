@@ -55,7 +55,6 @@ tabPanel("Coverage",
             column(12,  
             selectizeInput( # select nbr of allowed mismatches for table
                 "allowed_mm_cvg_stats", "Allowed number of mismatches",
-                # TODO
                 NULL, 
                 options = list(
                     placeholder = 'Select a number of mismatches',

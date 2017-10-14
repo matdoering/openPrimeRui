@@ -560,7 +560,7 @@ optimized.regions.structure <- eventReactive(input$modify_binding_regions_second
         # can only compute with a single Ta
         annealing.temp <- min(annealing.temp)
     }
-    result <- openPrimeR:::optimize.template.binding.regions.dir(get.exon.data(), annealing.temp, input$minimal_region_length_opti, input$design_direction) # TODO: specify minimal region length
+    result <- openPrimeR:::optimize.template.binding.regions.dir(get.exon.data(), annealing.temp, input$minimal_region_length_opti, input$design_direction) 
     # result: consists of 'Intervals' (new binding regions) and 'Foldings' (data frame with DeltaG information)
     if (length(result) == 0) { # nothing could be changed (no regions defined)
         return()

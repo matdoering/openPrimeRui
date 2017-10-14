@@ -506,7 +506,6 @@ cvg.template.mismatch.width <- reactive({
 
 cvg.template.mismatch.height <- reactive({
     # height: at which nbr of mismatches do we have maxed the coverage?
-    # TODO: add Primer_mismatches cvg update depending on selection!
     primer.df <- switch(input$set_meta_selector,
         "all" = rv_primers$evaluated_primers,
         "filtered" = current.filtered.primers(),
@@ -519,7 +518,7 @@ cvg.template.mismatch.height <- reactive({
         return(1200)
     }
     # select template subset
-    # TODO: store these values (selected primers/templates as react expressions ..)
+    # TODO: should store selected primers/templates as react expressions -> not necessary to have duplicated code for every function that uses this
     lex.sel <- input$selected_group_coverage
     if (!is.null(lex.sel) && !"all" %in% lex.sel) { # select subset
         idx <- which(template.df$Group %in% lex.sel)
@@ -609,7 +608,6 @@ Coverage_Primer_mismatches_width <- reactive({
     return(width)
 })
 Coverage_Primer_mismatches_height <- reactive({
-    # TODO: use this for individual primer mismatches plot
     # height of template coverage plot, stratified by mismatches
     primer.df <- switch(input$set_meta_selector,
         "all" = rv_primers$evaluated_primers,

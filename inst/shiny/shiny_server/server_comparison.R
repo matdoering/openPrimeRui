@@ -207,7 +207,7 @@ ComparisonPrimerSuppliedObserver <- observeEvent(input$selected_comparison_prime
 
 ComparisonPrimerSuppliedObserverComparison <- observeEvent(input$selected_comparison_primers_virus, 
     {
-        # TODO: remove all the 'virus' functions and integrate such that there's only one primer comparison input field 
+        # TODO: remove all the 'virus' functions and integrate such that there's only one primer comparison input field -> use shiny modules for this?
         # set
         if (length(input$selected_comparison_primers_virus) == 0 || input$selected_comparison_primers_virus == 
             "") {
@@ -388,8 +388,6 @@ primerComparisonObserver <- observeEvent(c(input$compare_primers), {
     # upon selecting input$compare_primers, retrieve the selected primers and set
     # them in rv_comparison.data$comp_primers and rv_comparison.data$comp_templates
     #
-    # (TODO: change this -> set_meta_selector should be used to select the active set, not here!!!) ?
-    #
     # Ensure that the run identifiers are unique before starting the analyses: 'set.run.names' does this
     primers <- openPrimeR:::set.run.names(current.comp.primers())
     seqs <- openPrimeR:::set.run.names(current.comp.seqs())
@@ -497,9 +495,9 @@ output$comparison_plot_evaluation <- renderPlot({
     # active constraints
     validate(need(plot.comp.primers(), "Please upload primer sets for comparison and click on the Compare button first."))
     # add melting_temp_diff manually here
-    # TODO: signature plot disabled until ggiraph bug fixed in the pkg
     p <- openPrimeR:::plot_constraint_fulfillment(plot.comp.primers(),
             current.settings(), plot.p.vals = FALSE)
+    # TODO: signature plot (radar plot) removed from 'openPrimeR' until ggiraph bug fixed 
     #p <- openPrimeR:::plot_constraint_signature(plot.comp.primers(),
             #plot.comp.templates(),
             #constraint.settings, plot.p.vals = FALSE, ncol = NULL)
@@ -558,7 +556,6 @@ comparisonFilterObserver <- observeEvent(input$quickFilterButton_compare, {
     if (length(templates) == 0 || length(primers) == 0) {
         return
     } 
-    con <- constraints()
     active.constraints <- names(openPrimeR:::constraints(current.settings()))
     filter.data <- openPrimeR:::filter.comparison.primers(primers, templates, 
         active.constraints, current.settings(),
@@ -566,8 +563,42 @@ comparisonFilterObserver <- observeEvent(input$quickFilterButton_compare, {
     # save data in reactive rv_values lists
     rv_comparison.data$primers_filtered <- filter.data$primers
     rv_comparison.data$seqs_filtered <- filter.data$templates
-    
 })
+
+comparisonEvalObserver <- observeEvent(input$reanalyze_primers, {
+    # evaluate comparison primer sets using the selected constraints
+    updateSelectInput(session, "set_meta_selector", selected = "all")
+    # function to update progress.
+    progress <- shiny::Progress$new()
+    progress$set(message = "Evaluating", value = 0)
+    on.exit(progress$close())
+    
+    updateProgress <- function(value, detail, option) {
+        if (is.null(value)) {
+            value <- progress$getValue()
+            value <- value + (progress$getMax() - value)/5
+        }
+        if (option == "inc") {
+            progress$inc(amount = value, detail = detail)
+        } else {
+            progress$set(value = value, detail = detail)
+        }
+    }
+    ### 
+    primers <- current.comp.primers()
+    templates <- current.comp.seqs()
+    if (length(templates) == 0 || length(primers) == 0) {
+        return
+    } 
+    primers <- openPrimeR:::check_constraints_comparison(primers, templates, current.settings(),
+                                                        for.shiny = TRUE, updateProgress = updateProgress)
+    # update templates
+    templates <- lapply(seq_along(templates), function(x) openPrimeR:::update_template_cvg(templates[[x]], primers[[x]]))
+    # overwrite the inputted CSVs 
+    rv_comparison.data$primers <- primers
+    rv_comparison.data$seqs <- templates
+})
+
 plot.comp.primers <- reactive({
     primers <- switch(input$set_meta_selector,
             "all" = rv_comparison.data$comp_primers,

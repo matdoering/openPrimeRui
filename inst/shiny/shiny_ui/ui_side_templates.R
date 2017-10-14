@@ -422,72 +422,55 @@ tabPanel("Templates",
                             )
                         )
                      ), # uniform panel ends
-######################### INSERT HERE##############
- ############
+    ############
     # CUSTOMIZATION OF REGIONS
-    # -> only for template-specific / supplied templates TODO make this part of allowed regions tab
+    # -> only for template-specific / supplied templates 
     ########
     conditionalPanel("input.selected_allowed_region_definition == 'Template-specific'",
         # individualization of regions
-        #shinyBS::bsCollapse(id = "customize_allowed_regions_collapse", 
-            #shinyBS::bsCollapsePanel(tagList(icon("bookmark"), "Customize allowed regions"),
-                #value = "customize_allowed_regions_panel",
-                div(p("Define the binding range of forward/reverse 
-                       primers in relation to the target region."), 
-                       class = "two"
-                ),
-                conditionalPanel("input.individual_allowed_regions_fw[0] != -0.99", # if leaders were loaded correctly
-                    # modify fw binding region relative to defined binding region
-                    sliderInput("individual_allowed_regions_fw", 
-                        label = tagList(icon("arrow-right", lib = "glyphicon"),
-                            "Modify the allowed region for forward primers"), 
-                        min = -1, 
-                        max = 40, 
-                        value = c(-0.99, -0.99), step = 1
-                    )
-                ), 
-                shinyBS::bsTooltip("individual_allowed_regions_fw", 
-                           paste("The upstream (5\\') binding region for forward primers.",
-                           "<br>Negative positions correspond to positions",
-                           "upstream of the target amplification site."),
-                            "right", options = list(container = "body")
-                ),
-                conditionalPanel("input.individual_allowed_regions_rev[0] != -0.99",
-                    # modify rev binding region relative to defined binding region
-                    sliderInput("individual_allowed_regions_rev", 
-                        label = tagList(icon("arrow-left", lib = "glyphicon"), "Modify the allowed region for reverse primers"), 
-                        min = -1,  # if set to 0 -> primer starts with 1
-                        max = 40, value = c(-0.99,-0.99), 
-                        step = 1
-                    )
-                ),
-                shinyBS::bsTooltip("individual_allowed_regions_rev", 
-                    paste("The downstream (3\\') binding region for reverse primers.",
-                           "<br>Negative positions correspond to positions",
-                           "downstream of the target amplification site."),
-                            "right", options = list(container = "body")
-                ),
-                # confirm button to delay updates from slides until button is pressed
-                div(class="leftAligned",
-                    actionButton("individual_region_confirm_button", 
-                        "Update binding regions", icon = icon("check"), 
-                        class="actionStyle btn-primary"
-                    )
+            div(p("Define the binding range of forward/reverse 
+                   primers in relation to the target region."), 
+                   class = "two"
+            ),
+            conditionalPanel("input.individual_allowed_regions_fw[0] != -0.99", # if leaders were loaded correctly
+                # modify fw binding region relative to defined binding region
+                sliderInput("individual_allowed_regions_fw", 
+                    label = tagList(icon("arrow-right", lib = "glyphicon"),
+                        "Modify the allowed region for forward primers"), 
+                    min = -1, 
+                    max = 40, 
+                    value = c(-0.99, -0.99), step = 1
                 )
-            #) # customize region panel ends
+            ), 
+            shinyBS::bsTooltip("individual_allowed_regions_fw", 
+                       paste("The upstream (5\\') binding region for forward primers.",
+                       "<br>Negative positions correspond to positions",
+                       "upstream of the target amplification site."),
+                        "right", options = list(container = "body")
+            ),
+            conditionalPanel("input.individual_allowed_regions_rev[0] != -0.99",
+                # modify rev binding region relative to defined binding region
+                sliderInput("individual_allowed_regions_rev", 
+                    label = tagList(icon("arrow-left", lib = "glyphicon"), "Modify the allowed region for reverse primers"), 
+                    min = -1,  # if set to 0 -> primer starts with 1
+                    max = 40, value = c(-0.99,-0.99), 
+                    step = 1
+                )
+            ),
+            shinyBS::bsTooltip("individual_allowed_regions_rev", 
+                paste("The downstream (3\\') binding region for reverse primers.",
+                       "<br>Negative positions correspond to positions",
+                       "downstream of the target amplification site."),
+                        "right", options = list(container = "body")
+            ),
+            # confirm button to delay updates from slides until button is pressed
+            div(class="leftAligned",
+                actionButton("individual_region_confirm_button", 
+                    "Update binding regions", icon = icon("check"), 
+                    class="actionStyle btn-primary"
+                )
+            )
             ) # customize conditional ends
-            # confirm allowed regions button
-            #br()
-            #div(class = "rightAligned",
-                #shinyBS::bsButton("confirm_uploaded_allowed_regions", 
-                        #"Confirm allowed regions", 
-                        #icon = icon("check"), 
-                        #class = "actionStyleSmall", 
-                        #disabled = TRUE, 
-                        #style = "primary"
-                #)
-            #)
-          # confirm button end
           ) # allowed regions panel ends
       ) # template collapse ends
     ) # analysis conditional ends

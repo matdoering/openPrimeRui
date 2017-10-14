@@ -381,6 +381,7 @@ session$onSessionEnded(function() {
     #constraintMeltingTempOptiObserver$suspend()
     #comparisonConstraintObserver$suspend()
     comparisonFileObserver$suspend()
+    comparisonEvalObserver$suspend()
     comparisonTemplateObserver$suspend()
     notifyRelaxation$suspend()  # pop-up when relaxation occured
     notifyNotAllowedBinding$suspend()

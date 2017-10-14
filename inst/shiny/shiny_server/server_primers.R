@@ -360,21 +360,23 @@ optimal.primers <- reactive({
     }
     return(primer.data$opti)
 })
-cur_primer_detail <- reactive({ # think of a table layout? TODO or do something else?
-    primers <- switch(input$set_meta_selector,
-                "all" = rv_primers$PrimerTab, 
-                "filtered" = rv_primers$PrimerTabFiltered,
-                "optimized" = rv_primers$PrimerTabOptimized)
-    if (length(rv_primers$selected_idx) == 0 || length(primers) == 0) {
-        data <- NULL
-    } else {
-       data <- primers[rv_primers$selected_idx,]  
-       # TODO: use a function to convert single primer values to a nice table
-    }
-    return(data)
-})
-##############
+
 ###############
+##############
+#cur_primer_detail <- reactive({
+    #primers <- switch(input$set_meta_selector,
+                #"all" = rv_primers$PrimerTab, 
+                #"filtered" = rv_primers$PrimerTabFiltered,
+                #"optimized" = rv_primers$PrimerTabOptimized)
+    #if (length(rv_primers$selected_idx) == 0 || length(primers) == 0) {
+        #data <- NULL
+    #} else {
+       #data <- primers[rv_primers$selected_idx,]  
+       ## now use a function to convert single primer values to a nice table
+    #}
+    #return(data)
+#})
+
 #output$primer_detail_table <- DT::renderDataTable({
     ## select active primer table:
     #primers <- switch(input$set_meta_selector,
@@ -392,8 +394,7 @@ cur_primer_detail <- reactive({ # think of a table layout? TODO or do something 
 
 #primerDetailObserver <- observeEvent(input$PrimerTab_rows_selected, { 
     # if primer is selected, show properties of primer
-    # TODO?
-    #if (FALSE) { # TODO: think about this feature!
+    #if (FALSE) { 
         #sel.ID <- input$PrimerTab_row_last_clicked  # last clicked row: since ID is the first column, we need to match to ID
         ## store in reactive rv_values to access by reactive function
         #rv_primers$selected_idx <- as.numeric(sel.ID)  # only works if rownames are reset to 1:N

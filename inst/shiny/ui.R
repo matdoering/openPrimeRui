@@ -2,10 +2,11 @@
 # USER INTERFACE FOR SHINY
 ###############
 # load essential shiny dependencies here
-library(shinyBS) # need to attach shinyBS as well
+# TODO: there was a solution how attaching shinyBS can be prevented, check shinyBS bug board on gitHub
+library(shinyBS) # need to attach shinyBS, otherwise shinyBS features wont work!!!
 ############################################
 # load extra functions
-message("Setting paths ...")
+# message("Setting paths ...")
 source(system.file("shiny", "shiny_server", "extra_set_paths.R", package = "openPrimeRui"))
 
 ui <- fluidPage(
@@ -77,7 +78,7 @@ ui <- fluidPage(
     ###########
     # design data verification modal:
     singleton(shinyBS::bsModal("DesignVerification", "Design parameter verification", "designButton",
-        HTML("<div style='text-align:center;font-size: 14pt'>"), # TODO: space between traffic light? reduce size of checkinput text TODO
+        HTML("<div style='text-align:center;font-size: 14pt'>"),
         uiOutput("designText"),
         br(),
         openPrimeRui:::traffic_light(),
@@ -88,7 +89,7 @@ ui <- fluidPage(
         actionButton("evaluate_difficulty", "Evaluate problem difficulty", 
             icon = icon("cogs"),
             class="actionStyle btn-primary"),
-        HTML("<div style='text-align:center'>"), # TODO: space between traffic light? reduce size of checkinput text TODO
+        HTML("<div style='text-align:center'>"), 
         actionButton("optimizeButton", "Go!", 
             icon = icon("check"),
             class="actionStyleRun btn-primary"),

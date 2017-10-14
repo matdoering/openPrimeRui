@@ -108,7 +108,7 @@ tabPanel("Analyze",
                         style="color: #fff; background-color: #337ab7; border-color: #2e6da4"))
         ), # close design options panel
         #########
-        # TEMPLATE REGION PANEL TODO
+        # TEMPLATE REGION PANEL
         #########
         shinyBS::bsCollapsePanel(tagList(
                  icon("book", lib = "glyphicon"), 
@@ -118,7 +118,6 @@ tabPanel("Analyze",
             class = "two"
                 ),
             ###########
-            # TODO: maybe dynamically update this based on current binding region
             sliderInput("minimal_region_length_opti", 
                 label = tagList(icon("arrow-right", lib = "glyphicon"),
                     "Minimal binding region extent"), 
@@ -170,8 +169,16 @@ tabPanel("Analyze",
             "Compare the properties of the selected primer sets with each other.",
             "right", options = list(container = "body")
         ),
-        br(),
-        br(),
+        br(), br(),
+        # re-analyze button
+        actionButton("reanalyze_primers", "Reanalyze primer sets", 
+            icon =  icon("bar-chart"),
+            class = "actionStyleRun btn-primary"),
+        shinyBS::bsTooltip("reanalyze_primers", 
+            "Recompute the properties of the loaded primer sets to ensure that all sets have been evaluated according to the same settings.",
+            "right", options = list(container = "body")
+        ),
+        br(), br(),
         # filter button for comparison
         actionButton("quickFilterButton_compare", "Filter primer sets", icon = icon("filter", lib = "glyphicon"), class="actionStyleRun btn-primary"),br(),
         shinyBS::bsTooltip("quickFilterButton_compare", 

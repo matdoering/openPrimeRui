@@ -685,7 +685,7 @@ constraintsFromXMLObserver <- observeEvent(c(rv_cur.input.data$settings, input$r
         shinyjs::enable("allowed_primer_efficiency")
         updateSliderInput(session, "allowed_primer_efficiency", value = unname(cvg.conditions$primer_efficiency))
     } else {
-        # allowed range can't be disabled upon startup, dont know why TODO
+        # NB: some allowed ranges can't be disabled upon startup ..
         updateRadioButtons(session, "constraint_primer_efficiency", selected = "inactive")
         shinyjs::disable("allowed_primer_efficiency")
     }
@@ -985,8 +985,6 @@ deactivateConstraintsObserver <- observeEvent(input$deactivate_all_filters, {
 })
 
 ToolInfoObserver <- observeEvent(input$third_party_tools, {
-    #print("toggling MissingTools modal!") 
-    # TODO: toggleModal and bsButton don't work without loading shinyBs via 'library' ...
     shinyBS::toggleModal(session, "MissingTools", toggle = "open") 
 })
 
