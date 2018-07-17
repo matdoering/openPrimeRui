@@ -319,7 +319,7 @@ ui <- fluidPage(
                 tagList(
                         column(4, 
                             div(class="headerStyle", 
-                            HTML(paste0("<a href='https://github.molgen.mpg.de/mdoering/primer_design/'", 
+                            HTML(paste0("<a href='http://openprimer.mpi-inf.mpg.de'", 
                             " target='_blank'><img class='header_img' src='images/logo_text.png' alt='logo'/></a>"))
                         )),
                         column(6, 

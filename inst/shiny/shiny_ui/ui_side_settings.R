@@ -226,7 +226,7 @@ tabPanel("Settings", value = "constraint_panel",
             # BINDING CONDITIONS
             shinyBS::bsCollapsePanel(tagList(icon("star"), "Binding conditions"),
                 value = "ext_cvg_conditions_binding",
-                p("For typical applications, selecting a single binding condition is sufficient. For evaluating primers, we recommend either our coverage model (FPR 6%) or the free energy of annealing (cutoff -5 kcal/mol). For designing primers, we recommend either our model (FPR 0%) or DECIPHER's primer efficiency (cutoff 0.1%)."),
+                p("For typical applications, selecting a single binding condition is sufficient. The coverage criteria should be more stringent when designing primers than when evaluating primers in order to ensure that all primers actually allow for amplification."),
                 HTML("<table class=constraint-table>"),
                     openPrimeRui:::create.constraint.table.row( 
                         radioButtons("constraint_annealing_DeltaG", 
@@ -408,7 +408,7 @@ tabPanel("Settings", value = "constraint_panel",
                 inline = TRUE
             ),
             sliderInput("allowed_gc_clamp", "", 
-                min = 0, max = 10, 
+                min = 0, max = 5, 
                 value = c(min = 1, max = 3)
             ),
             sliderInput("limit_allowed_gc_clamp", "", 
@@ -452,7 +452,7 @@ tabPanel("Settings", value = "constraint_panel",
                 value = c(min = 0, max = 4)
             ),
             sliderInput("limit_allowed_no_runs", "",
-                min = 0, max = 20,
+                min = 0, max = 10,
                 value = c(min = 0, max = 6)
             )
         ),
@@ -472,7 +472,7 @@ tabPanel("Settings", value = "constraint_panel",
                 value = c(min = 0, max = 4)
             ),
             sliderInput("limit_allowed_no_repeats", "",
-                min = 0, max = 20,
+                min = 0, max = 10,
                 value = c(min = 0, max = 6)
             )
         ),
@@ -493,7 +493,7 @@ tabPanel("Settings", value = "constraint_panel",
                 post = "&#8451;"
             ),
             sliderInput("limit_allowed_melting_temp_range", "",
-                min = 20, max = 90,
+                min = 40, max = 90,
                 value = c(min = 45, max = 75),
                 post = "&#8451;"
             )
@@ -514,7 +514,7 @@ tabPanel("Settings", value = "constraint_panel",
                 post = "&#8451"
             ),
             sliderInput("limit_allowed_melting_temp_diff", "", 
-                min = 0, max = 20, 
+                min = 0, max = 15, 
                 value = c(min = 0, max = 8),
                 post = "&#8451"
             )
@@ -579,7 +579,7 @@ tabPanel("Settings", value = "constraint_panel",
                 post = "<sup>kcal</sup>&frasl;<sub>mol</sub>"
             ),
             sliderInput("limit_allowed_self_dimerization", "", 
-                min = -20, max = 0, 
+                min = -15, max = 0, 
                 value = c(min = -12), 
                 post = "<sup>kcal</sup>&frasl;<sub>mol</sub>"
             )
@@ -597,7 +597,7 @@ tabPanel("Settings", value = "constraint_panel",
                 value = c(min = -8), 
                 post = "<sup>kcal</sup>&frasl;<sub>mol</sub>"),
             sliderInput("limit_allowed_cross_dimerization", "", 
-                min = -20, max = 0, 
+                min = -15, max = 0, 
                 value = c(min = -12), 
                 post = "<sup>kcal</sup>&frasl;<sub>mol</sub>"
             )
