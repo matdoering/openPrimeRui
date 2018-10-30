@@ -79,7 +79,7 @@ K.concentration <- reactive({
 Tris.concentration <- reactive({ 
     # Converts the Tris buffer concentration concentration to its ion concentration, by halving the buffer concentration and converting from mM to M
     validate(need(is.numeric(input$Tris_concentration), "Concentration should be a numeric."))
-    return((input$Tris_concentration/2) * 1e-3) # n.b.: tris buffer concentration is halved to receive [Tris+] concentration (assume Pk buffer)
+    return(input$Tris_concentration * 1e-3) # retain tris buffer: no need to transform to ion concentration because PCR(settings) uses the buffer conc!
 })
 use.taq.polymerase <- reactive({
     return(ifelse(input$use_taq_polymerase == "active", TRUE, FALSE))
@@ -87,12 +87,11 @@ use.taq.polymerase <- reactive({
 annealing.temperature <- reactive({
     # The currently active annealing temperature (either automatically determined or input by the user)
      primer.data <- switch(input$set_meta_selector, 
-            "all" = primer.data(), 
+            "all" = rv_primers$evaluated_primers, 
             "filtered" = current.filtered.primers(), 
             "optimized" = optimal.primers())
     if (input$automatic_annealing_temp == "active") {
         # this should be computed 'at the right time' 
-        #print("COMPUTING ANNEALING TEMPERATURE")
         # get Ta for currently active set:
         template.data <- switch(input$set_meta_selector,
             "all" = rv_templates$cvg_all,
@@ -101,7 +100,6 @@ annealing.temperature <- reactive({
         annealing.temp <- try(openPrimeR:::compute_annealing_temp(primer.data, run.mode(), 
                                 template.data, Na.concentration(), Mg.concentration(), K.concentration(), 
                                 Tris.concentration(), primer.concentration()), silent = TRUE)
-        #print("ANNEALING TEMPERATURE COMPUTED")
         if (class(annealing.temp) == "try-error") { # Ta culdn't be computed
             Ta <- NULL
         } else {

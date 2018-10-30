@@ -57,8 +57,12 @@ rv_dimer.data <- reactiveValues(selected_idx = NULL)
     #})
 output$dimer_text <- renderUI({
     # output an overview text for dimerization
+     primer.data <- switch(input$set_meta_selector, 
+        "all" = rv_primers$evaluated_primers, 
+        "filtered" = current.filtered.primers(), 
+        "optimized" = optimal.primers())
     text <- HTML(paste("<h3>", 
-                openPrimeRui:::dimer.text.info(cur.dimer.data(), primer.data(),
+                openPrimeRui:::dimer.text.info(cur.dimer.data(), primer.data,
                                 cur.dimer.cutoff()), 
                 "</h3>", sep = ""))
     return(text)
@@ -140,7 +144,7 @@ output$dimer_data <- DT::renderDataTable({
 self.dimer.data <- reactive({
     # show worst-case structures for each primer from all.self.dimer.data
     primer.data <- switch(input$set_meta_selector, 
-        "all" = primer.data(), 
+        "all" = rv_primers$evaluated_primers, 
         "filtered" = current.filtered.primers(), 
         "optimized" = optimal.primers())
     # TODO: isolate() here is necessary such that this doesn't reload when Ta is changed .. however, this means that self dimerization/cross dimerization don't update ever after Ta change -> maybe remove compute.all.self.dimers() and just use check_constraints() ...
@@ -164,7 +168,7 @@ output$dimer_distribution <- renderPlot({
 all.cross.dimer.data <- reactive({
     # all cross dimer data, possibly multiple per primer (database)
     primer.data <- switch(input$set_meta_selector, 
-        "all" = primer.data(), 
+        "all" = rv_primers$evaluated_primers, 
         "filtered" = current.filtered.primers(), 
         "optimized" = optimal.primers())
     annealing.temp <- isolate(annealing.temperature())
@@ -175,7 +179,7 @@ all.cross.dimer.data <- reactive({
 cross.dimer.data <- reactive({
     # worst-case cross dimer data per primer
     primer.data <- switch(input$set_meta_selector, 
-        "all" = primer.data(), 
+        "all" = rv_primers$evaluated_primers, 
         "filtered" = current.filtered.primers(), 
         "optimized" = optimal.primers())
     annealing.temp <- isolate(annealing.temperature())

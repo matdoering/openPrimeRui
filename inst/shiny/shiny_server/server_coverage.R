@@ -225,14 +225,16 @@ output$ConstraintsTotal <- renderUI({
         Tm.text <- ""
     }
     annealing.text <- ""
-    if (length(annealing.temperature()) != 0) {
+    annealing.temps <- annealing.temperature()
+    if (length(annealing.temps) != 0) {
         opt <- ifelse(input$automatic_annealing_temp == "active", "recommended", "user-defined")
-        annealing.text <- paste0("<li>The ", opt, " annealing temperature is ", min(annealing.temperature()), "&#8451;.</li>")
+        annealing.text <- paste0("<li>The ", opt, " annealing temperature is ", min(annealing.temps), "&#8451;.</li>")
     }
     text <- HTML(paste("<h3><ul>", 
                  Tm.text,
                  annealing.text,
                  "</ul></h3>", sep = ""))
+    #print(text)
     return(text)
 })
 
