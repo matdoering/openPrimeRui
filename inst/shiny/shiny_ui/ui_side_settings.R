@@ -739,17 +739,17 @@ tabPanel("Settings", value = "constraint_panel",
                       "right", options = list(container = "body")
             ),
             # tris buffer concentration
-            sliderInput("Tris_concentration", 
-                tagList(icon("flask"), HTML("[Tris]")), 
-                0, # mM
-                min = 0, max = 100, 
-                post = "mM",
-                step = 0.1
-            ),
-            shinyBS::bsTooltip("Tris_concentration", 
-                    "The concentration of the Tris buffer for PCR.",
-                    "right", options = list(container = "body")
-            ),
+            #sliderInput("Tris_concentration", 
+                #tagList(icon("flask"), HTML("[Tris]")), 
+                #0, # mM
+                #min = 0, max = 100, 
+                #post = "mM",
+                #step = 0.1
+            #),
+            #shinyBS::bsTooltip("Tris_concentration", 
+                    #"The concentration of the Tris buffer for PCR.",
+                    #"right", options = list(container = "body")
+            #),
             # primer concentration
             sliderInput("primer_concentration", 
                 tagList(icon("flask"), "[Primer]"), 

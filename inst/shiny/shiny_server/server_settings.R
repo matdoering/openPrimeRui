@@ -78,8 +78,9 @@ K.concentration <- reactive({
 })
 Tris.concentration <- reactive({ 
     # Converts the Tris buffer concentration concentration to its ion concentration, by halving the buffer concentration and converting from mM to M
-    validate(need(is.numeric(input$Tris_concentration), "Concentration should be a numeric."))
-    return(input$Tris_concentration * 1e-3) # retain tris buffer: no need to transform to ion concentration because PCR(settings) uses the buffer conc!
+    return(0); # Tris not supported due to bug in MELTING 5.1
+    #validate(need(is.numeric(input$Tris_concentration), "Concentration should be a numeric."))
+    #return(input$Tris_concentration * 1e-3) # retain tris buffer: no need to transform to ion concentration because PCR(settings) uses the buffer conc!
 })
 use.taq.polymerase <- reactive({
     return(ifelse(input$use_taq_polymerase == "active", TRUE, FALSE))
