@@ -17,3 +17,10 @@ update.sample.name <- function(df, sample.name) {
     return(df)
 }
 
+adjust.rev.allowed.regions <- function(interval, seq.len) {
+    if (length(interval) != 2) {
+        return(interval)
+    }
+    new.interval <- rev(seq.len - interval + 1)
+    return(new.interval)
+}

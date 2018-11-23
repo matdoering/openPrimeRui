@@ -30,27 +30,24 @@ InputDataObserverLeaders_fw <- observeEvent(input$leader_file, {
     # Updates rv_cur.input.data reactive values when fw individual binding regions are uploaded manually.
     #
     #   input$leader_file: the individual binding region file   
-    if (length(rv_cur.input.data$templates_exon) != 0 && length(rv_cur.input.data$templates_leader) != 0) {
-        # reset previous input data
-        rv_cur.input.data$templates_exon <- NULL
-    }
     rv_cur.input.data$templates_leader <- input$leader_file
 })
 InputDataObserverLeaders_rev <- observeEvent(input$leader_file_rev, { 
     # Updates rv_cur.input.data reactive values when rev individual binding regions are uploaded manually.
     #
     #   input$leader_file: the individual binding region file   
-    if (length(rv_cur.input.data$templates_exon) != 0 && length(rv_cur.input.data$templates_leader_rev) != 0) {
-        # reset previous input data
-        rv_cur.input.data$templates_exon <- NULL
-    }
+    #if (length(rv_cur.input.data$templates_exon) != 0 && length(rv_cur.input.data$templates_leader_rev) != 0) {
+        ## reset previous input data
+        #rv_cur.input.data$templates_exon <- NULL
+    #}
     rv_cur.input.data$templates_leader_rev <- input$leader_file_rev
 })
 seq.data.input <- reactive({
     # Loads template data using "rv_cur.input.data" reactiveValues file.
     seqFile <- rv_cur.input.data$templates_exon
     if (is.null(seqFile)) {
-      return(NULL)
+        # return old data (or NULL if no templates were uploaded at all)
+        return(NULL)
     }
     rm.duplicated <- FALSE
     if (input$template_scenario == "supplied") {
@@ -72,9 +69,6 @@ seq.data.input <- reactive({
             rm.keywords <- c("partial")
         }
     }
-    #print("Using the following header structure:")
-    #print(hdr.structure)
-    #print(id.col)
     out <- openPrimeRui:::withWarnings(openPrimeR:::read_templates(seqFile$datapath, 
             hdr.structure = hdr.structure$header, 
             delim = hdr.structure$delim, id.column = id.col, 
@@ -113,7 +107,7 @@ seq.data.input <- reactive({
     if (length(out) == 0) {
         rv_templates$SeqTab <- NULL
         validate(need(out, "No sequences available."), errorClass = "critical")
-    }
+    } 
     # switch to template tab and set "all" selector
     updateTabsetPanel(session, "main", selected = "template_view_panel")
     isolate({openPrimeRui:::switch.view.selection("all", input$main, session)})
@@ -121,12 +115,16 @@ seq.data.input <- reactive({
 })
 seq.data <- reactive({
     # Loads input template data from seq.data.input(). Resets computed values on input.
-
     seqs <- seq.data.input() # manual upload of fasta/IMGT DB data
     # update the sliders for uniform allowed regions
     if (length(seqs) != 0) {
         updateSliderInput(session, "uniform_allowed_regions_fw", min = 1, max = max(nchar(seqs$Sequence)))
         updateSliderInput(session, "uniform_allowed_regions_rev", min = 1, max = max(nchar(seqs$Sequence)))
+        # set reverse slider to the last 30 positions
+        updateSliderInput(session, "uniform_allowed_regions_rev", 
+            value = c(max(nchar(seqs$Sequence)) - 29, max(nchar(seqs$Sequence))),
+            min = 1, max = max(nchar(seqs$Sequence)))
+
         # activate "confirm" button after template upload
         shinyjs::enable("confirm_uploaded_templates")
     } else {
@@ -149,7 +147,6 @@ output$SeqTab <- DT::renderDataTable({
 })
 leader.data.fw <- reactive({
     # fw allowed binding region data
-
     leaderFile.fw <- rv_cur.input.data$templates_leader
     if (is.null(leaderFile.fw)) {
         return(NULL)
@@ -262,6 +259,7 @@ leader.data.input <- reactive({
     }
     leaders <- NULL
     leaders <- openPrimeRui:::withWarnings(openPrimeR:::unify.leaders(leader.data.fw(), leader.data.rev(), seq.data(), isolate(gap_char())))
+
     for (i in seq_along(leaders$errors)) {
         error <- leaders$errors[[i]]
         print(error)
@@ -318,6 +316,12 @@ leader.data.uniform <- reactive({
         # customize button wasn't pressed yet -> use the default settings:
         fw.region <- isolate(input$uniform_allowed_regions_fw)
         rev.region <- isolate(input$uniform_allowed_regions_rev)
+        seqs <- seq.data.input()
+        # not needed anymore, changeed implementation of 'retrieve.leader.region' (openPrimeR)
+        #if (length(seqs) != 0) {
+            ## change from rev-centric definition to fw-centric definition
+            #rev.region <- adjust.rev.allowed.regions(rev.region, max(nchar(seqs$Sequence)))
+        #}
     }
     leaders <- openPrimeRui:::withWarnings(openPrimeR:::create.uniform.leaders(fw.region, rev.region, seq.data(), isolate(gap_char())))
     for (i in seq_along(leaders$errors)) {
@@ -337,6 +341,8 @@ leader.data.uniform <- reactive({
     } else {
         leaders <- leaders$value
     }
+    #####
+    #####
     return(leaders)
 })
 leader.data <- reactive({
@@ -344,7 +350,7 @@ leader.data <- reactive({
     if (input$selected_allowed_region_definition == "Uniform") {
         leaders <- leader.data.uniform() # uniform-leaders: template unspecific, generated by positional range info
     } else if (input$selected_allowed_region_definition == "Template-specific") {
-        #message("switching to template-specific")
+        message("switching to template-specific")
         leaders <- leader.data.input() # template-specific leaders
     } else if (input$selected_allowed_region_definition == "None") {
         leaders <- NULL # no restrictions -> "pure exon" :-)
@@ -353,17 +359,23 @@ leader.data <- reactive({
 })
 
 LeaderObserver <- observeEvent(c(leader.data(), selected.individual.allowed.regions()), {
-    # when leader changes, update primer bindnig region if available
+    # LeaderObserver: update primer coverage when binding regions change
+    # when leader changes, update primer binding region if available
     primer.df <- rv_primers$evaluated_primers
     if (!"primer_coverage" %in% colnames(primer.df)) {
         return()
     }
     template.df <- current.seqs()
+    # adjust individual binding regions
+    #fw.region <- selected.individual.allowed.regions()$fw
+    #rev.region <- selected.individual.allowed.regions()$rev
+    #ex.data <- openPrimeR:::adjust_binding_regions(ex.data, fw.region, rev.region)
+
     old.template.df <- rv_templates$cvg_all
     # check whether primers correspond to the templates and update coverage
     template.df <- suppressWarnings(try(openPrimeR::update_template_cvg(template.df, primer.df)))
     #print("NEW LEADERS:")
-    if (class(template.df) != "try-error") {
+    if (is(template.df, "Templates") && is(old.template.df, "Templates")) {
         # update the binding positions of the templates relative to the current selected binding region
         primer.df <- openPrimeR:::update_primer_binding_regions(primer.df, template.df, old.template.df)
         # update evaluated_primers with new binding regions
@@ -446,10 +458,8 @@ get.exon.data <- reactive({
         ex.data <- openPrimeR:::add.uniform.leaders.to.seqs(seqs, leader.data()) 
     } else {
         if (length(leader.data()) == 0) { # no individual binding regions available
-            #message("no leader data available")
             ex.data <- seqs
         } else { # leader data is available
-            #message("loading individual leader data")
             ex.data <- openPrimeR:::get.leader.exon.regions(seqs, leader.data())
             fw.region <- selected.individual.allowed.regions()$fw
             rev.region <- selected.individual.allowed.regions()$rev
@@ -465,7 +475,8 @@ get.exon.data <- reactive({
     }
     if ("Allowed_Start_rev_initial" %in% colnames(ex.data)) {
         # adjust max of rev allowed region
-        max <- max(ex.data$Allowed_Start_rev_initial) - 1
+        #max <- max(ex.data$Allowed_Start_rev_initial) - 1
+        max <- max(nchar(ex.data$Sequence) - ex.data$Allowed_End_rev_initial) - 1
         updateSliderInput(session, "individual_allowed_regions_rev", max = max)
     }
     return(ex.data)
@@ -473,7 +484,6 @@ get.exon.data <- reactive({
 
 current.seqs <- reactive({
     # The currently loaded templates, with target binding regions if available.
-
     lex.seqs <- get.exon.data() # seqs with binding annotations
     seqs <- seq.data() # seqs without binding region annotations
     if (length(lex.seqs) != 0) {
