@@ -226,6 +226,11 @@ selected.uniform.allowed.regions <- eventReactive(input$uniform_region_confirm_b
     }
     fw <-  input$uniform_allowed_regions_fw
     rev <- input$uniform_allowed_regions_rev
+    seqs <- seq.data.input()
+    if (length(seqs) != 0) {
+        # change from rev-centric definition to fw-centric definition
+        rev <- adjust.rev.allowed.regions(rev, max(nchar(seqs$Sequence)))
+    }
     result <- list("fw" = fw,
                "rev" = rev)
     return(result)
@@ -317,11 +322,10 @@ leader.data.uniform <- reactive({
         fw.region <- isolate(input$uniform_allowed_regions_fw)
         rev.region <- isolate(input$uniform_allowed_regions_rev)
         seqs <- seq.data.input()
-        # not needed anymore, changeed implementation of 'retrieve.leader.region' (openPrimeR)
-        #if (length(seqs) != 0) {
-            ## change from rev-centric definition to fw-centric definition
-            #rev.region <- adjust.rev.allowed.regions(rev.region, max(nchar(seqs$Sequence)))
-        #}
+        if (length(seqs) != 0) {
+            # change from rev-centric definition to fw-centric definition
+            rev.region <- adjust.rev.allowed.regions(rev.region, max(nchar(seqs$Sequence)))
+        }
     }
     leaders <- openPrimeRui:::withWarnings(openPrimeR:::create.uniform.leaders(fw.region, rev.region, seq.data(), isolate(gap_char())))
     for (i in seq_along(leaders$errors)) {
