@@ -410,7 +410,7 @@ tabPanel("Templates",
                             value = c(1,30)
                         ),
                         shinyBS::bsTooltip("uniform_allowed_regions_rev", 
-                        paste("The positional range from the 3\\'",
+                        paste("The positional range from the 5\\'",
                                 "end of the templates where the reverse",
                                 "primers should bind."),
                         "right", options = list(container = "body")
