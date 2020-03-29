@@ -31,5 +31,6 @@ startApp <- function() {
         appDir, "\n", 
         "Try re-installing the 'openPrimeR' package.", call. = FALSE))
     }
+    options(shiny.jquery.version = 1) # shinyBS does not support jQuery 3.4.1
     shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
 } 
