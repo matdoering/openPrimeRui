@@ -1,3 +1,7 @@
+## Version 1.9.2
+- Use jQuery 1 instead of jQuery 3 for compatibility with ShinyBS
+- Fix Javascript warnings
+
 ## Version 0.99.0
 - Settings xml file only has a single constraint category now. Filtering and optimization constraints are differentiated by the tool logic and the accessors now.
 - Added 2nd Tiller set for IGHV
