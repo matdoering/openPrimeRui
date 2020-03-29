@@ -66,8 +66,8 @@ tabPanel("Settings", value = "constraint_panel",
                       "Settings XML file"), accept = "text/xml"
             ),
             shinyBS::bsTooltip("load_constraints", 
-                    "Load constraint settings by selecting an xml file
-                     from a previous analysis run.",
+                    "Load constraint settings by selecting an xml file \\
+                    from a previous analysis run.",
                     "right", options = list(container = "body")
                 )
             ),
@@ -136,7 +136,8 @@ tabPanel("Settings", value = "constraint_panel",
                     "right", options = list(container = "body")
             ),
             shinyBS::bsTooltip("constraint_coverage_model", 
-                "Filter coverage events that are expected to be falsely reported using openPrimeR's logistic regression model.",
+                "Filter coverage events that are expected to be falsely reported \\
+                using the openPrimeR logistic regression model.",
                 "right", options = list(container = "body")
             ),
             shinyBS::bsTooltip("allowed_coverage_model", 

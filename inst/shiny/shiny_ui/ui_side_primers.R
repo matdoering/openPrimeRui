@@ -165,8 +165,8 @@ tabPanel("Primers",
                         "Primer FASTA/CSV"), accept="text"
                 ),
                 shinyBS::bsTooltip("primer_file", 
-                    "The set of primers to be evaluated in FASTA format.
-                    If primers should be designed from scratch, 
+                    "The set of primers to be evaluated in FASTA format.\\
+                    If primers should be designed from scratch,\\
                     no file needs to be uploaded here.",
                     "right", options = list(container = "body")
                 )
@@ -223,9 +223,9 @@ tabPanel("Primers",
                 value = 1
             ),
             shinyBS::bsTooltip("required_conservation", 
-                "To improve the runtime, primers can be constructed only in 
-                highly-conserved regions. For example, selecting 10% will only
-                construct primers in the regions whose conservation is among 
+                "To improve the runtime, primers can be constructed only in \\
+                highly-conserved regions. For example, selecting 10% will only \\
+                construct primers in the regions whose conservation is among  \\
                 the top 10% according to Shannon entropy.",
                 "right", 
                 options = list(container = "body")
@@ -265,8 +265,8 @@ tabPanel("Primers",
                 ), multiple = TRUE, accept = "text/csv"
             ),
             shinyBS::bsTooltip("comparison_file", 
-                "Upload analyzed, downloaded (raw) primer files 
-                 in csv format for comparison.", 
+                "Upload analyzed, downloaded (raw) primer files\\
+                in csv format for comparison.",
                 "right", options = list(container = "body")
             )
             #fileInput("comparison_constraint_files", 

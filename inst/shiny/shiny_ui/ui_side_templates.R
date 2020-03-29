@@ -58,10 +58,10 @@ tabPanel("Templates",
                 multiple = TRUE, accept = "text/csv"
             ),
             shinyBS::bsTooltip("comparison_templates", 
-                      "Upload analyzed, downloaded (raw) template files 
-                      in csv format corresponding to the input 
-                      primer sets for comparison.", 
-                     "right", options = list(container = "body")
+                      "Upload analyzed, downloaded (raw) template files \\
+                      in csv format corresponding to the \\
+                      input primer sets for comparison.",
+                     "right"
             )
         ),
         #######
