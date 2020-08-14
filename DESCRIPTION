@@ -1,6 +1,6 @@
 Package: openPrimeRui
 Title: Shiny Application for Multiplex PCR Primer Design and Analysis
-Version: 1.9.2
+Version: 1.9.3
 Authors@R: c(person("Matthias", "Döring", 
                     email = "matthias-doering@gmx.de", 
                     role = c("aut", "cre")),
@@ -18,7 +18,7 @@ Description: A Shiny application providing methods for designing, evaluating,
     are selected. 
 Depends:
     R (>= 4.0.0),
-    openPrimeR (>= 0.99.0)
+    openPrimeR (>= 1.10.0)
 License: GPL-2
 Encoding: UTF-8
 RoxygenNote: 6.0.1
